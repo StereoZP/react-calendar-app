@@ -2,8 +2,9 @@ import React, {useState} from 'react';
 import Month from "./Month";
 import {add, format} from "date-fns";
 import classes from "./Calendar.module.css";
+import {MyContext} from "../context";
 
-const Calendar = (props) => {
+const Calendar = () => {
 
     const startDay = new Date();
 
@@ -19,6 +20,7 @@ const Calendar = (props) => {
     }
 
     return (
+        <MyContext.Provider value={{selected, setSelected, month}}>
         <div className={classes.calendar}>
             <div className={classes.dateContainer}>
                 <div className={classes.time}>{format(startDay,'kk')}:{format(startDay,'mm')}:{format(startDay,'ss')}</div>
@@ -32,13 +34,14 @@ const Calendar = (props) => {
                         <button onClick={next}>&#5167;</button>
                     </div>
                 </div>
-                <Month selectedMonth={month} selected={selected} setSelected={setSelected}/>
+                <Month selectedMonth={month}/>
             </div>
             <div className={classes.doubleContainer}>
                 <div className={classes.selectedDay}>{format(selected,'EEEE')} {format(selected,'d')}</div>
                 <button>+</button>
             </div>
         </div>
+        </MyContext.Provider>
     );
 };
 

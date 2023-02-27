@@ -4,19 +4,16 @@ import {addDays, startOfISOWeek} from "date-fns";
 
 const Week = (props) => {
 
-    const {weekOfMonth, selectedMonth, selected, setSelected} = props
+    const {weekOfMonth} = props
 
     const startDayOfWeek = startOfISOWeek(weekOfMonth)
 
     const week = new Array(7).fill(undefined).map((day, index ) => {
         day = addDays(startDayOfWeek, index)
         return (
-            <Day renderedDay={day} key={index} selectedMonth={selectedMonth} selected={selected} setSelected={setSelected}/>
+            <Day renderedDay={day} key={index}/>
         )
     })
-
-
-
 
     return (
         <div>

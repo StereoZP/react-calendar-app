@@ -6,7 +6,7 @@ import classes from "./Calendar.module.css";
 
 const Month = (props) => {
 
-    const {selectedMonth, selected, setSelected} = props
+    const {selectedMonth} = props
 
     const startDayOfWeek = startOfWeek(startOfMonth(selectedMonth), { weekStartsOn: 1 })
 
@@ -16,9 +16,8 @@ const Month = (props) => {
     })
     const renderedWeekOfMonth = new Array(6).fill(undefined).map((week, index) => {
         week = addWeeks(startDayOfWeek, index)
-        return (<Week weekOfMonth={week} key={index} selectedMonth={selectedMonth} selected={selected} setSelected={setSelected}/>)
+        return (<Week weekOfMonth={week} key={index}/>)
     })
-
 
     return (
         <div>
