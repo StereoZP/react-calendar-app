@@ -3,19 +3,21 @@ import {addDays, addWeeks, startOfMonth, startOfWeek} from "date-fns";
 import Week from "./Week";
 import NameDaysOfWeek from "./NameDaysOfWeek";
 import classes from "./Calendar.module.css";
+import {MyContext} from "../context";
+import {useContext} from "react";
 
-const Month = (props) => {
+const Month = () => {
 
-    const {selectedMonth} = props
+    const context = useContext(MyContext)
 
-    const startDayOfWeek = startOfWeek(startOfMonth(selectedMonth), { weekStartsOn: 1 })
+    const startDayOfWeek = startOfWeek(startOfMonth(context.month), { weekStartsOn: 1 })
 
-    const renderedNameOfWeek = new Array(7).fill(undefined).map((nameOfWeek, index) => {
-        nameOfWeek = addDays(startDayOfWeek, index)
+    const renderedNameOfWeek = new Array(7).fill(undefined).map((_, index) => {
+        const nameOfWeek = addDays(startDayOfWeek, index)
         return (<NameDaysOfWeek nameOfWeek={nameOfWeek} key={index}/>)
     })
-    const renderedWeekOfMonth = new Array(6).fill(undefined).map((week, index) => {
-        week = addWeeks(startDayOfWeek, index)
+    const renderedWeekOfMonth = new Array(6).fill(undefined).map((_, index) => {
+        const week = addWeeks(startDayOfWeek, index)
         return (<Week weekOfMonth={week} key={index}/>)
     })
 
