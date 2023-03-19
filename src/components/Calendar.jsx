@@ -1,9 +1,11 @@
 import React, {useState} from 'react';
 import Month from "./Month";
-import {add, format} from "date-fns";
+import {add, format, isSameDay} from "date-fns";
 import classes from "./Calendar.module.css";
 import {MyContext} from "../context";
 import EventList from "./EventList";
+import EventTitle from "./EventTitle";
+
 
 const Calendar = () => {
 
@@ -25,6 +27,19 @@ const Calendar = () => {
         setMonth(add(month,{months:1}))
     }
 
+    const [event, setEvent] = useState([{id: Date.now(), date:new Date(), title:'First event'}]);
+
+    const createEvent = (newPost) => {
+        setEvent([...event, newPost])
+    }
+
+    const usersByLikes = event.map((item, index) => {
+        if(isSameDay(selected, item.date)){
+            return <EventTitle key={index} eventTitle={item.title} number={index+1}/>
+        }
+    })
+
+
     return (
         <MyContext.Provider value={{selected, setSelected, month}}>
         <div className={classes.calendar}>
@@ -42,7 +57,11 @@ const Calendar = () => {
                 </div>
                 <Month/>
             </div>
-            <EventList/>
+                <EventList selectedDay={selected} createEvent={createEvent}/>
+            <div> {
+                usersByLikes
+            }
+            </div>
         </div>
         </MyContext.Provider>
     );

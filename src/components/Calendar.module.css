@@ -85,7 +85,8 @@ button {
     background-color: transparent;
     border: none;
     color: rgb(100, 100, 100);
-    font-size: 30px;
+    font-size: 22px;
+    align-items: center;
 }
 
 button:hover {
@@ -113,5 +114,20 @@ button:hover {
     justify-content: space-between;
     padding-right: 20px;
     padding-left: 10px;
+}
+
+.eventContainer{
+    color: white;
+    font-size: 18px;
+    font-family: cursive;
+    align-items: center;
+    justify-content: left;
+    padding-left: 15px;
+    padding-bottom: 15px;
+}
+
+.container{
+    display: flex;
+    justify-content: space-between;
 }
 
