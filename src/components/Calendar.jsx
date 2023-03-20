@@ -40,7 +40,7 @@ const Calendar = () => {
 
     const usersEvent = event.map((item, index) => {
         if (isSameDay(selected, parseISO(item.date))) {
-            return <EventTitle key={index} eventTitle={item.title} number={index + 1}/>
+            return <EventTitle key={index} eventTitle={item.title}/>
         }
     })
 

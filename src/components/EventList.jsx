@@ -19,6 +19,7 @@ const EventList = ({selectedDay, createEvent}) => {
             ...post,
             id: Date.now(),
             date: selectedDay,
+            addDate:new Date(),
         }
         setPost({title:""})
         createEvent(newPost);

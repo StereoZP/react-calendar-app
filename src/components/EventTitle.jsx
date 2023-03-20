@@ -2,10 +2,11 @@ import React from 'react';
 import classes from './Calendar.module.css'
 
 const EventTitle = (props) => {
-    const {eventTitle, number} = props
+    const {eventTitle} = props
     return (
         <div className={classes.eventContainer}>
-            <strong>{number}. {eventTitle}</strong>
+            <strong> {eventTitle}</strong>
+            <strong></strong>
         </div>
     );
 };

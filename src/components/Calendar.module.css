@@ -40,7 +40,6 @@
     padding: 4px 8px;
     vertical-align: middle;
     text-align: center;
-    border: 2px solid transparent;
     font-size: 36px;
     width:2em;
     display:inline-block;
@@ -121,9 +120,9 @@ button:hover {
     font-size: 18px;
     font-family: cursive;
     align-items: center;
-    justify-content: left;
-    padding-left: 15px;
-    padding-bottom: 15px;
+    display: flex;
+    justify-content: space-between;
+    padding: 0 15px 15px 15px;
 }
 
 .container{
