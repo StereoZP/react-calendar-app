@@ -1,5 +1,5 @@
 import React, {useContext} from 'react';
-import {format, isToday, isSameMonth, isSameDay} from "date-fns";
+import {format, isToday, isSameMonth, isSameDay, parseISO} from "date-fns";
 import classes from "./Calendar.module.css";
 import {MyContext} from "../context";
 
@@ -18,11 +18,25 @@ const Day = (props) => {
             context.setSelected(renderedDay)
     }
 
+
+    const eventPoint = context.event
+        .map((item, index)=>{
+        const eventDay = isSameDay(parseISO(item.date),renderedDay)
+        if(eventDay){
+                return <div key={index} className={classes.dayEvent}>&#8226;</div>
+        }
+    })
+
+
     return (
             <span className={dayStyles} onClick={selectedDay}>
-            {day}
+                <div>{day}</div>
+                {
+                    eventPoint
+                }
         </span>
     );
 };
+
 
 export default Day;
