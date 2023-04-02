@@ -7,18 +7,17 @@ import EventForm from "./EventForm";
 import EventList from "./EventList";
 
 
-
-
 const Calendar = () => {
 
-    const startDay = new Date();
 
-    const [day, setDay] = useState(startDay)
-    const [month, setMonth] = useState(startDay)
-    const [selected, setSelected] = useState(startDay)
+
+    const [day, setDay] = useState(new Date())
+    const [month, setMonth] = useState(new Date())
+    const [selected, setSelected] = useState(new Date())
+
 
     setInterval(() => {
-         setDay(new Date())
+        setDay(new Date())
     }, 1000)
 
     const prev = () => {
@@ -40,21 +39,27 @@ const Calendar = () => {
 
     const usersEvent = event.map((item, index) => {
         if (isSameDay(selected, parseISO(item.date))) {
-            return <EventList key={index} eventTitle={item.title}/>
+            return <EventList key={index} eventTitle={item.title} addDate={item.addDate}/>
         }
     })
 
-    useEffect(()=> {async function getJson() {
-        const response = await fetch("/data.json")
-        if (response.status === 200) {
+    useEffect(() => {
+        try {
+            async function getJson() {
+                const response = await fetch("/data.json")
+                if (response.status === 200) {
+                    setIsLoaded(true)
+                    const json = await response.json()
+                    return setEvent(json);
+                }
+            }
+
+            getJson()
+        } catch (err) {
+            setError(new Error(err.message))
+        } finally {
             setIsLoaded(true)
-            const json = await response.json()
-            return setEvent(json);
         }
-        setIsLoaded(true)
-        setError(new Error(response.status))
-    }
-        getJson()
     }, [])
 
     if (error) {
@@ -67,11 +72,12 @@ const Calendar = () => {
                 <div className={classes.calendar}>
                     <div className={classes.dateContainer}>
                         <div
-                            className={classes.time}>{format(startDay, 'kk')}:{format(startDay, 'mm')}:{format(startDay, 'ss')}</div>
+                            className={classes.time}>{format(day, 'kk')}:{format(day, 'mm')}:{format(day, 'ss')}</div>
                         <div
-                            className={classes.date}>{format(startDay, 'EEEE')}, {format(startDay, 'd')} {format(startDay, 'MMMM')} {format(startDay, 'y')}</div>
+                            className={classes.date}>{format(day, 'EEEE')}, {format(day, 'd')} {format(day, 'MMMM')} {format(day, 'y')}</div>
                     </div>
                     <div className={classes.dateAndSelectedMonthContainer}>
+
                         <div className={classes.doubleContainer}>
                             <div className={classes.selectedMonth}>{format(month, 'LLLL')} {format(month, 'y')}</div>
                             <div>
@@ -83,9 +89,7 @@ const Calendar = () => {
                     </div>
                     <EventForm selectedDay={selected} createEvent={createEvent}/>
                     <div>
-                        {
-                            usersEvent
-                        }
+                        {usersEvent}
                     </div>
                 </div>
             </MyContext.Provider>
