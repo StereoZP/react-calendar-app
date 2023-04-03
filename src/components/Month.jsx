@@ -7,9 +7,7 @@ import {MyContext} from "../context";
 import {useContext} from "react";
 
 const Month = () => {
-
     const context = useContext(MyContext)
-
     const startDayOfWeek = startOfWeek(startOfMonth(context.month), { weekStartsOn: 1 })
 
     const renderedNameOfWeek = new Array(7).fill(undefined).map((_, index) => {

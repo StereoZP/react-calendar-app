@@ -12,12 +12,12 @@ import "react-datepicker/dist/react-datepicker.css";
 
 const EventForm = (props) => {
 
-    const {selectedDay, createEvent} =props
+    const {createEvent} =props
 
     const context = useContext(MyContext)
     const [post, setPost] = useState({title: ''})
     const [modal, setModal] = useState(false)
-    const [startDate, setStartDate] = useState(context.selected)
+    const {startDateForDatePiker:[startDate, setStartDate]} = context
 
 
 
@@ -46,10 +46,6 @@ const EventForm = (props) => {
     const validationSchema = yup.object().shape({
         title: yup.string().required('Required'),
     })
-
-    const handleCalendarClose = () => console.log("Calendar closed");
-    const handleCalendarOpen = () => console.log("Calendar opened");
-
 
     return (
         <div className={classes.doubleContainer}>

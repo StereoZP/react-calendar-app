@@ -8,13 +8,10 @@ import EventList from "./EventList";
 
 
 const Calendar = () => {
-
-
-
     const [day, setDay] = useState(new Date())
     const [month, setMonth] = useState(new Date())
     const [selected, setSelected] = useState(new Date())
-
+    const startDateForDatePiker = useState(selected)
 
     setInterval(() => {
         setDay(new Date())
@@ -27,7 +24,6 @@ const Calendar = () => {
     const next = () => {
         setMonth(add(month, {months: 1}))
     }
-
 
     const [error, setError] = useState(null);
     const [isLoaded, setIsLoaded] = useState(false);
@@ -53,7 +49,6 @@ const Calendar = () => {
                     return setEvent(json);
                 }
             }
-
             getJson()
         } catch (err) {
             setError(new Error(err.message))
@@ -68,7 +63,7 @@ const Calendar = () => {
         return <div>Загрузка...</div>;
     } else {
         return (
-            <MyContext.Provider value={{selected, setSelected, month, event}}>
+            <MyContext.Provider value={{selected, setSelected, month, event, startDateForDatePiker}}>
                 <div className={classes.calendar}>
                     <div className={classes.dateContainer}>
                         <div
@@ -77,7 +72,6 @@ const Calendar = () => {
                             className={classes.date}>{format(day, 'EEEE')}, {format(day, 'd')} {format(day, 'MMMM')} {format(day, 'y')}</div>
                     </div>
                     <div className={classes.dateAndSelectedMonthContainer}>
-
                         <div className={classes.doubleContainer}>
                             <div className={classes.selectedMonth}>{format(month, 'LLLL')} {format(month, 'y')}</div>
                             <div>
