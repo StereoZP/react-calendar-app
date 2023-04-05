@@ -113,11 +113,24 @@ button:hover {
     color: white;
     font-size: 18px;
     font-family: cursive;
-    align-items: center;
     display: flex;
-    justify-content: space-between;
+    flex-direction: column;
     padding: 0 15px 15px 15px;
 }
+.eventTitle{
+    display: flex;
+    justify-content: space-between;
+}
+.eventAddDay{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.eventTime{
+    display: flex;
+    justify-content: right;
+}
+
 .container{
     display: flex;
     justify-content: space-between;
@@ -127,5 +140,15 @@ button:hover {
     border-top: 2px solid darkgrey;
     padding-bottom: 2px;
 }
-
+.modalContainer{
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+    color: white;
+}
+.test{
+    display: flex;
+    flex-direction: row;
+    align-items: flex-end;
+}
 

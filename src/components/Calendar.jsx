@@ -1,18 +1,20 @@
 import React, {useState, useEffect} from 'react';
 import Month from "./Month";
-import {add, format, isSameDay, parseISO} from "date-fns";
+import {add, format, isSameDay, parseISO, setHours, setMinutes} from "date-fns";
 import classes from "./Calendar.module.css";
 import {MyContext} from "../context";
 import EventForm from "./EventForm";
 import EventList from "./EventList";
-
 
 const Calendar = () => {
     const [day, setDay] = useState(new Date())
     const [month, setMonth] = useState(new Date())
     const [selected, setSelected] = useState(new Date())
     const startDateForDatePiker = useState(selected)
+    const [startTime, setStartTime] = useState(setHours(setMinutes(selected, 30), 17))
+    const [endTime, setEndTime] = useState(setHours(setMinutes(selected, 30), 17))
 
+    //console.log(startTime)
     setInterval(() => {
         setDay(new Date())
     }, 1000)
@@ -35,7 +37,7 @@ const Calendar = () => {
 
     const usersEvent = event.map((item, index) => {
         if (isSameDay(selected, parseISO(item.date))) {
-            return <EventList key={index} eventTitle={item.title} addDate={item.addDate}/>
+            return <EventList key={index} eventTitle={item.title} addDate={item.addDate} startTime={item.startTime} endTime={item.endTime}/>
         }
     })
 
@@ -63,7 +65,7 @@ const Calendar = () => {
         return <div>Загрузка...</div>;
     } else {
         return (
-            <MyContext.Provider value={{selected, setSelected, month, event, startDateForDatePiker}}>
+            <MyContext.Provider value={{selected, setSelected, month, event, startDateForDatePiker, startTime, setStartTime, endTime, setEndTime}}>
                 <div className={classes.calendar}>
                     <div className={classes.dateContainer}>
                         <div

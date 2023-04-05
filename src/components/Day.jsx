@@ -18,6 +18,8 @@ const Day = (props) => {
     const selectedDay = () => {
         context.setSelected(renderedDay)
         setStartDate(renderedDay)
+        context.setStartTime(renderedDay)
+        context.setEndTime(renderedDay)
     }
 
     const dateCounts = context.event.reduce((acc, obj) => {
