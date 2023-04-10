@@ -54,6 +54,7 @@
 }
 .calendar {
     background-color: rgb(37, 38, 38);
+    max-width: 600px;
 }
 .dateContainer {
     padding-top: 15px ;
@@ -120,6 +121,7 @@ button:hover {
 .eventTitle{
     display: flex;
     justify-content: space-between;
+    word-break: break-all;
 }
 .eventAddDay{
     display: flex;
@@ -146,9 +148,6 @@ button:hover {
     flex-direction: column;
     color: white;
 }
-.test{
-    display: flex;
-    flex-direction: row;
-    align-items: flex-end;
-}
+
+
 

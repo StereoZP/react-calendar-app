@@ -1,0 +1,15 @@
+.formBlock{
+    display: flex;
+    flex-direction:row;
+    align-items: center;
+    justify-content: space-between;
+}
+.topPadding{
+    padding-top: 10px;
+}
+.inputCheckbox{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-left: 10px;
+}

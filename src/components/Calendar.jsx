@@ -1,10 +1,12 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useMemo} from 'react';
 import Month from "./Month";
 import {add, format, isSameDay, parseISO, setHours, setMinutes} from "date-fns";
 import classes from "./Calendar.module.css";
-import {MyContext} from "../context";
+import {DateContext} from "../dateContext";
+import {TimeContext} from "../timeContext";
 import EventForm from "./EventForm";
 import EventList from "./EventList";
+import CalendarContextMounter from "./CalendarContextMounter";
 
 const Calendar = () => {
     const [day, setDay] = useState(new Date())
@@ -14,7 +16,6 @@ const Calendar = () => {
     const [startTime, setStartTime] = useState(setHours(setMinutes(selected, 30), 17))
     const [endTime, setEndTime] = useState(setHours(setMinutes(selected, 30), 17))
 
-    //console.log(startTime)
     setInterval(() => {
         setDay(new Date())
     }, 1000)
@@ -37,9 +38,22 @@ const Calendar = () => {
 
     const usersEvent = event.map((item, index) => {
         if (isSameDay(selected, parseISO(item.date))) {
-            return <EventList key={index} eventTitle={item.title} addDate={item.addDate} startTime={item.startTime} endTime={item.endTime}/>
+            return <EventList key={index} eventTitle={item.title} addDate={item.addDate} startTime={item.startTime}
+                              endTime={item.endTime}/>
         }
     })
+
+    const dateCounts = useMemo(() => {
+        return event.reduce((acc, obj) => {
+            const date = obj.date;
+            if (!acc[date]) {
+                acc[date] = 0;
+            }
+            acc[date]++;
+
+            return acc;
+        }, {})
+    }, [event])
 
     useEffect(() => {
         try {
@@ -51,6 +65,7 @@ const Calendar = () => {
                     return setEvent(json);
                 }
             }
+
             getJson()
         } catch (err) {
             setError(new Error(err.message))
@@ -58,39 +73,52 @@ const Calendar = () => {
             setIsLoaded(true)
         }
     }, [])
-
     if (error) {
         return <div>Ошибка: {error.message}</div>;
     } else if (!isLoaded) {
         return <div>Загрузка...</div>;
     } else {
         return (
-            <MyContext.Provider value={{selected, setSelected, month, event, startDateForDatePiker, startTime, setStartTime, endTime, setEndTime}}>
-                <div className={classes.calendar}>
-                    <div className={classes.dateContainer}>
-                        <div
-                            className={classes.time}>{format(day, 'kk')}:{format(day, 'mm')}:{format(day, 'ss')}</div>
-                        <div
-                            className={classes.date}>{format(day, 'EEEE')}, {format(day, 'd')} {format(day, 'MMMM')} {format(day, 'y')}</div>
-                    </div>
-                    <div className={classes.dateAndSelectedMonthContainer}>
-                        <div className={classes.doubleContainer}>
-                            <div className={classes.selectedMonth}>{format(month, 'LLLL')} {format(month, 'y')}</div>
+            <CalendarContextMounter>
+                <DateContext.Provider value={{
+                    selected,
+                    setSelected,
+                    month,
+                    event,
+                    startDateForDatePiker,
+                    dateCounts,
+                }}>
+                    <TimeContext.Provider value={{
+                        startTime,
+                        setStartTime,
+                        endTime,
+                        setEndTime,
+                    }}>
+                        <div className={classes.calendar}>
+                            <div className={classes.dateContainer}>
+                                <div className={classes.time}>{format(day, 'kk:mm:ss')}</div>
+                                <div className={classes.date}>{format(day, 'EEEE, d MMMM y')}</div>
+                            </div>
+                            <div className={classes.dateAndSelectedMonthContainer}>
+                                <div className={classes.doubleContainer}>
+                                    <div className={classes.selectedMonth}>{format(month, 'LLLL y')}</div>
+                                    <div>
+                                        <button style={{marginRight: 10}} onClick={prev}>&#5169;</button>
+                                        <button onClick={next}>&#5167;</button>
+                                    </div>
+                                </div>
+                                <Month/>
+                            </div>
+                            <EventForm createEvent={createEvent}/>
                             <div>
-                                <button style={{marginRight: 10}} onClick={prev}>&#5169;</button>
-                                <button onClick={next}>&#5167;</button>
+                                {usersEvent}
                             </div>
                         </div>
-                        <Month/>
-                    </div>
-                    <EventForm selectedDay={selected} createEvent={createEvent}/>
-                    <div>
-                        {usersEvent}
-                    </div>
-                </div>
-            </MyContext.Provider>
+                    </TimeContext.Provider>
+                </DateContext.Provider>
+            </CalendarContextMounter>
         );
-    };
+    }
 };
 
 export default Calendar;

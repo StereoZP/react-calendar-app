@@ -1,22 +1,28 @@
 import React from 'react';
 import {useState, useContext} from "react";
-import classes from "./Calendar.module.css";
-import {format} from "date-fns";
-import {MyContext} from "../context";
-import MyModal from "./UI/MyModal/MyModal";
-import MyInput from "./UI/MyInput/MyInput";
+import {format, isToday} from "date-fns";
 import * as yup from 'yup';
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import {DateContext} from "../dateContext";
+import {TimeContext} from "../timeContext";
+import MyModal from "./UI/MyModal/MyModal";
+import MyInput from "./UI/MyInput/MyInput";
+import SelectedTime from "./SelectedTime";
+import classes from "./Calendar.module.css";
+import cl from "./Form.module.css"
+
 
 const EventForm = (props) => {
 
     const {createEvent} = props
 
-    const context = useContext(MyContext)
-    const [post, setPost] = useState({title: '', checkbox:true,})
+    const dateContext = useContext(DateContext)
+    const timeContext = useContext(TimeContext)
+
+    const [post, setPost] = useState({title: '', checkbox: true,})
     const [modal, setModal] = useState(false)
-    const {startDateForDatePiker: [startDate, setStartDate]} = context
+    const {startDateForDatePiker: [startDate, setStartDate]} = dateContext
 
 
     const addNewPost = (e) => {
@@ -28,15 +34,14 @@ const EventForm = (props) => {
                 date: startDate.toISOString(),
                 addDate: format(new Date(), 'y-MM-dd'),
                 checkbox: true,
-                startTime: format(context.startTime, 'HH:mm'),
-                endTime: format(context.endTime, 'HH:mm'),
+                startTime: format(timeContext.startTime, 'HH:mm'),
+                endTime: format(timeContext.endTime, 'HH:mm'),
             }
-            setPost({title: "", checkbox:true})
+            setPost({title: "", checkbox: true})
             createEvent(newPost);
             closeModal();
         }
         closeModal();
-        console.log(post)
     }
 
     const closeModal = () => {
@@ -47,15 +52,26 @@ const EventForm = (props) => {
         title: yup.string().required('Required'),
     })
 
+    const changeCheckboxStatus = () => {
+        if (post.checkbox) {
+            setPost({...post, checkbox: false})
+        }
+        if (!post.checkbox) {
+            setPost({...post, checkbox: true})
+        }
+    }
+
+    const blockStyles = [cl.formBlock, cl.topPadding].join(' ');
+
     return (
         <div className={classes.doubleContainer}>
             <div
-                className={classes.selectedDay}>{format(context.selected, 'EEEE')} {format(context.selected, 'd')}</div>
+                className={classes.selectedDay}>{format(dateContext.selected, 'EEEE d')}</div>
             <button onClick={() => setModal(true)}>
                 +
             </button>
             <MyModal className={classes.modalContainer} visible={modal} setVisible={setModal}>
-                <div className={classes.test}>
+                <div className={cl.formBlock}>
                     <MyInput
                         validationschema={validationSchema}
                         title={'title'}
@@ -64,43 +80,28 @@ const EventForm = (props) => {
                         type="text"
                         placeholder="Event"
                     />
-                    <label>
-                        <input type="checkbox" checked={post.checkbox} onChange={()=> setPost({...post, checked:false })}/>
-                        Весь день
-                    </label>
-                </div>
-                <div className={classes.test}>
-                    <div>
-                        Начало:
-                        <DatePicker selected={context.startTime}
-                                    onChange={(date) => context.setStartTime(date)}
-                                    showTimeSelect
-                                    showTimeSelectOnly
-                                    timeIntervals={15}
-                                    timeCaption="Time"
-                                    dateFormat="h:mm aa"
-                        />
-                    </div>
-                    <div>
-                        Конец:
-                        <DatePicker selected={context.endTime}
-                                    onChange={(date) => context.setEndTime(date)}
-                                    showTimeSelect
-                                    showTimeSelectOnly
-                                    timeIntervals={15}
-                                    timeCaption="Time"
-                                    dateFormat="h:mm aa"
-                        />
+                    <div className={cl.formBlock}>
+                        <div className={cl.inputCheckbox}>
+                            <input type="checkbox" checked={post.checkbox} onChange={changeCheckboxStatus}/>
+                        </div>
+                        <div className={cl.inputCheckbox}>Весь день</div>
                     </div>
                 </div>
-                <div className={classes.test}>
+                {
+                    !post.checkbox ?
+                        <SelectedTime/> :
+                        ''
+                }
+                <div className={blockStyles}>
                     <div>Выбрать другую дату:</div>
-                    <div><DatePicker selected={startDate}
-                                onChange={(date) => setStartDate(date)}
-                    />
+                    <div>
+                        <DatePicker selected={startDate}
+                                    onChange={(date) => setStartDate(date)}
+                        />
                     </div>
+
                 </div>
-                <button onClick={addNewPost}>Add event</button>
+                <button className={cl.topPadding} onClick={addNewPost}>Add event</button>
             </MyModal>
         </div>
     );
