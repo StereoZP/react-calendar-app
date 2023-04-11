@@ -2,14 +2,12 @@ import React, {useContext} from 'react';
 import {format, isToday, isSameMonth, isSameDay, parseISO} from "date-fns";
 import classes from "./Calendar.module.css";
 import {DateContext} from "../dateContext";
-import {TimeContext} from "../timeContext";
 
 const Day = (props) => {
 
     const {renderedDay} = props
     const day = format(renderedDay, 'd')
     const dateContext = useContext(DateContext)
-    const timeContext = useContext(TimeContext)
     const {startDateForDatePiker: [, setStartDate]} = dateContext
 
     const today = [(isToday(renderedDay)) ? classes.today : classes.day].join(' ');
@@ -20,8 +18,6 @@ const Day = (props) => {
     const selectedDay = () => {
         dateContext.setSelected(renderedDay)
         setStartDate(renderedDay)
-        timeContext.setStartTime(renderedDay)
-        timeContext.setEndTime(renderedDay)
     }
 
 

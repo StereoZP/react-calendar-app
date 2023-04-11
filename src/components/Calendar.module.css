@@ -119,14 +119,14 @@ button:hover {
     padding: 0 15px 15px 15px;
 }
 .eventTitle{
-    display: flex;
-    justify-content: space-between;
+    max-width: 80%;
     word-break: break-all;
 }
 .eventAddDay{
     display: flex;
     align-items: center;
     justify-content: center;
+    padding-top: 10px;
 }
 .eventTime{
     display: flex;

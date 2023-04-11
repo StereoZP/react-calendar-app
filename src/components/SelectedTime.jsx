@@ -1,45 +1,35 @@
 import React from 'react';
 import cl from "./Form.module.css";
 import DatePicker from "react-datepicker";
-import {TimeContext} from "../timeContext";
+import {DateContext} from "../dateContext";
 import {useContext} from "react";
 
 const SelectedTime = () => {
-    const timeContext = useContext(TimeContext)
+    const dateContext = useContext(DateContext)
+    const {startDateForDatePiker: [startDate, setStartDate]} = dateContext
     const blockStyles = [cl.formBlock, cl.topPadding].join(' ');
+
+    const filterPassedTime = (time) => {
+        const currentDate = new Date();
+        const selectedDate = new Date(time);
+
+        return currentDate.getTime() < selectedDate.getTime();
+    };
+
     return (
         <div className={blockStyles}>
-            <div>
                 <div>
-                    Начало:
+                    Выбрать время:
                 </div>
                 <div>
-                    <DatePicker selected={timeContext.startTime}
-                                onChange={(date) => timeContext.setStartTime(date)}
-                                showTimeSelect
-                                showTimeSelectOnly
-                                timeIntervals={15}
-                                timeCaption="Time"
-                                dateFormat="h:mm aa"
+                    <DatePicker
+                        selected={startDate}
+                        onChange={(date) => setStartDate(date)}
+                        showTimeSelect
+                        filterTime={filterPassedTime}
+                        dateFormat="h:mm aa"
                     />
                 </div>
-
-            </div>
-            <div>
-                <div>
-                    Конец:
-                </div>
-                <div>
-                    <DatePicker selected={timeContext.endTime}
-                                onChange={(date) => timeContext.setEndTime(date)}
-                                showTimeSelect
-                                showTimeSelectOnly
-                                timeIntervals={15}
-                                timeCaption="Time"
-                                dateFormat="h:mm aa"
-                    />
-                </div>
-            </div>
         </div>
     );
 };
