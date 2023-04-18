@@ -1,9 +1,9 @@
 import React from 'react';
-import cl from './MyModal.module.css'
+import cl from './Modal.module.css'
 
-const MyModal = (props) => {
+const Modal = (props) => {
 
-    const {children, visible, setVisible, setCheckbox, setErrorTitle} = props
+    const {children, visible, setVisible,} = props
 
     const modalClasses = [cl.myModalContent, props.className].join(' ')
     const rootClasses = [cl.myModal]
@@ -14,8 +14,6 @@ const MyModal = (props) => {
 
     const showModal = ()=>{
         setVisible(false)
-        setErrorTitle(null)
-        setCheckbox(true)
     }
 
     return (
@@ -27,4 +25,4 @@ const MyModal = (props) => {
     );
 };
 
-export default MyModal;
+export default Modal;

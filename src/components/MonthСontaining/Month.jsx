@@ -2,8 +2,8 @@ import React from 'react';
 import {addDays, addWeeks, startOfMonth, startOfWeek} from "date-fns";
 import Week from "./Week";
 import NameDaysOfWeek from "./NameDaysOfWeek";
-import classes from "./Calendar.module.css";
-import {DateContext} from "../dateContext";
+import classes from "../Calendar/Calendar.module.css";
+import {DateContext} from "../Context/dateContext";
 import {useContext} from "react";
 
 const Month = () => {

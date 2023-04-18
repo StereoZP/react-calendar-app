@@ -1,7 +1,7 @@
 import React from 'react';
-import Month from "./Month";
+import Month from "../MonthСontaining/Month";
 import classes from "./Calendar.module.css";
-import EventForm from "./EventForm";
+import EventForm from "../Form/EventForm";
 import CalendarController from "./CalendarController";
 import DayAndTime from "./DayAndTime";
 import MonthSelection from "./MonthSelection";
@@ -9,6 +9,7 @@ import MonthSelection from "./MonthSelection";
 const Calendar = () => {
 
     return (
+        <div className={classes.calendar}>
         <CalendarController>
             {
                 (props) => {
@@ -19,7 +20,7 @@ const Calendar = () => {
                     if (!isLoaded) {
                         return <div>Загрузка...</div>;
                     }
-                    return <div className={classes.calendar}>
+                    return <div className={classes.calendarWidth}>
                         <DayAndTime day={day}/>
                         <MonthSelection month={month} prev={prev} next={next}>
                             <Month/>
@@ -32,6 +33,7 @@ const Calendar = () => {
                 }
             }
         </CalendarController>
+        </div>
     )
 }
 

@@ -1,7 +1,7 @@
 import React, {useContext} from 'react';
 import {format, isToday, isSameMonth, isSameDay, parseISO} from "date-fns";
-import classes from "./Calendar.module.css";
-import {DateContext} from "../dateContext";
+import classes from "../Calendar/Calendar.module.css";
+import {DateContext} from "../Context/dateContext";
 
 const Day = (props) => {
 
@@ -19,7 +19,6 @@ const Day = (props) => {
         dateContext.setSelected(renderedDay)
         setStartDate(renderedDay)
     }
-
 
     const eventPoint = []
     for (const item of dateContext.event) {
