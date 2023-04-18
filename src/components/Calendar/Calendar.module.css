@@ -4,80 +4,84 @@
     text-align: center;
     border: 2px solid transparent;
     font-size: 36px;
-    width:2em;
-    display:inline-block;
+    width:80px;
+    height: 80px;
+    position: relative;
+    display: inline-block;
     color: rgb(239, 239, 239);
 }
-
+.dayEvent{
+    color:darkgrey;
+    font-size: 24px;
+    top: 1px;
+    right: 1px;
+}
 .day:hover {
     cursor: pointer;
     border: 2px solid rgb(125, 125, 125);
 }
-
 .selected {
     border: 2px solid dodgerblue;
     padding: 4px 8px;
     vertical-align: middle;
     text-align: center;
     font-size: 36px;
-    width:2em;
+    width:80px;
+    height: 80px;
     display:inline-block;
 }
-
 .today {
     padding: 4px 8px;
     vertical-align: middle;
     text-align: center;
     border: 2px solid black;
     font-size: 36px;
-    width:2em;
+    width:80px;
+    height: 80px;
     display:inline-block;
     color: white;
     background-color: dodgerblue;
 }
-
 .dayOfOtherMonth {
     padding: 4px 8px;
     vertical-align: middle;
     text-align: center;
-    border: 2px solid transparent;
     font-size: 36px;
-    width:2em;
+    width:80px;
+    height: 80px;
     display:inline-block;
     color: rgb(100, 100, 100);
 }
-
-.calendar {
-    background-color: rgb(37, 38, 38);
+.calendar{
+    display: flex;
+    justify-content: center;
 }
-
+.calendarWidth {
+    background-color: rgb(37, 38, 38);
+    max-width: 600px;
+}
 .dateContainer {
     padding-top: 15px ;
     padding-left: 25px;
     padding-bottom: 25px;
 }
-
 .time {
     color: white;
     font-family: system-ui;
     font-size: 40px;
 }
-
 .date {
     color: rgb(166, 216, 255);
 }
-
 .doubleContainer {
     padding: 15px 15px;
     display: flex;
     justify-content: space-between;
     align-items: center;
 }
-
 .selectedMonth {
     color: white;
 }
-
 .selectedDay {
     color: white;
 }
@@ -85,33 +89,76 @@ button {
     background-color: transparent;
     border: none;
     color: rgb(100, 100, 100);
-    font-size: 30px;
+    font-size: 22px;
+    align-items: center;
 }
-
 button:hover {
     color: white;
 }
-
 .dateAndSelectedMonthContainer {
     border: 1px solid rgb(100, 100, 100);
     padding: 10px;
 }
-
 .namesOfWeek {
     padding: 4px 8px;
     vertical-align: middle;
     text-align: center;
     border: 2px solid transparent;
     font-size: 18px;
-    width:2em;
     display:inline-block;
     color: rgb(239, 239, 239);
+    width:80px;
+    height: 40px;
 }
-
 .namesOfWeekContainer{
     display: flex;
     justify-content: space-between;
-    padding-right: 20px;
-    padding-left: 10px;
 }
+.eventContainer{
+    color: white;
+    font-size: 18px;
+    font-family: cursive;
+    display: flex;
+    flex-direction: column;
+    padding: 0 15px 15px 15px;
+    border: 1px solid rgb(100, 100, 100);
+}
+.eventTitle{
+    max-width: 80%;
+    word-break: break-all;
+}
+.eventTitlePosition{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bolder;
+}
+.eventAddDay{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-top: 10px;
+}
+.eventTime{
+    display: flex;
+    justify-content: right;
+}
+
+.container{
+    display: flex;
+    justify-content: space-between;
+}
+.eventLine {
+    width: 100%;
+    border-top: 2px solid darkgrey;
+    padding-bottom: 2px;
+}
+.modalContainer{
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+    color: white;
+}
+
+
 

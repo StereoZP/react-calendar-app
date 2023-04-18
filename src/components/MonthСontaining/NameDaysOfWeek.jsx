@@ -1,6 +1,6 @@
 import React from 'react';
 import {format} from "date-fns";
-import classes from "./Calendar.module.css";
+import classes from "../Calendar/Calendar.module.css";
 
 const NameDaysOfWeek = (props) => {
 

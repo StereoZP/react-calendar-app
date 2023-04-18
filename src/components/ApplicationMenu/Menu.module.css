@@ -1,0 +1,14 @@
+.appMenu {
+    padding: 10px 0 10px 0;
+    background-color: black;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+.search{
+    display: flex;
+}
+
+.sign{
+    display: flex;
+}

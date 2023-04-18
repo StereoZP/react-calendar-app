@@ -1,0 +1,30 @@
+.formBlock{
+    display: flex;
+    flex-direction:row;
+    align-items: center;
+    justify-content: space-between;
+    padding-top: 10px;
+}
+.topPadding{
+    padding-top: 10px;
+}
+.inputCheckbox{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-left: 10px;
+}
+.updateAndDeleteContainer{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.image {
+    overflow: hidden;
+}
+img {
+    transition: transform 0.25s;
+}
+.image:hover img {
+    transform: scale(1.1);
+}
