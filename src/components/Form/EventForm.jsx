@@ -11,7 +11,7 @@ const EventForm = () => {
         <FormController>
             {(props) => {
                 const {openModal, dateContext} = props
-                return <div className={classes.doubleContainer}>
+                return <div className={classes.doubleContainer} style={{border: "1px solid rgb(100, 100, 100)"}}>
                     <div
                         className={classes.selectedDay}>{format(dateContext.selected, 'EEEE d')}</div>
                     <button onClick={openModal}>
