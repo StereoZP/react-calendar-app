@@ -1,14 +1,31 @@
 .appMenu {
-    padding: 10px 0 10px 0;
+    padding: 10px;
     background-color: black;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+    align-items: center;
 }
-.search{
+.searchContainer{
     display: flex;
 }
-
+.signContainer{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
 .sign{
     display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding-right: 50px;
+}
+.paddingContainer{
+    padding-right: 15px;
+}
+.inputStyles{
+    height: 100%;
+    width: 80%;
 }
