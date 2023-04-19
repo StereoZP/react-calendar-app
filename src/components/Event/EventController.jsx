@@ -40,7 +40,7 @@ const EventController = (props) => {
         <div>
             <EventListContext.Provider value={{
                 addDate, startTime, endTime, updateModal, setUpdateModal, confirmUpdateModal, setConfirmUpdateModal,eventTitle, eventBody, event,
-                openUpdateModal, openConfirmModal,confirmUpdate, closeUpdateModal, updateTitle, setUpdateTitle, updateBody, setUpdateBody
+                openUpdateModal, openConfirmModal, confirmUpdate, closeUpdateModal, updateTitle, setUpdateTitle, updateBody, setUpdateBody
             }}>
                 {props.children}
             </EventListContext.Provider>

@@ -13,6 +13,7 @@ const CalendarController = (props) => {
     const [error, setError] = useState(null);
     const [isLoaded, setIsLoaded] = useState(false);
     const [event, setEvent] = useState([]);
+    const [deleteEvent, setDeleteEvent] = useState([])
     const [modal, setModal] = useState(false)
     const [confirmDeleteModal, setConfirmDeleteModal] = useState(false)
     const startDateForDatePiker = useState(setHours(setMinutes(selected, 0), 9))
@@ -37,12 +38,13 @@ const CalendarController = (props) => {
         setEvent([...event, newEvent])
     }
 
-    const removeEvent = (post) => {
-        setEvent(event.filter(p => p.id !== post.id))
+    const removeEvent = () => {
+        setEvent(deleteEvent)
         setConfirmDeleteModal(false)
     }
 
-    const openDeleteModal = () => {
+    const openDeleteModal = (post) => {
+        setDeleteEvent(event.filter(p => p.id !== post.id))
         setConfirmDeleteModal(true)
     }
 
