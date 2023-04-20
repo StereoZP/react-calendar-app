@@ -13,7 +13,7 @@ const Calendar = () => {
         <CalendarController>
             {
                 (props) => {
-                    const {day, month, prev, next, usersEvent, error, isLoaded} = props
+                    const {day, month, prev, next, usersEvent, error, isLoaded,users} = props
                     if (error) {
                         return <div>Ошибка: {error.message}</div>;
                     }

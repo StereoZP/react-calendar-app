@@ -21,6 +21,9 @@ const CalendarController = (props) => {
     const [checkbox, setCheckbox] = useState(true)
     const [errorTitle, setErrorTitle] = useState(null);
     const [errorBody, setErrorBody] = useState(null);
+    const [user, setUser] = useState([{id: 1, firstName: "Alex", lastName: "Sumrii", email:"alex_sumrii@gmail.com", color: "#FF5733",},
+        {id: 2, firstName: "Vladimir", lastName: "Ozirskiy", email:"vladimir_ozirskiy@gmail.com", color: "#900C3F",},
+        {id: 3, firstName: "Stepan", lastName: "Bandera", email:"stepan_bandera@gmail.com", color: "#581845",}])
 
     setInterval(() => {
         setDay(new Date())
@@ -127,11 +130,13 @@ const CalendarController = (props) => {
                 setErrorBody,
                 confirmDeleteModal,
                 setConfirmDeleteModal,
+                user,
             }}>
-                {props.children({day, month, prev, next, usersEvent, error, isLoaded,})}
+                {props.children({day, month, prev, next, usersEvent, error, isLoaded})}
             </DateContext.Provider>
         </div>
     );
-};
+}
+    ;
 
-export default CalendarController;
+    export default CalendarController;

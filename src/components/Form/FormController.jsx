@@ -12,10 +12,7 @@ const FormController = (props) => {
     const [post, setPost] = useState({title: '',body:''})
     const {startDateForDatePiker: [startDate, setStartDate],
         endDateForDatePiker: [endDate, setEndDate],} = dateContext
-
-    const closeModal = () => {
-        dateContext.setModal(false)
-    }
+    const [membersModal, setMembersModal] = useState(false)
 
     const blockStyles = [cl.formBlock, cl.topPadding].join(' ');
     const inputStylesBody = [(dateContext.errorBody !== null) ? inpCl.myInputErr : inpCl.myInput]
@@ -95,6 +92,22 @@ const FormController = (props) => {
         setEndDate(dateContext.selected)
     }
 
+    const closeModal = () => {
+        dateContext.setModal(false)
+    }
+
+    const openMembersModal = () => {
+        setMembersModal(true)
+    }
+
+    const closeMembersModal = () => {
+        setMembersModal(false)
+    }
+
+    const addMembers = () => {
+        closeMembersModal()
+    }
+
     return (
         <div>
             <EventFormContext.Provider value={{
@@ -105,8 +118,13 @@ const FormController = (props) => {
                 blockStyles,
                 startDate,
                 setStartDate,
+                membersModal,
+                setMembersModal,
                 addNewPost,
                 checkboxController,
+                openMembersModal,
+                closeMembersModal,
+                addMembers,
             }}>
                 {props.children({openModal, dateContext,})}
             </EventFormContext.Provider>
