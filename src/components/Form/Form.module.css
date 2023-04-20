@@ -3,7 +3,13 @@
     flex-direction:row;
     align-items: center;
     justify-content: space-between;
-    padding-top: 10px;
+    padding-top: 10px ;
+}
+.inputBlock{
+    display: flex;
+    flex-direction:row;
+    justify-content: space-between;
+    align-items: center;
 }
 .topPadding{
     padding-top: 10px;

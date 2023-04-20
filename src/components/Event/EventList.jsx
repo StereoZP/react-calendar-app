@@ -29,7 +29,8 @@ const EventList = () => {
                     <div>{eventList.addDate}</div>
                     <div>
                         <button className={cl.image} onClick={eventList.openUpdateModal}><img src={updateIcon} alt="Update"/></button>
-                        <button className={cl.image} onClick={dateContext.openDeleteModal}><img src={deleteIcon} alt="Delete"/></button>
+                        <button className={cl.image} onClick={()=>dateContext.openDeleteModal(eventList.event)}><img src={deleteIcon} alt="Delete"/>
+                        </button>
                     </div>
                 </div>
                 <EventUpdateWindow/>
