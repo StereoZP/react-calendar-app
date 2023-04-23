@@ -6,7 +6,6 @@ import {useContext} from "react";
 
 const SelectedTime = () => {
     const dateContext = useContext(DateContext)
-    const {startDateForDatePiker: [startDate, setStartDate], endDateForDatePiker: [endDate, setEndDate]} = dateContext
 
     const blockStyles = [cl.formBlock, cl.topPadding].join(' ');
 
@@ -20,7 +19,7 @@ const SelectedTime = () => {
         const currentDate = new Date();
         const selectedDate = new Date(time);
 
-        return (currentDate.getTime() && startDate.getTime()) < selectedDate.getTime();
+        return (currentDate.getTime() && dateContext.startDate.getTime()) < selectedDate.getTime();
     };
 
     return (
@@ -30,8 +29,8 @@ const SelectedTime = () => {
             </div>
             <div>From:
                 <DatePicker
-                    selected={startDate}
-                    onChange={(date) => setStartDate(date)}
+                    selected={dateContext.startDate}
+                    onChange={(date) => dateContext.setStartDate(date)}
                     showTimeSelect
                     showTimeSelectOnly
                     filterTime={filterPassedTimeStart}
@@ -42,8 +41,8 @@ const SelectedTime = () => {
             </div>
             <div>To:
                 <DatePicker
-                    selected={endDate}
-                    onChange={(date) => setEndDate(date)}
+                    selected={dateContext.endDate}
+                    onChange={(date) => dateContext.setEndDate(date)}
                     showTimeSelect
                     showTimeSelectOnly
                     filterTime={filterPassedTimeEnd}

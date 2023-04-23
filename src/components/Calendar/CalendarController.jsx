@@ -1,13 +1,13 @@
 import React from 'react';
 import {useEffect, useMemo, useState} from "react";
-import {add, isSameDay, parseISO, setHours, setMinutes} from "date-fns";
+import {add, format, isSameDay, parseISO, setHours, setMinutes} from "date-fns";
 import EventList from "../Event/EventList";
 import {DateContext} from "../Context/dateContext";
 import EventController from "../Event/EventController";
 
 const CalendarController = (props) => {
 
-    const [day, setDay] = useState(new Date())
+    const [day, ] = useState(new Date())
     const [month, setMonth] = useState(new Date())
     const [selected, setSelected] = useState(new Date())
     const [error, setError] = useState(null);
@@ -16,18 +16,30 @@ const CalendarController = (props) => {
     const [deleteEvent, setDeleteEvent] = useState([])
     const [modal, setModal] = useState(false)
     const [confirmDeleteModal, setConfirmDeleteModal] = useState(false)
-    const startDateForDatePiker = useState(setHours(setMinutes(selected, 0), 9))
-    const endDateForDatePiker = useState(setHours(setMinutes(selected, 0), 9))
+    const [membersModal, setMembersModal] = useState(false)
+    const [startDate, setStartDate] = useState(setHours(setMinutes(selected, 0), 9))
+    const [endDate, setEndDate] = useState(setHours(setMinutes(selected, 0), 9))
     const [checkbox, setCheckbox] = useState(true)
     const [errorTitle, setErrorTitle] = useState(null);
     const [errorBody, setErrorBody] = useState(null);
-    const [user, setUser] = useState([{id: 1, firstName: "Alex", lastName: "Sumrii", email:"alex_sumrii@gmail.com", color: "#FF5733",},
-        {id: 2, firstName: "Vladimir", lastName: "Ozirskiy", email:"vladimir_ozirskiy@gmail.com", color: "#900C3F",},
-        {id: 3, firstName: "Stepan", lastName: "Bandera", email:"stepan_bandera@gmail.com", color: "#581845",}])
+    const [users, setUsers] = useState([{id: 1, firstName: "Alex", lastName: "Sumrii", email:"alex_sumrii@gmail.com", color: "#FF5733", selected:false},
+        {id: 2, firstName: "Vladimir", lastName: "Ozirskiy", email:"vladimir_ozirskiy@gmail.com", color: "#900C3F", selected:false},
+        {id: 3, firstName: "Stepan", lastName: "Bandera", email:"stepan_bandera@gmail.com", color: "#581845", selected:false}])
 
-    setInterval(() => {
+    const userSelectedTrue = users.filter(user => user.selected);
+    const userSelectedFalse = users.map(user => {
+            if (user.selected) {
+                return {
+                    ...user,
+                    selected: !user.selected
+                };
+            }
+            return user;
+        });
+
+    /*setInterval(() => {
         setDay(new Date())
-    }, 1000)
+    }, 1000)*/
 
     const prev = () => {
         setMonth(add(month, {months: -1}))
@@ -47,27 +59,46 @@ const CalendarController = (props) => {
     }
 
     const openDeleteModal = (post) => {
-        setDeleteEvent(event.filter(p => p.id !== post.id))
         setConfirmDeleteModal(true)
+        setDeleteEvent(event.filter(p => p.id !== post.id))
     }
 
     const closeDeleteModal = () => {
         setConfirmDeleteModal(false)
     }
 
+    const openMembersModal = () => {
+        setMembersModal(true)
+    }
+
+    const closeMembersModal = () => {
+        setMembersModal(false)
+    }
+
     const updateEvent = (id, newTitle, newBody, confirm) => {
         const updatedTitleAndBody = event.map((item) =>
-            item.id === id ? {...item, title: newTitle, body: newBody} : item
-        );
+            item.id === id && !checkbox && (item.selected || !item.selected)  ? {...item, title: newTitle, body: newBody, startTime:format(startDate, 'HH:mm'),
+                endTime:format(endDate, 'HH:mm'), members:userSelectedTrue} :
+            item.id === id && checkbox && (item.selected || !item.selected) ? {...item, title: newTitle, body: newBody, startTime:null,
+                endTime:null , members:userSelectedTrue} : item);
         if (confirm) {
             setEvent(updatedTitleAndBody)
         }
     };
 
+        const checkboxController = () =>{
+            if(checkbox){
+                setCheckbox(false)
+            }
+            if(!checkbox){
+                setCheckbox(true)
+            }
+        }
+
     const usersEvent = event.map((item, index) => {
         if (isSameDay(selected, parseISO(item.date))) {
             return <EventController key={index} event={item} id={item.id} eventTitle={item.title} eventBody={item.body}
-                                    addDate={item.date} startTime={item.startTime} endTime={item.endTime}>
+                                    addDate={item.date} startTime={item.startTime} endTime={item.endTime} members={item.members}>
                 <EventList/>
             </EventController>
         }
@@ -112,12 +143,19 @@ const CalendarController = (props) => {
                 updateEvent,
                 openDeleteModal,
                 closeDeleteModal,
+                checkboxController,
+                openMembersModal,
+                closeMembersModal,
+                userSelectedTrue,
+                userSelectedFalse,
                 selected,
                 setSelected,
                 month,
                 event,
-                startDateForDatePiker,
-                endDateForDatePiker,
+                startDate,
+                setStartDate,
+                endDate,
+                setEndDate,
                 dateCounts,
                 setEvent,
                 modal,
@@ -130,7 +168,10 @@ const CalendarController = (props) => {
                 setErrorBody,
                 confirmDeleteModal,
                 setConfirmDeleteModal,
-                user,
+                users,
+                setUsers,
+                membersModal,
+                setMembersModal,
             }}>
                 {props.children({day, month, prev, next, usersEvent, error, isLoaded})}
             </DateContext.Provider>

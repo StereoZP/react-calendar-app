@@ -1,7 +1,6 @@
-import React, {useContext} from 'react';
-import {useEffect, useState} from "react";
+import React, {useContext, useMemo, useState} from 'react';
 import {DateContext} from "../Context/dateContext";
-import CustomInput from "../UI/CustomInput/CustomInput";
+import Input from "../UI/CustomInput/Input";
 import User from "./User";
 
 const ListOfUsers = () => {
@@ -11,14 +10,14 @@ const ListOfUsers = () => {
 
     const dateContext = useContext(DateContext)
 
-    useEffect(() => {
-        const filtered = dateContext.user.filter(
+    useMemo(() => {
+        const filtered = dateContext.users.filter(
             (person) =>
                 person.firstName.toLowerCase().startsWith(searchText.toLowerCase()) ||
                 person.lastName.toLowerCase().startsWith(searchText.toLowerCase())
         );
         setFilteredPerson(filtered);
-    }, [searchText, dateContext.user]);
+    }, [searchText, dateContext.users]);
 
     const handleSearch = (event) => {
         setSearchText(event.target.value);
@@ -26,7 +25,7 @@ const ListOfUsers = () => {
 
     return (
         <div>
-            <CustomInput type="text" value={searchText} onChange={handleSearch}/>
+            <Input type="text" value={searchText} onChange={handleSearch} placeholder="Search..."/>
             {filteredPerson.length > 0 ? (
                 filteredPerson.map((person) =>
                     person.firstName.toLowerCase().startsWith(searchText.toLowerCase()) ||
@@ -37,6 +36,8 @@ const ListOfUsers = () => {
                             lastName={person.lastName}
                             email={person.email}
                             color={person.color}
+                            selected={person.selected}
+                            id={person.id}
                         />
                     ) : null
                 )

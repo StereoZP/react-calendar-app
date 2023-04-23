@@ -5,7 +5,7 @@ import {DateContext} from "../Context/dateContext";
 
 const EventController = (props) => {
 
-    const {eventTitle, eventBody, addDate, startTime, endTime, event, id} = props
+    const {eventTitle, eventBody, addDate, startTime, endTime, event, id, members} = props
 
     const dateContext = useContext(DateContext)
     const [updateModal, setUpdateModal] = useState(false)
@@ -14,6 +14,7 @@ const EventController = (props) => {
     const [confirmUpdateModal, setConfirmUpdateModal] = useState(false)
 
     const openUpdateModal = () => {
+        dateContext.setCheckbox(true)
         setUpdateModal(true)
         setUpdateTitle(eventTitle)
         setUpdateBody(eventBody)
@@ -40,7 +41,7 @@ const EventController = (props) => {
         <div>
             <EventListContext.Provider value={{
                 addDate, startTime, endTime, updateModal, setUpdateModal, confirmUpdateModal, setConfirmUpdateModal,eventTitle, eventBody, event,
-                openUpdateModal, openConfirmModal, confirmUpdate, closeUpdateModal, updateTitle, setUpdateTitle, updateBody, setUpdateBody
+                openUpdateModal, openConfirmModal, confirmUpdate, closeUpdateModal, updateTitle, setUpdateTitle, updateBody, setUpdateBody,members
             }}>
                 {props.children}
             </EventListContext.Provider>

@@ -3,7 +3,6 @@
     flex-direction:row;
     align-items: center;
     justify-content: space-between;
-    padding-top: 10px ;
 }
 .inputBlock{
     display: flex;
@@ -27,7 +26,13 @@
 }
 .image {
     overflow: hidden;
+    background-color: transparent;
+    border: none;
+    color: rgb(100, 100, 100);
+    font-size: 22px;
+    align-items: center;
 }
+
 img {
     transition: transform 0.25s;
 }
