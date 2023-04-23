@@ -1,7 +1,6 @@
 .circle {
     display: flex;
     align-items: center;
-    padding: 10px 10px 0 0;
 }
 
 .initial {
@@ -21,4 +20,7 @@
     font-size: 18px;
     font-weight: bold;
     color: white;
+    display: flex;
+    justify-content: left;
+    align-items: center;
 }

@@ -86,14 +86,15 @@
 .selectedDay {
     color: white;
 }
-button {
+.buttonStyles {
     background-color: transparent;
     border: none;
     color: rgb(100, 100, 100);
     font-size: 22px;
     align-items: center;
+    padding-top: 10px;
 }
-button:hover {
+.buttonStyles:hover {
     color: white;
 }
 .dateAndSelectedMonthContainer {
@@ -127,6 +128,7 @@ button:hover {
 .eventTitle{
     max-width: 80%;
     word-break: break-all;
+    padding: 10px 0 10px 0;
 }
 .eventTitlePosition{
     display: flex;
@@ -166,6 +168,15 @@ button:hover {
     height: 100%;
     width: 100%;
 }
+.members{
+    display: flex;
+    flex-direction: row;
+    justify-content: left;
+    align-items: center;
+    font-size: 14px;
+}
+
+
 
 
 

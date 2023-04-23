@@ -1,7 +1,7 @@
 import React from 'react';
-import classes from './CustomInput.module.css';
+import classes from './Input.module.css';
 
-const CustomInput = React.forwardRef((props, ref) => {
+const Input = React.forwardRef((props, ref) => {
 
     const stylesInput = [classes.myInput, props.className].join(' ')
 
@@ -10,4 +10,4 @@ const CustomInput = React.forwardRef((props, ref) => {
     );
 });
 
-export default CustomInput;
+export default Input;

@@ -8,7 +8,7 @@ const Day = (props) => {
     const {renderedDay} = props
     const day = format(renderedDay, 'd')
     const dateContext = useContext(DateContext)
-    const {startDateForDatePiker: [, setStartDate]} = dateContext
+
 
     const today = [(isToday(renderedDay)) ? classes.today : classes.day].join(' ');
     const dayOfThisMonth = [(!isSameMonth(renderedDay, dateContext.month)) ? classes.dayOfOtherMonth : classes.day].join(' ');
@@ -17,7 +17,7 @@ const Day = (props) => {
 
     const selectedDay = () => {
         dateContext.setSelected(renderedDay)
-        setStartDate(renderedDay)
+        dateContext.setStartDate(renderedDay)
     }
 
     const eventPoint = []
