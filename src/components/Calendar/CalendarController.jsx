@@ -12,13 +12,14 @@ const CalendarController = (props) => {
     const [selected, setSelected] = useState(new Date())
     const [error, setError] = useState(null);
     const [isLoaded, setIsLoaded] = useState(false);
+    const [startDate, setStartDate] = useState(setHours(setMinutes(selected, 0), 9))
+    const [endDate, setEndDate] = useState(setHours(setMinutes(selected, 0), 9))
     const [event, setEvent] = useState([]);
     const [deleteEvent, setDeleteEvent] = useState([])
     const [modal, setModal] = useState(false)
     const [confirmDeleteModal, setConfirmDeleteModal] = useState(false)
     const [membersModal, setMembersModal] = useState(false)
-    const [startDate, setStartDate] = useState(setHours(setMinutes(selected, 0), 9))
-    const [endDate, setEndDate] = useState(setHours(setMinutes(selected, 0), 9))
+
     const [checkbox, setCheckbox] = useState(true)
     const [errorTitle, setErrorTitle] = useState(null);
     const [errorBody, setErrorBody] = useState(null);
