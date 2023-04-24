@@ -15,8 +15,8 @@ const EventList = () => {
     const eventList = useContext(EventListContext)
     const dateContext = useContext(DateContext)
 
-    const members = eventList.members.map((item)=>{
-         return <div key={item}>{item.firstName} {item.lastName};</div>})
+    const members = eventList.members.map((item,index)=>{
+         return <div key={index}>{item.firstName} {item.lastName};</div>})
 
 
     return (
