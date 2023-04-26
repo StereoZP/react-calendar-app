@@ -19,7 +19,7 @@ const SelectedTime = () => {
         const currentDate = new Date();
         const selectedDate = new Date(time);
 
-        return (currentDate.getTime() && dateContext.startDate.getTime()) < selectedDate.getTime();
+        return (currentDate.getTime() && dateContext.state.startDate.getTime()) < selectedDate.getTime();
     };
 
     return (
@@ -29,8 +29,8 @@ const SelectedTime = () => {
             </div>
             <div>From:
                 <DatePicker
-                    selected={dateContext.startDate}
-                    onChange={(date) => dateContext.setStartDate(date)}
+                    selected={dateContext.state.startDate}
+                    onChange={(date) => dateContext.dispatch({ type: 'setStartDate', payload: date})}
                     showTimeSelect
                     showTimeSelectOnly
                     filterTime={filterPassedTimeStart}
@@ -41,8 +41,8 @@ const SelectedTime = () => {
             </div>
             <div>To:
                 <DatePicker
-                    selected={dateContext.endDate}
-                    onChange={(date) => dateContext.setEndDate(date)}
+                    selected={dateContext.state.endDate}
+                    onChange={(date) => dateContext.dispatch({ type: 'setEndDate', payload: date})}
                     showTimeSelect
                     showTimeSelectOnly
                     filterTime={filterPassedTimeEnd}

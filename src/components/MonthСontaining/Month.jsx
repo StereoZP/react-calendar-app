@@ -8,7 +8,7 @@ import {useContext} from "react";
 
 const Month = () => {
     const dateContext = useContext(DateContext)
-    const startDayOfWeek = startOfWeek(startOfMonth(dateContext.month), { weekStartsOn: 1 })
+    const startDayOfWeek = startOfWeek(startOfMonth(dateContext.state.month), { weekStartsOn: 1 })
 
     const renderedNameOfWeek = new Array(7).fill(undefined).map((_, index) => {
         const nameOfWeek = addDays(startDayOfWeek, index)

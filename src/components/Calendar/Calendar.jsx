@@ -6,6 +6,8 @@ import CalendarController from "./CalendarController";
 import DayAndTime from "./DayAndTime";
 import MonthSelection from "./MonthSelection";
 
+
+
 const Calendar = () => {
 
     return (
@@ -13,16 +15,16 @@ const Calendar = () => {
         <CalendarController>
             {
                 (props) => {
-                    const {day, month, prev, next, usersEvent, error, isLoaded,users} = props
-                    if (error) {
-                        return <div>Ошибка: {error.message}</div>;
+                    const {usersEvent, state} = props
+                    if (state.error) {
+                        return <div>Ошибка: {state.error.message}</div>;
                     }
-                    if (!isLoaded) {
+                    if (!state.isLoaded) {
                         return <div>Загрузка...</div>;
                     }
                     return <div className={classes.calendarWidth}>
-                        <DayAndTime day={day}/>
-                        <MonthSelection month={month} prev={prev} next={next}>
+                        <DayAndTime/>
+                        <MonthSelection>
                             <Month/>
                         </MonthSelection >
                         <EventForm/>

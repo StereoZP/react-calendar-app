@@ -11,13 +11,13 @@ const ListOfUsers = () => {
     const dateContext = useContext(DateContext)
 
     useMemo(() => {
-        const filtered = dateContext.users.filter(
+        const filtered = dateContext.state.users.filter(
             (person) =>
                 person.firstName.toLowerCase().startsWith(searchText.toLowerCase()) ||
                 person.lastName.toLowerCase().startsWith(searchText.toLowerCase())
         );
         setFilteredPerson(filtered);
-    }, [searchText, dateContext.users]);
+    }, [searchText, dateContext.state.users]);
 
     const handleSearch = (event) => {
         setSearchText(event.target.value);

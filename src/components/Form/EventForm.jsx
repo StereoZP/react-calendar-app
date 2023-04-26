@@ -12,12 +12,11 @@ const EventForm = () => {
             {(props) => {
                 const {openModal, dateContext} = props
                 return <div className={classes.doubleContainer} style={{border: "1px solid rgb(100, 100, 100)"}}>
-                    <div
-                        className={classes.selectedDay}>{format(dateContext.selected, 'EEEE d')}</div>
+                    <div className={classes.selectedDay}>{format(dateContext.state.selected, 'EEEE d')}</div>
                     <button className={classes.buttonStyles} onClick={openModal}>
                         +
                     </button>
-                    <Modal className={classes.modalContainer} visible={dateContext.modal} setVisible={dateContext.setModal}>
+                    <Modal className={classes.modalContainer} visible={dateContext.state.modal} setVisible={()=>dateContext.dispatch({type:'setModal'})}>
                         <EventModal setCheckbox={dateContext.setCheckbox}/>
                     </Modal>
                 </div>

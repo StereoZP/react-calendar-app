@@ -14,7 +14,7 @@ const User = ({id, firstName, lastName, email, color, selected}) => {
     const stylesButton = [(selected===true) ? cl.buttonStyleActive : cl.buttonStyle].join('')
 
     const usersSelectedUpdate = (userId) => {
-        const updatedUsers = dateContext.users.map(user => {
+        const updatedUsers = dateContext.state.users.map(user => {
             if (user.id === userId) {
                 return {
                     ...user,
@@ -23,7 +23,7 @@ const User = ({id, firstName, lastName, email, color, selected}) => {
             }
             return user;
         });
-        dateContext.setUsers(updatedUsers);
+        dateContext.dispatch({type:"setUsers", payload:updatedUsers});
     };
 
     return (

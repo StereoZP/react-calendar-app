@@ -5,18 +5,17 @@ import cl from "./Form.module.css";
 import inpCl from "../UI/CustomInput/Input.module.css";
 import {format,} from "date-fns";
 import {EventFormContext} from "../Context/eventFormContext";
-import {validationSchema} from "../../Validation/validationSchema";
+import {validationSchema} from "../../validation/validationSchema";
 
 const FormController = (props) => {
     const dateContext = useContext(DateContext)
     const [post, setPost] = useState({title: '',body:''})
 
-
     const blockStyles = [cl.formBlock, cl.topPadding].join(' ');
-    const inputStylesBody = [(dateContext.errorBody !== null) ? inpCl.myInputErr : inpCl.myInput]
-    const inputStylesTitle = [(dateContext.errorTitle !== null) ? inpCl.myInputErr : inpCl.myInput]
+    const inputStylesBody = [(dateContext.state.errorBody !== null) ? inpCl.myInputErr : inpCl.myInput]
+    const inputStylesTitle = [(dateContext.state.errorTitle !== null) ? inpCl.myInputErr : inpCl.myInput]
 
-    const selectedMembers = dateContext.userSelectedTrue.map(user => ({
+    const selectedMembers = dateContext.selectedUsers.map(user => ({
         id: user.id,
         firstName: user.firstName,
         lastName: user.lastName,
@@ -30,10 +29,10 @@ const FormController = (props) => {
                 const newEvent = {
                     ...post,
                     id: Date.now(),
-                    date: format(dateContext.startDate, 'y-MM-dd'),
-                    checkbox:dateContext.checkbox,
-                    startTime:(!dateContext.checkbox) ? format(dateContext.startDate, 'HH:mm') : null,
-                    endTime:(!dateContext.checkbox) ? format(dateContext.endDate, 'HH:mm') : null,
+                    date: format(dateContext.state.startDate, 'y-MM-dd'),
+                    checkbox:dateContext.state.checkbox,
+                    startTime:(!dateContext.state.checkbox) ? format(dateContext.state.startDate, 'HH:mm') : null,
+                    endTime:(!dateContext.state.checkbox) ? format(dateContext.state.endDate, 'HH:mm') : null,
                     members: selectedMembers,
                 }
                 dateContext.createEvent(newEvent);
@@ -41,27 +40,27 @@ const FormController = (props) => {
             })
             .catch((err) => {
                 if(err.message === 'Add title' || err.message === 'Max size 10 letters'){
-                    dateContext.setErrorTitle(new Error(err.message))
+                    dateContext.dispatch({type:"setErrorTitle", payload:new Error(err.message)})
                 }
                 if(err.message === 'Add event'){
-                    dateContext.setErrorBody(new Error(err.message))
+                    dateContext.dispatch({type:"setErrorBody", payload:new Error(err.message)})
                 }
             });
     }
 
     const openModal = () =>{
         setPost({title: '', body: ''})
-        dateContext.setModal(true)
-        dateContext.setErrorTitle(null)
-        dateContext.setErrorBody(null)
-        dateContext.setCheckbox(true)
-        dateContext.setStartDate(dateContext.selected)
-        dateContext.setEndDate(dateContext.selected)
-        dateContext.setUsers(dateContext.userSelectedFalse);
+        dateContext.dispatch({type:'setModal', payload:true})
+        dateContext.dispatch({type:"setErrorTitle", payload:null})
+        dateContext.dispatch({type:"setErrorBody", payload:null})
+        dateContext.dispatch({ type: 'setCheckbox', payload: true})
+        dateContext.dispatch({ type: 'setStartDate', payload: dateContext.state.selected})
+        dateContext.dispatch({ type: 'setEndDate', payload: dateContext.state.selected})
+        dateContext.dispatch({type:'setUsers', payload:dateContext.notSelectedUsers})
     }
 
     const closeModal = () => {
-        dateContext.setModal(false)
+        dateContext.dispatch({type:'setModal', payload:false})
     }
 
     return (

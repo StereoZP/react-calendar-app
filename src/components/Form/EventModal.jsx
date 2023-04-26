@@ -27,8 +27,8 @@ const EventModal = () => {
                         placeholder="Title"
                     />
                         {
-                            dateContext.errorTitle ?
-                                <div style={{color: "red"}}>{dateContext.errorTitle.message}</div> :
+                            dateContext.state.errorTitle ?
+                                <div style={{color: "red"}}>{dateContext.state.errorTitle.message}</div> :
                                 ""
                         }
                     <Input
@@ -39,28 +39,28 @@ const EventModal = () => {
                         placeholder="Event"
                     />
                     {
-                        dateContext.errorBody ?
-                            <div style={{color: "red"}}>{dateContext.errorBody.message}</div> :
+                        dateContext.state.errorBody ?
+                            <div style={{color: "red"}}>{dateContext.state.errorBody.message}</div> :
                             ""
                     }
                 </div>
                 <div className={cl.formBlock}>
                     <div className={cl.inputCheckbox}>
-                        <input type="checkbox" checked={dateContext.checkbox} onChange={dateContext.checkboxController}/>
+                        <input type="checkbox" checked={dateContext.state.checkbox} onChange={dateContext.checkboxController}/>
                     </div>
                     <div className={cl.inputCheckbox}>All day</div>
                 </div>
             </div>
             {
-                !dateContext.checkbox ?
+                !dateContext.state.checkbox ?
                     <SelectedTime/> :
                     ''
             }
             <div className={event.blockStyles}>
                 <div>Select another date:</div>
                 <div>
-                    <DatePicker selected={dateContext.startDate}
-                                onChange={(date) => dateContext.setStartDate(date)}
+                    <DatePicker selected={dateContext.state.startDate}
+                                onChange={(date) => dateContext.dispatch({ type: 'setStartDate', payload: date})}
                     />
                 </div>
             </div>
@@ -68,7 +68,7 @@ const EventModal = () => {
                 <button className={classes.buttonStyles} onClick={event.addNewPost}>Add event</button>
                 <button className={classes.buttonStyles} onClick={dateContext.openMembersModal}>Add members</button>
             </div>
-            <Modal className={classes.modalContainer} visible={dateContext.membersModal} setVisible={dateContext.setMembersModal}>
+            <Modal className={classes.modalContainer} visible={dateContext.state.membersModal} setVisible={()=>dateContext.dispatch({ type: 'setMembersModal'})}>
                 <ListOfUsers/>
                     <button className={classes.buttonStyles} onClick={dateContext.closeMembersModal}>Add</button>
             </Modal>

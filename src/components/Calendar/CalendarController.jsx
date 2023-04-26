@@ -1,34 +1,148 @@
-import React from 'react';
-import {useEffect, useMemo, useState} from "react";
+import React, {useReducer} from 'react';
+import {useEffect, useMemo} from "react";
 import {add, format, isSameDay, parseISO, setHours, setMinutes} from "date-fns";
 import EventList from "../Event/EventList";
 import {DateContext} from "../Context/dateContext";
-import EventController from "../Event/EventController";
+
+const initialState = {
+    day: new Date(),
+    month: new Date(),
+    selected: new Date(),
+    startDate: setHours(setMinutes(new Date(), 0), 9),
+    endDate: setHours(setMinutes(new Date(), 0), 9),
+    event: [],
+    error: null,
+    isLoaded: false,
+    deleteEvent: [],
+    modal: false,
+    confirmDeleteModal: false,
+    updateModal: false,
+    updateTitle: '',
+    updateBody: '',
+    confirmUpdateModal: false,
+    membersModal: false,
+    checkbox: true,
+    errorTitle: null,
+    errorBody: null,
+    users: [
+        {
+            id: 1,
+            firstName: "Alex",
+            lastName: "Sumrii",
+            email: "alex_sumrii@gmail.com",
+            color: "#FF5733",
+            selected: false
+        },
+        {
+            id: 2,
+            firstName: "Vladimir",
+            lastName: "Ozirskiy",
+            email: "vladimir_ozirskiy@gmail.com",
+            color: "#900C3F",
+            selected: false
+        },
+        {
+            id: 3,
+            firstName: "Stepan",
+            lastName: "Bandera",
+            email: "stepan_bandera@gmail.com",
+            color: "#581845",
+            selected: false
+        },
+    ]
+};
+
+function reducer(state, action) {
+    switch (action.type) {
+        case 'setDay':
+            return {...state, day: action.payload};
+        case 'setMonth':
+            return {...state, month: action.payload};
+        case 'setSelected':
+            return {...state, selected: action.payload};
+        case 'setStartDate':
+            return {...state, startDate: action.payload};
+        case 'setEndDate':
+            return {...state, endDate: action.payload};
+        case 'setEvent':
+            return {...state, event: action.payload};
+        case 'setError':
+            return {...state, error: action.payload};
+        case 'setIsLoaded':
+            return {...state, isLoaded: action.payload};
+        case 'setDeleteEvent':
+            return {...state, deleteEvent: action.payload};
+        case 'setModal':
+            return {...state, modal: action.payload};
+        case 'setConfirmDeleteModal':
+            return {...state, confirmDeleteModal: action.payload};
+        case 'setUpdateModal':
+            return {...state, updateModal: action.payload};
+        case 'setUpdateTitle':
+            return {...state, updateTitle: action.payload};
+        case 'setUpdateBody':
+            return {...state, updateBody: action.payload};
+        case 'setConfirmUpdateModal':
+            return {...state, confirmUpdateModal: action.payload};
+        case 'setMembersModal':
+            return {...state, membersModal: action.payload};
+        case 'setCheckbox':
+            return {...state, checkbox: action.payload};
+        case 'setErrorTitle':
+            return {...state, errorTitle: action.payload};
+        case 'setErrorBody':
+            return {...state, errorBody: action.payload};
+        case 'setUsers':
+            return {...state, users: action.payload};
+        case 'PREV_MONTH':
+            return {month: add(state.month, {months: -1})}
+        case 'NEXT_MONTH':
+            return {month: add(state.month, {months: 1})}
+        default:
+            return state;
+    }
+}
 
 const CalendarController = (props) => {
+        const [state, dispatch] = useReducer(reducer, initialState);
 
-    const [day, ] = useState(new Date())
-    const [month, setMonth] = useState(new Date())
-    const [selected, setSelected] = useState(new Date())
-    const [error, setError] = useState(null);
-    const [isLoaded, setIsLoaded] = useState(false);
-    const [startDate, setStartDate] = useState(setHours(setMinutes(selected, 0), 9))
-    const [endDate, setEndDate] = useState(setHours(setMinutes(selected, 0), 9))
-    const [event, setEvent] = useState([]);
-    const [deleteEvent, setDeleteEvent] = useState([])
-    const [modal, setModal] = useState(false)
-    const [confirmDeleteModal, setConfirmDeleteModal] = useState(false)
-    const [membersModal, setMembersModal] = useState(false)
+        /*setInterval(() => {
+            setDay(new Date())
+        }, 1000)*/
 
-    const [checkbox, setCheckbox] = useState(true)
-    const [errorTitle, setErrorTitle] = useState(null);
-    const [errorBody, setErrorBody] = useState(null);
-    const [users, setUsers] = useState([{id: 1, firstName: "Alex", lastName: "Sumrii", email:"alex_sumrii@gmail.com", color: "#FF5733", selected:false},
-        {id: 2, firstName: "Vladimir", lastName: "Ozirskiy", email:"vladimir_ozirskiy@gmail.com", color: "#900C3F", selected:false},
-        {id: 3, firstName: "Stepan", lastName: "Bandera", email:"stepan_bandera@gmail.com", color: "#581845", selected:false}])
+        const createEvent = (newEvent) => {
+            dispatch({type: 'setEvent', payload: [...state.event, newEvent]})
+        }
 
-    const userSelectedTrue = users.filter(user => user.selected);
-    const userSelectedFalse = users.map(user => {
+        const removeEvent = () => {
+            dispatch({type: 'setEvent', payload: state.deleteEvent})
+            dispatch({type: 'setConfirmDeleteModal', payload: false})
+        }
+
+        const openDeleteModal = (post) => {
+            dispatch({type: 'setConfirmDeleteModal', payload: true})
+            dispatch({type: 'setDeleteEvent', payload: state.event.filter(p => p.id !== post.id)})
+        }
+
+        const closeDeleteModal = () => {
+            dispatch({type: 'setConfirmDeleteModal', payload: false})
+        }
+
+        const openMembersModal = () => {
+            dispatch({type: 'setMembersModal', payload: true})
+        }
+
+        const closeMembersModal = () => {
+            dispatch({type: 'setMembersModal', payload: false})
+        }
+
+        const openConfirmModal = () => {
+            dispatch({type: 'setConfirmUpdateModal', payload: true})
+            dispatch({type: 'setUpdateModal', payload: false})
+        }
+
+        const selectedUsers = state.users.filter(user => user.selected);
+        const notSelectedUsers = state.users.map(user => {
             if (user.selected) {
                 return {
                     ...user,
@@ -38,147 +152,104 @@ const CalendarController = (props) => {
             return user;
         });
 
-    /*setInterval(() => {
-        setDay(new Date())
-    }, 1000)*/
 
-    const prev = () => {
-        setMonth(add(month, {months: -1}))
-    }
-
-    const next = () => {
-        setMonth(add(month, {months: 1}))
-    }
-
-    const createEvent = (newEvent) => {
-        setEvent([...event, newEvent])
-    }
-
-    const removeEvent = () => {
-        setEvent(deleteEvent)
-        setConfirmDeleteModal(false)
-    }
-
-    const openDeleteModal = (post) => {
-        setConfirmDeleteModal(true)
-        setDeleteEvent(event.filter(p => p.id !== post.id))
-    }
-
-    const closeDeleteModal = () => {
-        setConfirmDeleteModal(false)
-    }
-
-    const openMembersModal = () => {
-        setMembersModal(true)
-    }
-
-    const closeMembersModal = () => {
-        setMembersModal(false)
-    }
-
-    const updateEvent = (id, newTitle, newBody, confirm) => {
-        const updatedTitleAndBody = event.map((item) =>
-            item.id === id && !checkbox && (item.selected || !item.selected)  ? {...item, title: newTitle, body: newBody, startTime:format(startDate, 'HH:mm'),
-                endTime:format(endDate, 'HH:mm'), members:userSelectedTrue} :
-            item.id === id && checkbox && (item.selected || !item.selected) ? {...item, title: newTitle, body: newBody, startTime:null,
-                endTime:null , members:userSelectedTrue} : item);
-        if (confirm) {
-            setEvent(updatedTitleAndBody)
-        }
-    };
-
-        const checkboxController = () =>{
-            if(checkbox){
-                setCheckbox(false)
+        const checkboxController = () => {
+            if (state.checkbox) {
+                dispatch({type: 'setCheckbox', payload: false})
             }
-            if(!checkbox){
-                setCheckbox(true)
+            if (!state.checkbox) {
+                dispatch({type: 'setCheckbox', payload: true})
             }
         }
 
-    const usersEvent = event.map((item, index) => {
-        if (isSameDay(selected, parseISO(item.date))) {
-            return <EventController key={index} event={item} id={item.id} eventTitle={item.title} eventBody={item.body}
-                                    addDate={item.date} startTime={item.startTime} endTime={item.endTime} members={item.members}>
-                <EventList/>
-            </EventController>
-        }
-    })
-
-    const dateCounts = useMemo(() => {
-        return event.reduce((acc, obj) => {
-            const date = obj.date;
-            if (!acc[date]) {
-                acc[date] = 0;
+        const usersEvent = state.event.map((item, index) => {
+            if (isSameDay(state.selected, parseISO(item.date))) {
+                return <EventList key={index} id={item.id} event={item} eventTitle={item.title} eventBody={item.body}
+                                  addDate={item.date} startTime={item.startTime} endTime={item.endTime}
+                                  members={item.members}/>
             }
-            acc[date]++;
+        })
 
-            return acc;
-        }, {})
-    }, [event])
-
-    useEffect(() => {
-        try {
-            async function getJson() {
-                const response = await fetch("/data.json")
-                if (response.status === 200) {
-                    setIsLoaded(true)
-                    const json = await response.json()
-                    return setEvent(json);
+        const updateEvent = (id, newTitle, newBody, confirm) => {
+            const updatedTitleAndBody = state.event.map((item) => {
+                if (item.id === id && !state.checkbox && (item.selected || !item.selected)) {
+                    return {
+                        ...item,
+                        title: newTitle,
+                        body: newBody,
+                        startTime: format(state.startDate, 'HH:mm'),
+                        endTime: format(state.endDate, 'HH:mm'),
+                        members: selectedUsers
+                    }
                 }
+                if (item.id === id && state.checkbox && (item.selected || !item.selected)) {
+                    return {
+                        ...item,
+                        title: newTitle,
+                        body: newBody,
+                        members: selectedUsers
+                    }
+                }
+                return item
+            })
+            if (confirm) {
+                dispatch({type: 'setEvent', payload: updatedTitleAndBody})
             }
+        };
+console.log(state.event)
+        const dateCounts = useMemo(() => {
+            return state.event.reduce((acc, obj) => {
+                const date = obj.date;
+                if (!acc[date]) {
+                    acc[date] = 0;
+                }
+                acc[date]++;
 
-            getJson()
-        } catch (err) {
-            setError(new Error(err.message))
-        } finally {
-            setIsLoaded(true)
-        }
-    }, [])
+                return acc;
+            }, {})
+        }, [state.event])
 
-    return (
-        <div>
-            <DateContext.Provider value={{
-                createEvent,
-                removeEvent,
-                updateEvent,
-                openDeleteModal,
-                closeDeleteModal,
-                checkboxController,
-                openMembersModal,
-                closeMembersModal,
-                userSelectedTrue,
-                userSelectedFalse,
-                selected,
-                setSelected,
-                month,
-                event,
-                startDate,
-                setStartDate,
-                endDate,
-                setEndDate,
-                dateCounts,
-                setEvent,
-                modal,
-                setModal,
-                checkbox,
-                setCheckbox,
-                errorTitle,
-                setErrorTitle,
-                errorBody,
-                setErrorBody,
-                confirmDeleteModal,
-                setConfirmDeleteModal,
-                users,
-                setUsers,
-                membersModal,
-                setMembersModal,
-            }}>
-                {props.children({day, month, prev, next, usersEvent, error, isLoaded})}
-            </DateContext.Provider>
-        </div>
-    );
-}
-    ;
+        useEffect(() => {
+            try {
+                async function getJson() {
+                    const response = await fetch("/data.json")
+                    if (response.status === 200) {
+                        dispatch({type: 'setIsLoaded', payload: true})
+                        const json = await response.json()
+                        return dispatch({type: 'setEvent', payload: json});
+                    }
+                }
 
-    export default CalendarController;
+                getJson()
+            } catch (err) {
+                dispatch({type: 'setError', payload: new Error(err.message)})
+            } finally {
+                dispatch({type: 'setIsLoaded', payload: true})
+            }
+        }, [])
+
+        return (
+            <div>
+                <DateContext.Provider value={{
+                    createEvent,
+                    removeEvent,
+                    updateEvent,
+                    openDeleteModal,
+                    closeDeleteModal,
+                    checkboxController,
+                    openMembersModal,
+                    closeMembersModal,
+                    openConfirmModal,
+                    selectedUsers,
+                    notSelectedUsers,
+                    dateCounts,
+                    state, dispatch
+                }}>
+                    {props.children({usersEvent, state})}
+                </DateContext.Provider>
+            </div>
+        );
+    }
+;
+
+export default CalendarController;
