@@ -7,13 +7,13 @@ const EventTimeRange = () => {
     return (
         <div>
             {
-                dateContext.state.event.startTime ?
+                dateContext.state.events.startTime ?
                     <div>
                         <div>
-                            <div>From:{dateContext.state.event.startTime}</div>
+                            <div>From:{dateContext.state.events.startTime}</div>
                         </div>
                         <div>
-                            <div>To:{dateContext.state.event.endTime}</div>
+                            <div>To:{dateContext.state.events.endTime}</div>
                         </div>
                     </div> :
                     ""

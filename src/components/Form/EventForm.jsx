@@ -17,7 +17,7 @@ const EventForm = () => {
                         +
                     </button>
                     <Modal className={classes.modalContainer} visible={dateContext.state.modal} setVisible={()=>dateContext.dispatch({type:'setModal'})}>
-                        <EventModal setCheckbox={dateContext.setCheckbox}/>
+                        <EventModal setCheckbox={()=>dateContext.dispatch({type:"setAllDayEvent"})}/>
                     </Modal>
                 </div>
                 }

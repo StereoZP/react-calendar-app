@@ -46,13 +46,13 @@ const EventModal = () => {
                 </div>
                 <div className={cl.formBlock}>
                     <div className={cl.inputCheckbox}>
-                        <input type="checkbox" checked={dateContext.state.checkbox} onChange={dateContext.checkboxController}/>
+                        <input type="checkbox" checked={dateContext.state.isAllDayEvent} onChange={dateContext.isAllDayEventController}/>
                     </div>
                     <div className={cl.inputCheckbox}>All day</div>
                 </div>
             </div>
             {
-                !dateContext.state.checkbox ?
+                !dateContext.state.isAllDayEvent ?
                     <SelectedTime/> :
                     ''
             }
@@ -66,9 +66,9 @@ const EventModal = () => {
             </div>
             <div className={cl.formBlock}>
                 <button className={classes.buttonStyles} onClick={event.addNewPost}>Add event</button>
-                <button className={classes.buttonStyles} onClick={dateContext.openMembersModal}>Add members</button>
+                <button className={classes.buttonStyles} onClick={dateContext.openMembersModal}>Add users</button>
             </div>
-            <Modal className={classes.modalContainer} visible={dateContext.state.membersModal} setVisible={()=>dateContext.dispatch({ type: 'setMembersModal'})}>
+            <Modal className={classes.modalContainer} visible={dateContext.state.isUserModalOpen} setVisible={()=>dateContext.dispatch({ type: 'setMembersModal'})}>
                 <ListOfUsers/>
                     <button className={classes.buttonStyles} onClick={dateContext.closeMembersModal}>Add</button>
             </Modal>

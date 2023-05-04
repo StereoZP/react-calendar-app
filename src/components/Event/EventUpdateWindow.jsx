@@ -13,7 +13,7 @@ const EventUpdateWindow = () => {
     const dateContext = useContext(DateContext)
     return (
         <div>
-            <Modal className={classes.modalContainer} visible={dateContext.state.updateModal}
+            <Modal className={classes.modalContainer} visible={dateContext.state.isUpdateEventModalOpen}
                    setVisible={()=>dateContext.dispatch({type:"setUpdateModal"})}>
                 <div className={cl.inputBlock}>
                     <div>
@@ -32,22 +32,22 @@ const EventUpdateWindow = () => {
                     </div>
                     <div className={cl.formBlock}>
                         <div className={cl.inputCheckbox}>
-                            <input type="checkbox" checked={dateContext.state.checkbox} onChange={dateContext.checkboxController}/>
+                            <input type="checkbox" checked={dateContext.state.isAllDayEvent} onChange={dateContext.isAllDayEventController}/>
                         </div>
                         <div className={cl.inputCheckbox}>All day</div>
                     </div>
                 </div>
                 {
-                    !dateContext.state.checkbox ?
+                    !dateContext.state.isAllDayEvent ?
                         <SelectedTime/> :
                         ''
                 }
                 <div className={cl.formBlock}>
                     <button className={classes.buttonStyles} style={{marginTop: "10px"}} onClick={dateContext.openConfirmModal}>Update</button>
-                    <button className={classes.buttonStyles} onClick={dateContext.openMembersModal}>Add members</button>
+                    <button className={classes.buttonStyles} onClick={dateContext.openMembersModal}>Add users</button>
                 </div>
             </Modal>
-            <Modal className={classes.modalContainer} visible={dateContext.state.membersModal} setVisible={()=>dateContext.dispatch({ type: 'setMembersModal'})}>
+            <Modal className={classes.modalContainer} visible={dateContext.state.isUserModalOpen} setVisible={()=>dateContext.dispatch({ type: 'setMembersModal'})}>
                 <ListOfUsers/>
                     <button className={classes.buttonStyles} onClick={dateContext.closeMembersModal}>Add</button>
             </Modal>

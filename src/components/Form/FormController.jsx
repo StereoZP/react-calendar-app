@@ -30,10 +30,10 @@ const FormController = (props) => {
                     ...post,
                     id: Date.now(),
                     date: format(dateContext.state.startDate, 'y-MM-dd'),
-                    checkbox:dateContext.state.checkbox,
-                    startTime:(!dateContext.state.checkbox) ? format(dateContext.state.startDate, 'HH:mm') : null,
-                    endTime:(!dateContext.state.checkbox) ? format(dateContext.state.endDate, 'HH:mm') : null,
-                    members: selectedMembers,
+                    isAllDayEvent:dateContext.state.isAllDayEvent,
+                    startTime:(!dateContext.state.isAllDayEvent) ? format(dateContext.state.startDate, 'HH:mm') : null,
+                    endTime:(!dateContext.state.isAllDayEvent) ? format(dateContext.state.endDate, 'HH:mm') : null,
+                    users: selectedMembers,
                 }
                 dateContext.createEvent(newEvent);
                 closeModal()
@@ -50,13 +50,7 @@ const FormController = (props) => {
 
     const openModal = () =>{
         setPost({title: '', body: ''})
-        dateContext.dispatch({type:'setModal', payload:true})
-        dateContext.dispatch({type:"setErrorTitle", payload:null})
-        dateContext.dispatch({type:"setErrorBody", payload:null})
-        dateContext.dispatch({ type: 'setCheckbox', payload: true})
-        dateContext.dispatch({ type: 'setStartDate', payload: dateContext.state.selected})
-        dateContext.dispatch({ type: 'setEndDate', payload: dateContext.state.selected})
-        dateContext.dispatch({type:'setUsers', payload:dateContext.notSelectedUsers})
+        dateContext.dispatch({type:'openModal', payload:dateContext.notSelectedUsers})
     }
 
     const closeModal = () => {

@@ -168,7 +168,7 @@
     height: 100%;
     width: 100%;
 }
-.members{
+.users{
     display: flex;
     flex-direction: row;
     justify-content: left;

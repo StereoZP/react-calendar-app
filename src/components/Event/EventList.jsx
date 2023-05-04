@@ -11,13 +11,10 @@ import EventTimeRange from "./EventTimeRange";
 const EventList = (props) => {
 
     const dateContext = useContext(DateContext)
-    const {eventTitle, eventBody, addDate, event, id, members} = props
+    const {eventTitle, eventBody, addDate, id, users} = props
 
     const openUpdateModal = () => {
-        dateContext.dispatch({ type: 'setCheckbox', payload: true})
-        dateContext.dispatch({ type: 'setUpdateModal', payload: true})
-        dateContext.dispatch({ type: 'setUpdateTitle', payload: eventTitle})
-        dateContext.dispatch({ type: 'setUpdateBody', payload: eventBody})
+        dateContext.dispatch({ type: 'setOpenUpdateModal', payload:{eventTitle, eventBody}})
     }
 
     const confirmUpdate = () =>{
@@ -32,8 +29,14 @@ const EventList = (props) => {
         dateContext.updateEvent(id, eventTitle, eventBody, false)
     }
 
-    const listOfMembers = members.map((item,index)=>{
+    const listOfMembers = users.map((item,index)=>{
          return <div key={index}>{item.firstName} {item.lastName};</div>})
+
+    const removeEvent = (id) => {
+        dateContext.dispatch({type: 'removeEvent', payload: id})
+        dateContext.dispatch({type: 'setConfirmDeleteModal', payload: false})
+    }
+
 
     return (
         <div className={classes.eventContainer}>
@@ -45,15 +48,15 @@ const EventList = (props) => {
                 <EventTimeRange/>
             </div>
                 {
-                    members.length>0 ?
-                        <div className={classes.members}>Members: {listOfMembers}</div>: ""
+                    users.length>0 ?
+                        <div className={classes.users}>Members: {listOfMembers}</div>: ""
                 }
             <div className={cl.topPadding} style={{fontSize: "14px"}}>
                 <div className={cl.updateAndDeleteContainer}>
                     <div>{addDate}</div>
                     <div>
                         <button className={cl.image} onClick={openUpdateModal}><img src={updateIcon} alt="Update"/></button>
-                        <button className={cl.image} onClick={()=>dateContext.openDeleteModal(event)}><img
+                        <button className={cl.image} onClick={dateContext.openDeleteModal}><img
                             src={deleteIcon} alt="Delete"/>
                         </button>
                     </div>
@@ -71,7 +74,7 @@ const EventList = (props) => {
                                setVisible={()=>dateContext.dispatch({type:"setConfirmDeleteModal"})}>
                     <p>Are you sure to delete event?</p>
                     <div className={classes.doubleContainer}>
-                        <button className={classes.buttonStyles} onClick={dateContext.removeEvent}>Ok</button>
+                        <button className={classes.buttonStyles} onClick={()=>removeEvent(id)}>Ok</button>
                         <button className={classes.buttonStyles} onClick={dateContext.closeDeleteModal}>Cansel</button>
                     </div>
                 </ConfirmWindow>

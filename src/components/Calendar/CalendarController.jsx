@@ -1,107 +1,10 @@
 import React, {useReducer} from 'react';
 import {useEffect, useMemo} from "react";
-import {add, format, isSameDay, parseISO, setHours, setMinutes} from "date-fns";
+import {format, isSameDay, parseISO} from "date-fns";
 import EventList from "../Event/EventList";
 import {DateContext} from "../Context/dateContext";
-
-const initialState = {
-    day: new Date(),
-    month: new Date(),
-    selected: new Date(),
-    startDate: setHours(setMinutes(new Date(), 0), 9),
-    endDate: setHours(setMinutes(new Date(), 0), 9),
-    event: [],
-    error: null,
-    isLoaded: false,
-    deleteEvent: [],
-    modal: false,
-    confirmDeleteModal: false,
-    updateModal: false,
-    updateTitle: '',
-    updateBody: '',
-    confirmUpdateModal: false,
-    membersModal: false,
-    checkbox: true,
-    errorTitle: null,
-    errorBody: null,
-    users: [
-        {
-            id: 1,
-            firstName: "Alex",
-            lastName: "Sumrii",
-            email: "alex_sumrii@gmail.com",
-            color: "#FF5733",
-            selected: false
-        },
-        {
-            id: 2,
-            firstName: "Vladimir",
-            lastName: "Ozirskiy",
-            email: "vladimir_ozirskiy@gmail.com",
-            color: "#900C3F",
-            selected: false
-        },
-        {
-            id: 3,
-            firstName: "Stepan",
-            lastName: "Bandera",
-            email: "stepan_bandera@gmail.com",
-            color: "#581845",
-            selected: false
-        },
-    ]
-};
-
-function reducer(state, action) {
-    switch (action.type) {
-        case 'setDay':
-            return {...state, day: action.payload};
-        case 'setMonth':
-            return {...state, month: action.payload};
-        case 'setSelected':
-            return {...state, selected: action.payload};
-        case 'setStartDate':
-            return {...state, startDate: action.payload};
-        case 'setEndDate':
-            return {...state, endDate: action.payload};
-        case 'setEvent':
-            return {...state, event: action.payload};
-        case 'setError':
-            return {...state, error: action.payload};
-        case 'setIsLoaded':
-            return {...state, isLoaded: action.payload};
-        case 'setDeleteEvent':
-            return {...state, deleteEvent: action.payload};
-        case 'setModal':
-            return {...state, modal: action.payload};
-        case 'setConfirmDeleteModal':
-            return {...state, confirmDeleteModal: action.payload};
-        case 'setUpdateModal':
-            return {...state, updateModal: action.payload};
-        case 'setUpdateTitle':
-            return {...state, updateTitle: action.payload};
-        case 'setUpdateBody':
-            return {...state, updateBody: action.payload};
-        case 'setConfirmUpdateModal':
-            return {...state, confirmUpdateModal: action.payload};
-        case 'setMembersModal':
-            return {...state, membersModal: action.payload};
-        case 'setCheckbox':
-            return {...state, checkbox: action.payload};
-        case 'setErrorTitle':
-            return {...state, errorTitle: action.payload};
-        case 'setErrorBody':
-            return {...state, errorBody: action.payload};
-        case 'setUsers':
-            return {...state, users: action.payload};
-        case 'PREV_MONTH':
-            return {month: add(state.month, {months: -1})}
-        case 'NEXT_MONTH':
-            return {month: add(state.month, {months: 1})}
-        default:
-            return state;
-    }
-}
+import {reducer} from "../../store/reducer";
+import initialState from "../../store/store"
 
 const CalendarController = (props) => {
         const [state, dispatch] = useReducer(reducer, initialState);
@@ -111,17 +14,13 @@ const CalendarController = (props) => {
         }, 1000)*/
 
         const createEvent = (newEvent) => {
-            dispatch({type: 'setEvent', payload: [...state.event, newEvent]})
+            dispatch({type: 'setEvent', payload: newEvent})
         }
 
-        const removeEvent = () => {
-            dispatch({type: 'setEvent', payload: state.deleteEvent})
-            dispatch({type: 'setConfirmDeleteModal', payload: false})
-        }
 
-        const openDeleteModal = (post) => {
+        const openDeleteModal = () => {
             dispatch({type: 'setConfirmDeleteModal', payload: true})
-            dispatch({type: 'setDeleteEvent', payload: state.event.filter(p => p.id !== post.id)})
+            //dispatch({type: 'setDeleteEvent', payload: state.event.filter(p => p.id !== post.id)})
         }
 
         const closeDeleteModal = () => {
@@ -141,53 +40,49 @@ const CalendarController = (props) => {
             dispatch({type: 'setUpdateModal', payload: false})
         }
 
-        const selectedUsers = state.users.filter(user => user.selected);
-        const notSelectedUsers = state.users.map(user => {
-            if (user.selected) {
-                return {
-                    ...user,
-                    selected: !user.selected
-                };
-            }
-            return user;
-        });
+        const [selectedUsers, notSelectedUsers] = useMemo(() => {
+            //debugger
+            const selected = state.users?.filter(user => user.selected);
+            const notSelected = state.users?.map(user => {
+                if (user.selected) {
+                    return {
+                        ...user,
+                        selected: !user.selected
+                    };
+                }
+                return user;
+            });
+            return [selected, notSelected];
+        }, [state.users]);
 
-
-        const checkboxController = () => {
-            if (state.checkbox) {
-                dispatch({type: 'setCheckbox', payload: false})
-            }
-            if (!state.checkbox) {
-                dispatch({type: 'setCheckbox', payload: true})
-            }
+        const isAllDayEventController = () => {
+            dispatch({type: 'setAllDayEvent', payload: !state.isAllDayEvent}) 
         }
 
-        const usersEvent = state.event.map((item, index) => {
-            if (isSameDay(state.selected, parseISO(item.date))) {
-                return <EventList key={index} id={item.id} event={item} eventTitle={item.title} eventBody={item.body}
-                                  addDate={item.date} startTime={item.startTime} endTime={item.endTime}
-                                  members={item.members}/>
-            }
+        const usersEvent = state.events.filter(item => isSameDay(state.selected, parseISO(item.date))).map((item) => {
+            return <EventList key={item.id} id={item.id} event={item} eventTitle={item.title} eventBody={item.body}
+                              addDate={item.date} startTime={item.startTime} endTime={item.endTime}
+                              users={item.users}/>
         })
 
         const updateEvent = (id, newTitle, newBody, confirm) => {
-            const updatedTitleAndBody = state.event.map((item) => {
-                if (item.id === id && !state.checkbox && (item.selected || !item.selected)) {
+            const updatedTitleAndBody = state.events.map((item) => {
+                if (item.id === id && !state.isAllDayEvent && (item.selected || !item.selected)) {
                     return {
                         ...item,
                         title: newTitle,
                         body: newBody,
                         startTime: format(state.startDate, 'HH:mm'),
                         endTime: format(state.endDate, 'HH:mm'),
-                        members: selectedUsers
+                        users: selectedUsers
                     }
                 }
-                if (item.id === id && state.checkbox && (item.selected || !item.selected)) {
+                if (item.id === id && state.isAllDayEvent && (item.selected || !item.selected)) {
                     return {
                         ...item,
                         title: newTitle,
                         body: newBody,
-                        members: selectedUsers
+                        users: selectedUsers
                     }
                 }
                 return item
@@ -196,9 +91,9 @@ const CalendarController = (props) => {
                 dispatch({type: 'setEvent', payload: updatedTitleAndBody})
             }
         };
-console.log(state.event)
+
         const dateCounts = useMemo(() => {
-            return state.event.reduce((acc, obj) => {
+            return state.events.reduce((acc, obj) => {
                 const date = obj.date;
                 if (!acc[date]) {
                     acc[date] = 0;
@@ -232,11 +127,11 @@ console.log(state.event)
             <div>
                 <DateContext.Provider value={{
                     createEvent,
-                    removeEvent,
+                    //removeEvent,
                     updateEvent,
                     openDeleteModal,
                     closeDeleteModal,
-                    checkboxController,
+                    isAllDayEventController,
                     openMembersModal,
                     closeMembersModal,
                     openConfirmModal,

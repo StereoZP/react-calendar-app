@@ -21,7 +21,7 @@ const Day = (props) => {
     }
 
     const eventPoint = []
-    for (const item of dateContext.state.event) {
+    for (const item of dateContext.state.events) {
         const targetDate = item.date
         const targetCount = dateContext.dateCounts[targetDate]
         const isSameDate = isSameDay(parseISO(targetDate), renderedDay)
