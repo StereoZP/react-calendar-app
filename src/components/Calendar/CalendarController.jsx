@@ -17,10 +17,13 @@ const CalendarController = (props) => {
             dispatch({type: 'setEvent', payload: newEvent})
         }
 
+        const removeEvent = (id) => {
+            dispatch({type: 'removeEvent', payload: id})
+            dispatch({type: 'setConfirmDeleteModal', payload: false})
+        }
 
         const openDeleteModal = () => {
             dispatch({type: 'setConfirmDeleteModal', payload: true})
-            //dispatch({type: 'setDeleteEvent', payload: state.event.filter(p => p.id !== post.id)})
         }
 
         const closeDeleteModal = () => {
@@ -29,10 +32,12 @@ const CalendarController = (props) => {
 
         const openMembersModal = () => {
             dispatch({type: 'setMembersModal', payload: true})
+            dispatch({type: 'setModal', payload: false})
         }
 
         const closeMembersModal = () => {
             dispatch({type: 'setMembersModal', payload: false})
+            dispatch({type: 'setModal', payload: true})
         }
 
         const openConfirmModal = () => {
@@ -41,7 +46,7 @@ const CalendarController = (props) => {
         }
 
         const [selectedUsers, notSelectedUsers] = useMemo(() => {
-            //debugger
+
             const selected = state.users?.filter(user => user.selected);
             const notSelected = state.users?.map(user => {
                 if (user.selected) {
@@ -56,13 +61,11 @@ const CalendarController = (props) => {
         }, [state.users]);
 
         const isAllDayEventController = () => {
-            dispatch({type: 'setAllDayEvent', payload: !state.isAllDayEvent}) 
+            dispatch({type: 'setAllDayEvent', payload: !state.isAllDayEvent})
         }
 
         const usersEvent = state.events.filter(item => isSameDay(state.selected, parseISO(item.date))).map((item) => {
-            return <EventList key={item.id} id={item.id} event={item} eventTitle={item.title} eventBody={item.body}
-                              addDate={item.date} startTime={item.startTime} endTime={item.endTime}
-                              users={item.users}/>
+            return <EventList key={item.id} event={item} eventTitle={item.title} eventBody={item.body}/>
         })
 
         const updateEvent = (id, newTitle, newBody, confirm) => {
@@ -99,10 +102,9 @@ const CalendarController = (props) => {
                     acc[date] = 0;
                 }
                 acc[date]++;
-
                 return acc;
             }, {})
-        }, [state.event])
+        }, [state.events])
 
         useEffect(() => {
             try {
@@ -114,7 +116,6 @@ const CalendarController = (props) => {
                         return dispatch({type: 'setEvent', payload: json});
                     }
                 }
-
                 getJson()
             } catch (err) {
                 dispatch({type: 'setError', payload: new Error(err.message)})
@@ -127,7 +128,7 @@ const CalendarController = (props) => {
             <div>
                 <DateContext.Provider value={{
                     createEvent,
-                    //removeEvent,
+                    removeEvent,
                     updateEvent,
                     openDeleteModal,
                     closeDeleteModal,

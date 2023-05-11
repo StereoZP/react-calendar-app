@@ -40,14 +40,19 @@ export function reducer(state, action) {
             return {...state, updateBody: action.payload};
         case 'setConfirmUpdateModal':
             return {...state, confirmUpdateModal: action.payload};
+        case 'confirmUpdateModal':{
+            return {...state, confirmUpdateModal:false, updateModal:false}
+        }
         case 'setMembersModal':
             return {...state, isUserModalOpen: action.payload};
         case 'setAllDayEvent':
             return {...state, isAllDayEvent: action.payload};
         case 'setErrorTitle':
-            return {...state, errorTitle: action.payload};
+            return {...state, errorTitle: new Error(action.payload)};
         case 'setErrorBody':
-            return {...state, errorBody: action.payload};
+            return {...state, errorBody: new Error(action.payload)};
+        case 'setFormControllerErrors':
+            return {...state, formControllerErrors: action.payload};
         case 'setMembers':
             return {...state, users: action.payload};
         case 'PREV_MONTH':
@@ -58,8 +63,7 @@ export function reducer(state, action) {
             return {
                 ...state,
                 modal: true,
-                errorTitle: null,
-                errorBody: null,
+                formControllerErrors:null,
                 isAllDayEvent: true,
                 startDate: state.selected,
                 endDate: state.selected,

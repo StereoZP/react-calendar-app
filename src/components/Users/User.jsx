@@ -7,10 +7,8 @@ import {DateContext} from "../Context/dateContext";
 
 
 const User = ({id, firstName, lastName, email, color, selected}) => {
-    const firstLetter = firstName.charAt(0).toUpperCase();
-
     const dateContext =useContext(DateContext)
-
+    const firstLetter = firstName.charAt(0).toUpperCase();
     const stylesButton = [(selected===true) ? cl.buttonStyleActive : cl.buttonStyle].join('')
 
     const usersSelectedUpdate = (userId) => {
@@ -23,7 +21,7 @@ const User = ({id, firstName, lastName, email, color, selected}) => {
             }
             return user;
         });
-        dateContext.dispatch({type:"setUsers", payload:updatedUsers});
+        dateContext.dispatch({type:"setMembers", payload:updatedUsers});
     };
 
     return (

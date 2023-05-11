@@ -8,9 +8,10 @@ const NameDaysOfWeek = (props) => {
     const name = format(nameOfWeek, 'EEEEEE')
 
     return (
-        <span className={classes.namesOfWeek}>
+        <div className={classes.namesOfWeek}>
             {name}
-        </span>
+        </div>
+
     );
 };
 

@@ -1,4 +1,3 @@
-import React from 'react';
 import {setHours, setMinutes} from "date-fns";
 
 const initialState = {
@@ -19,6 +18,7 @@ const initialState = {
     confirmUpdateModal: false,
     isUserModalOpen: false,
     isAllDayEvent: true,
+    formControllerErrors: [],
     errorTitle: null,
     errorBody: null,
     users: [

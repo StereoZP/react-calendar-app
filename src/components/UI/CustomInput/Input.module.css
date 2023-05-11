@@ -7,10 +7,5 @@
     font-size: 24px;
 }
 .myInputErr{
-    width: 100%;
-    padding: 5px 15px;
     border: 1px solid red;
-    background-color: rgb(100, 100, 100);
-    color: white;
-    font-size: 24px;
 }

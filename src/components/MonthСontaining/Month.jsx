@@ -22,7 +22,7 @@ const Month = () => {
     return (
         <div>
             <div className={classes.namesOfWeekContainer}>{renderedNameOfWeek}</div>
-            <div>{renderedWeekOfMonth}</div>
+            <div className={classes.dayTest}>{renderedWeekOfMonth}</div>
         </div>
     );
 };

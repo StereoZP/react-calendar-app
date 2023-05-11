@@ -14,25 +14,32 @@ const EventUpdateWindow = () => {
     return (
         <div>
             <Modal className={classes.modalContainer} visible={dateContext.state.isUpdateEventModalOpen}
-                   setVisible={()=>dateContext.dispatch({type:"setUpdateModal"})}>
+                   setVisible={() => dateContext.dispatch({type: "setUpdateModal"})}>
                 <div className={cl.inputBlock}>
                     <div>
                         <Input style={{width: "100%"}}
                                type="text"
                                value={dateContext.state.updateTitle}
-                               onChange={(e) => dateContext.dispatch({type:"setUpdateTitle", payload:e.target.value})}
+                               onChange={(e) => dateContext.dispatch({
+                                   type: "setUpdateTitle",
+                                   payload: e.target.value
+                               })}
                                placeholder="Title"
                         />
                         <Input style={{width: "100%", marginTop: "10px"}}
                                type="text"
                                value={dateContext.state.updateBody}
-                               onChange={(e) => dateContext.dispatch({type:"setUpdateBody", payload:e.target.value})}
+                               onChange={(e) => dateContext.dispatch({
+                                   type: "setUpdateBody",
+                                   payload: e.target.value
+                               })}
                                placeholder="Body"
                         />
                     </div>
                     <div className={cl.formBlock}>
                         <div className={cl.inputCheckbox}>
-                            <input type="checkbox" checked={dateContext.state.isAllDayEvent} onChange={dateContext.isAllDayEventController}/>
+                            <input type="checkbox" checked={dateContext.state.isAllDayEvent}
+                                   onChange={dateContext.isAllDayEventController}/>
                         </div>
                         <div className={cl.inputCheckbox}>All day</div>
                     </div>
@@ -43,13 +50,17 @@ const EventUpdateWindow = () => {
                         ''
                 }
                 <div className={cl.formBlock}>
-                    <button className={classes.buttonStyles} style={{marginTop: "10px"}} onClick={dateContext.openConfirmModal}>Update</button>
-                    <button className={classes.buttonStyles} onClick={dateContext.openMembersModal}>Add users</button>
+                    <button className={classes.buttonStyles} style={{marginTop: "10px"}}
+                            onClick={dateContext.openConfirmModal}>Update
+                    </button>
+                    <button className={classes.buttonStyles} onClick={dateContext.openMembersModal}>Add users
+                    </button>
                 </div>
             </Modal>
-            <Modal className={classes.modalContainer} visible={dateContext.state.isUserModalOpen} setVisible={()=>dateContext.dispatch({ type: 'setMembersModal'})}>
+            <Modal className={classes.modalContainer} visible={dateContext.state.isUserModalOpen}
+                   setVisible={() => dateContext.dispatch({type: 'setMembersModal'})}>
                 <ListOfUsers/>
-                    <button className={classes.buttonStyles} onClick={dateContext.closeMembersModal}>Add</button>
+                <button className={classes.buttonStyles} onClick={dateContext.closeMembersModal}>Add</button>
             </Modal>
         </div>
     );

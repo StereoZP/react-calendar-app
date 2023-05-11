@@ -1,8 +1,6 @@
 import React from 'react';
 import {useContext, useState} from "react";
 import {DateContext} from "../Context/dateContext";
-import cl from "./Form.module.css";
-import inpCl from "../UI/CustomInput/Input.module.css";
 import {format,} from "date-fns";
 import {EventFormContext} from "../Context/eventFormContext";
 import {validationSchema} from "../../validation/validationSchema";
@@ -10,10 +8,6 @@ import {validationSchema} from "../../validation/validationSchema";
 const FormController = (props) => {
     const dateContext = useContext(DateContext)
     const [post, setPost] = useState({title: '',body:''})
-
-    const blockStyles = [cl.formBlock, cl.topPadding].join(' ');
-    const inputStylesBody = [(dateContext.state.errorBody !== null) ? inpCl.myInputErr : inpCl.myInput]
-    const inputStylesTitle = [(dateContext.state.errorTitle !== null) ? inpCl.myInputErr : inpCl.myInput]
 
     const selectedMembers = dateContext.selectedUsers.map(user => ({
         id: user.id,
@@ -24,7 +18,7 @@ const FormController = (props) => {
 
     const addNewPost = (e) => {
         e.preventDefault()
-        validationSchema.validate(post)
+        validationSchema.validate(post, { abortEarly: false })
             .then(() => {
                 const newEvent = {
                     ...post,
@@ -39,12 +33,7 @@ const FormController = (props) => {
                 closeModal()
             })
             .catch((err) => {
-                if(err.message === 'Add title' || err.message === 'Max size 10 letters'){
-                    dateContext.dispatch({type:"setErrorTitle", payload:new Error(err.message)})
-                }
-                if(err.message === 'Add event'){
-                    dateContext.dispatch({type:"setErrorBody", payload:new Error(err.message)})
-                }
+                dateContext.dispatch({type:"setFormControllerErrors", payload:err.inner})
             });
     }
 
@@ -60,11 +49,8 @@ const FormController = (props) => {
     return (
         <div>
             <EventFormContext.Provider value={{
-                inputStylesBody,
-                inputStylesTitle,
                 post,
                 setPost,
-                blockStyles,
                 addNewPost,
             }}>
                 {props.children({openModal, dateContext})}
