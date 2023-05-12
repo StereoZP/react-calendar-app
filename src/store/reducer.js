@@ -1,4 +1,5 @@
 import {add} from "date-fns";
+import { SET_EVENTS} from "./actions";
 
 export function reducer(state, action) {
     switch (action.type) {
@@ -14,9 +15,13 @@ export function reducer(state, action) {
             return {...state, endDate: action.payload};
         case 'setEvent':
             return {...state, events: [...state.events, action.payload]};
-        case 'removeEvent':
+        case SET_EVENTS:{
+            return {...state, events: [...state.events, ...action.payload]}
+        }
+        case 'removeEvent': {
             const test = state.events.filter(p => p.id !== action.payload)
             return {...state, events: test}
+        }
         case 'setError':
             return {...state, error: action.payload};
         case 'setIsLoaded':

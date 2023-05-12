@@ -1,33 +1,21 @@
 import React, {useReducer} from 'react';
 import {useEffect, useMemo} from "react";
-import {format, isSameDay, parseISO} from "date-fns";
-import EventList from "../Event/EventList";
+import {format} from "date-fns";
 import {DateContext} from "../Context/dateContext";
 import {reducer} from "../../store/reducer";
 import initialState from "../../store/store"
+import {SET_EVENTS} from "../../store/actions";
 
 const CalendarController = (props) => {
         const [state, dispatch] = useReducer(reducer, initialState);
 
+        console.log(state.events.id)
         /*setInterval(() => {
             setDay(new Date())
         }, 1000)*/
 
         const createEvent = (newEvent) => {
             dispatch({type: 'setEvent', payload: newEvent})
-        }
-
-        const removeEvent = (id) => {
-            dispatch({type: 'removeEvent', payload: id})
-            dispatch({type: 'setConfirmDeleteModal', payload: false})
-        }
-
-        const openDeleteModal = () => {
-            dispatch({type: 'setConfirmDeleteModal', payload: true})
-        }
-
-        const closeDeleteModal = () => {
-            dispatch({type: 'setConfirmDeleteModal', payload: false})
         }
 
         const openMembersModal = () => {
@@ -64,10 +52,6 @@ const CalendarController = (props) => {
             dispatch({type: 'setAllDayEvent', payload: !state.isAllDayEvent})
         }
 
-        const usersEvent = state.events.filter(item => isSameDay(state.selected, parseISO(item.date))).map((item) => {
-            return <EventList key={item.id} event={item} eventTitle={item.title} eventBody={item.body}/>
-        })
-
         const updateEvent = (id, newTitle, newBody, confirm) => {
             const updatedTitleAndBody = state.events.map((item) => {
                 if (item.id === id && !state.isAllDayEvent && (item.selected || !item.selected)) {
@@ -91,7 +75,7 @@ const CalendarController = (props) => {
                 return item
             })
             if (confirm) {
-                dispatch({type: 'setEvent', payload: updatedTitleAndBody})
+                dispatch({type: SET_EVENTS, payload: updatedTitleAndBody})
             }
         };
 
@@ -113,7 +97,7 @@ const CalendarController = (props) => {
                     if (response.status === 200) {
                         dispatch({type: 'setIsLoaded', payload: true})
                         const json = await response.json()
-                        return dispatch({type: 'setEvent', payload: json});
+                        return dispatch({type: SET_EVENTS, payload: json});
                     }
                 }
                 getJson()
@@ -124,14 +108,23 @@ const CalendarController = (props) => {
             }
         }, [])
 
+    const confirmUpdate = () => {
+        dispatch({type: 'confirmUpdateModal'})
+        updateEvent(state.events.id, state.updateTitle, state.updateBody, true)
+    }
+
+    const closeUpdateModal = () => {
+        dispatch({type: 'confirmUpdateModal'})
+        updateEvent(state.events.id, state.events.eventTitle, state.events.eventBody, false)
+    }
+
         return (
             <div>
                 <DateContext.Provider value={{
+                    confirmUpdate,
+                    closeUpdateModal,
                     createEvent,
-                    removeEvent,
                     updateEvent,
-                    openDeleteModal,
-                    closeDeleteModal,
                     isAllDayEventController,
                     openMembersModal,
                     closeMembersModal,
@@ -141,7 +134,7 @@ const CalendarController = (props) => {
                     dateCounts,
                     state, dispatch
                 }}>
-                    {props.children({usersEvent, state})}
+                    {props.children(state)}
                 </DateContext.Provider>
             </div>
         );

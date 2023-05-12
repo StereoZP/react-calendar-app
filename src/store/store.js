@@ -9,7 +9,6 @@ const initialState = {
     events: [],
     error: null,
     isLoaded: false,
-    deleteEvent: [],
     modal: false,
     confirmDeleteModal: false,
     isUpdateEventModalOpen: false,

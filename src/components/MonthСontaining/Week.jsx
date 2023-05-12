@@ -16,7 +16,7 @@ const Week = (props) => {
     })
 
     return (
-        <div>
+        <div style={{display: 'flex', flexGrow: 1, width: '100%'}}>
             {week}
         </div>
     );

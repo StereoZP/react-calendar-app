@@ -1,4 +1,6 @@
 .day {
+    flex-grow: 1;
+
     padding: 4px 8px;
     vertical-align: middle;
     text-align: center;
@@ -180,7 +182,7 @@
     display: flex;
     justify-content: space-evenly;
     align-items: center;
-    flex-direction: row;
+    flex-direction: column;
 }
 
 
