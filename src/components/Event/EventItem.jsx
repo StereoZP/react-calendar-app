@@ -1,24 +1,22 @@
-import React, {useContext} from 'react';
+import React, {useContext, useState} from 'react';
 import classes from '../Calendar/Calendar.module.css'
 import cl from "../Form/Form.module.css"
 import deleteIcon from "../../images/delete.png"
 import updateIcon from "../../images/pencil.png"
 import {DateContext} from "../Context/dateContext";
 import EventTimeRange from "./EventTimeRange";
+import ConfirmWindow from "./ConfirmWindow";
 
 
 const EventItem = (props) => {
-
+    const {eventTitle, eventBody, event, removeEvent} = props
     const dateContext = useContext(DateContext)
-    const {eventTitle, eventBody, event} = props
+    const [isOpen, setIsOpen] = useState(false)
 
     const openUpdateModal = () => {
         dateContext.dispatch({type: 'setOpenUpdateModal', payload: {eventTitle, eventBody}})
     }
-
-    const openDeleteModal = () => {
-        dateContext.dispatch({type: 'setConfirmDeleteModal', payload: true})
-    }
+    const openDeleteModal = () => setIsOpen(true);
 
     const listOfMembers = event.users.map((item, index) => {
         return <div key={index}>{item.firstName} {item.lastName};</div>
@@ -49,6 +47,13 @@ const EventItem = (props) => {
                     </div>
                 </div>
             </div>
+            <ConfirmWindow visible={isOpen} setVisible={setIsOpen}>
+                <p>Are you sure to delete event?</p>
+                <div className={classes.doubleContainer}>
+                    <button className={classes.buttonStyles} onClick={() => {removeEvent(event.id);setIsOpen(false);}}>Ok</button>
+                    <button className={classes.buttonStyles} onClick={() => setIsOpen(false)}>Cancel</button>
+                </div>
+            </ConfirmWindow>
         </div>
     );
 };

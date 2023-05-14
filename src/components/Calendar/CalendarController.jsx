@@ -132,9 +132,10 @@ const CalendarController = (props) => {
                     selectedUsers,
                     notSelectedUsers,
                     dateCounts,
-                    state, dispatch
+                    state,
+                    dispatch,
                 }}>
-                    {props.children(state)}
+                    {props.children(state, dispatch)}
                 </DateContext.Provider>
             </div>
         );
