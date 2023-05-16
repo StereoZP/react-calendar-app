@@ -1,13 +1,16 @@
 import React from 'react';
 import {useContext, useState} from "react";
-import {DateContext} from "../Context/dateContext";
 import {format,} from "date-fns";
-import {EventFormContext} from "../Context/eventFormContext";
+import {EventFormContext, DateContext, ApplicationContext} from "../../сontext";
 import {validationSchema} from "../../validation/validationSchema";
 
 const FormController = (props) => {
+    const appContext = useContext(ApplicationContext)
     const dateContext = useContext(DateContext)
-    const [post, setPost] = useState({title: '',body:''})
+
+    const [post, setPost] = useState({title: '', body: ''})
+
+    const {state, dispatch} = appContext;
 
     const selectedMembers = dateContext.selectedUsers.map(user => ({
         id: user.id,
@@ -18,32 +21,32 @@ const FormController = (props) => {
 
     const addNewPost = (e) => {
         e.preventDefault()
-        validationSchema.validate(post, { abortEarly: false })
+        validationSchema.validate(post, {abortEarly: false})
             .then(() => {
                 const newEvent = {
                     ...post,
                     id: Date.now(),
-                    date: format(dateContext.state.startDate, 'y-MM-dd'),
-                    isAllDayEvent:dateContext.state.isAllDayEvent,
-                    startTime:(!dateContext.state.isAllDayEvent) ? format(dateContext.state.startDate, 'HH:mm') : null,
-                    endTime:(!dateContext.state.isAllDayEvent) ? format(dateContext.state.endDate, 'HH:mm') : null,
+                    date: format(state.startDate, 'y-MM-dd'),
+                    isAllDayEvent: state.isAllDayEvent,
+                    startTime: (!state.isAllDayEvent) ? format(state.startDate, 'HH:mm') : null,
+                    endTime: (!state.isAllDayEvent) ? format(state.endDate, 'HH:mm') : null,
                     users: selectedMembers,
                 }
                 dateContext.createEvent(newEvent);
                 closeModal()
             })
             .catch((err) => {
-                dateContext.dispatch({type:"setFormControllerErrors", payload:err.inner})
+                dispatch({type: "setFormControllerErrors", payload: err.inner})
             });
     }
 
-    const openModal = () =>{
+    const openModal = () => {
         setPost({title: '', body: ''})
-        dateContext.dispatch({type:'openModal', payload:dateContext.notSelectedUsers})
+        dispatch({type: 'openModal', payload: dateContext.notSelectedUsers})
     }
 
     const closeModal = () => {
-        dateContext.dispatch({type:'setModal', payload:false})
+        dispatch({type: 'setModal', payload: false})
     }
 
     return (
@@ -53,7 +56,7 @@ const FormController = (props) => {
                 setPost,
                 addNewPost,
             }}>
-                {props.children({openModal, dateContext})}
+                {props.children({openModal, appContext})}
             </EventFormContext.Provider>
         </div>
     );

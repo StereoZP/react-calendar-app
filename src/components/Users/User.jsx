@@ -1,18 +1,15 @@
 import React, {useContext} from 'react';
 import classes from "./User.module.css";
 import cl from "../ApplicationMenu/Menu.module.css"
-import {DateContext} from "../Context/dateContext";
-
-
-
+import {ApplicationContext} from "../../сontext";
 
 const User = ({id, firstName, lastName, email, color, selected}) => {
-    const dateContext =useContext(DateContext)
+    const {state, dispatch} = useContext(ApplicationContext)
     const firstLetter = firstName.charAt(0).toUpperCase();
-    const stylesButton = [(selected===true) ? cl.buttonStyleActive : cl.buttonStyle].join('')
+    const stylesButton = [(selected === true) ? cl.buttonStyleActive : cl.buttonStyle].join('')
 
     const usersSelectedUpdate = (userId) => {
-        const updatedUsers = dateContext.state.users.map(user => {
+        const updatedUsers = state.users.map(user => {
             if (user.id === userId) {
                 return {
                     ...user,
@@ -21,12 +18,12 @@ const User = ({id, firstName, lastName, email, color, selected}) => {
             }
             return user;
         });
-        dateContext.dispatch({type:"setMembers", payload:updatedUsers});
+        dispatch({type: "setMembers", payload: updatedUsers});
     };
 
     return (
         <div>
-            <button className={stylesButton} onClick={()=>usersSelectedUpdate(id)}>
+            <button className={stylesButton} onClick={() => usersSelectedUpdate(id)}>
                 <div className={classes.circle}>
                     <div className={classes.initial} style={{backgroundColor: color}}>{firstLetter}</div>
                     <div>

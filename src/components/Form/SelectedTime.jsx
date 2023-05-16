@@ -1,11 +1,11 @@
 import React from 'react';
 import cl from "./Form.module.css";
 import DatePicker from "react-datepicker";
-import {DateContext} from "../Context/dateContext";
+import {ApplicationContext} from "../../сontext";
 import {useContext} from "react";
 
 const SelectedTime = () => {
-    const dateContext = useContext(DateContext)
+    const {state, dispatch} = useContext(ApplicationContext)
 
     const blockStyles = [cl.formBlock, cl.topPadding].join(' ');
 
@@ -19,7 +19,7 @@ const SelectedTime = () => {
         const currentDate = new Date();
         const selectedDate = new Date(time);
 
-        return (currentDate.getTime() && dateContext.state.startDate.getTime()) < selectedDate.getTime();
+        return (currentDate.getTime() && state.startDate.getTime()) < selectedDate.getTime();
     };
 
     return (
@@ -29,8 +29,8 @@ const SelectedTime = () => {
             </div>
             <div>From:
                 <DatePicker
-                    selected={dateContext.state.startDate}
-                    onChange={(date) => dateContext.dispatch({ type: 'setStartDate', payload: date})}
+                    selected={state.startDate}
+                    onChange={(date) => dispatch({type: 'setStartDate', payload: date})}
                     showTimeSelect
                     showTimeSelectOnly
                     filterTime={filterPassedTimeStart}
@@ -41,8 +41,8 @@ const SelectedTime = () => {
             </div>
             <div>To:
                 <DatePicker
-                    selected={dateContext.state.endDate}
-                    onChange={(date) => dateContext.dispatch({ type: 'setEndDate', payload: date})}
+                    selected={state.endDate}
+                    onChange={(date) => dispatch({type: 'setEndDate', payload: date})}
                     showTimeSelect
                     showTimeSelectOnly
                     filterTime={filterPassedTimeEnd}

@@ -1,29 +1,30 @@
 import React, {useContext} from 'react';
 import {format, isToday, isSameMonth, isSameDay, parseISO} from "date-fns";
-import classes from "../Calendar/Calendar.module.css";
-import {DateContext} from "../Context/dateContext";
 import classNames from "classnames";
+import classes from "../Calendar/Calendar.module.css";
+import {ApplicationContext, DateContext} from "../../сontext";
 
 const Day = (props) => {
 
     const {renderedDay} = props
     const day = format(renderedDay, 'd')
+    const {state, dispatch} = useContext(ApplicationContext)
     const dateContext = useContext(DateContext)
 
     const dayStyles = classNames(classes.day,
         {
             [classes.today]: isToday(renderedDay),
-            [classes.dayOfOtherMonth]: !isSameMonth(renderedDay, dateContext.state.month),
-            [classes.selected]: isSameDay(dateContext.state.selected, renderedDay),
+            [classes.dayOfOtherMonth]: !isSameMonth(renderedDay, state.month),
+            [classes.selected]: isSameDay(state.selected, renderedDay),
         })
 
     const selectedDay = () => {
-        dateContext.dispatch({type: 'setSelected', payload: renderedDay})
-        dateContext.dispatch({type: 'setStartDate', payload: renderedDay})
+        dispatch({type: 'setSelected', payload: renderedDay})
+        dispatch({type: 'setStartDate', payload: renderedDay})
     }
 
     const eventPoint = []
-    for (const item of dateContext.state.events) {
+    for (const item of state.events) {
         const targetDate = item.date
         const targetCount = dateContext.dateCounts[targetDate]
         const isSameDate = isSameDay(parseISO(targetDate), renderedDay)
@@ -40,8 +41,8 @@ const Day = (props) => {
 
     return (
         <div className={dayStyles} onClick={selectedDay}>
-                <div>{day}</div>
-                <div>{eventPoint}</div>
+            <div>{day}</div>
+            <div>{eventPoint}</div>
         </div>
     );
 };

@@ -1,23 +1,38 @@
-import React, {useContext} from 'react';
+import React, {useContext, useState} from 'react';
 import classes from '../Calendar/Calendar.module.css'
 import cl from "../Form/Form.module.css"
 import deleteIcon from "../../images/delete.png"
 import updateIcon from "../../images/pencil.png"
-import {DateContext} from "../Context/dateContext";
 import EventTimeRange from "./EventTimeRange";
+import ConfirmWindow from "./ConfirmWindow";
+import {ApplicationContext, DateContext} from "../../сontext";
+import EventUpdateWindow from "./EventUpdateWindow";
 
 
 const EventItem = (props) => {
-
+    const {eventTitle, eventBody, event, removeEvent, updateEvent} = props
+    const {state, dispatch} = useContext(ApplicationContext)
     const dateContext = useContext(DateContext)
-    const {eventTitle, eventBody, event} = props
+    const [isOpenRemove, setIsOpenRemove] = useState(false)
+    const [isOpenUpdate, setIsOpenUpdate] = useState(false)
+    const [isOpenConfirmUpdate, setIsOpenConfirmUpdate] = useState(false)
 
     const openUpdateModal = () => {
-        dateContext.dispatch({type: 'setOpenUpdateModal', payload: {eventTitle, eventBody}})
+        setIsOpenUpdate(true)
+        dispatch({type: 'setUpdateTitleAndBody', payload: {eventTitle, eventBody}})
+    }
+    const openDeleteModal = () => setIsOpenRemove(true);
+    const openConfirmModal = () => {
+        setIsOpenConfirmUpdate(true)
     }
 
-    const openDeleteModal = () => {
-        dateContext.dispatch({type: 'setConfirmDeleteModal', payload: true})
+    const confirmUpdate = (id) => {
+        setIsOpenUpdate(false)
+        updateEvent(id, state.updateTitle, state.updateBody, dateContext.selectedUsers)
+    }
+
+    const closeUpdateModal = () => {
+        setIsOpenUpdate(false)
     }
 
     const listOfMembers = event.users.map((item, index) => {
@@ -31,7 +46,7 @@ const EventItem = (props) => {
                 <div className={classes.eventTitle}>
                     <div>{eventBody}</div>
                 </div>
-                <EventTimeRange/>
+                <EventTimeRange event={event}/>
             </div>
             {
                 event.users.length > 0 ?
@@ -49,6 +64,22 @@ const EventItem = (props) => {
                     </div>
                 </div>
             </div>
+            <EventUpdateWindow isOpenUpdate={isOpenUpdate} setIsOpenUpdate={setIsOpenUpdate} openConfirmModal={openConfirmModal}/>
+            <ConfirmWindow visible={isOpenConfirmUpdate}
+                           setVisible={setIsOpenConfirmUpdate}>
+                <p>Are you sure to update event?</p>
+                <div className={classes.doubleContainer}>
+                    <button className={classes.buttonStyles} onClick={()=>{confirmUpdate(event.id); setIsOpenConfirmUpdate(false);}}>Ok</button>
+                    <button className={classes.buttonStyles} onClick={()=> {closeUpdateModal(event.id); setIsOpenConfirmUpdate(false)}}>Cancel</button>
+                </div>
+            </ConfirmWindow>
+            <ConfirmWindow visible={isOpenRemove} setVisible={setIsOpenRemove}>
+                <p>Are you sure to delete event?</p>
+                <div className={classes.doubleContainer}>
+                    <button className={classes.buttonStyles} onClick={() => {removeEvent(event.id); setIsOpenRemove(false);}}>Ok</button>
+                    <button className={classes.buttonStyles} onClick={() => setIsOpenRemove(false)}>Cancel</button>
+                </div>
+            </ConfirmWindow>
         </div>
     );
 };

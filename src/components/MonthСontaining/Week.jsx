@@ -1,6 +1,7 @@
 import React from 'react';
 import Day from "./Day";
 import {addDays, startOfISOWeek} from "date-fns";
+import classes from "../Calendar/Calendar.module.css";
 
 const Week = (props) => {
 
@@ -16,7 +17,7 @@ const Week = (props) => {
     })
 
     return (
-        <div style={{display: 'flex', flexGrow: 1, width: '100%'}}>
+        <div className={classes.calendarGrid}>
             {week}
         </div>
     );

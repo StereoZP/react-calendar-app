@@ -1,10 +1,10 @@
 import React, {useContext} from 'react';
 import classes from "./Calendar.module.css";
 import {format} from "date-fns";
-import {DateContext} from "../Context/dateContext";
+import {ApplicationContext} from "../../сontext";
 
 const MonthSelection = (props) => {
-    const context = useContext(DateContext)
+    const context = useContext(ApplicationContext)
 
     const prev = () => {
         context.dispatch({ type: 'PREV_MONTH' })

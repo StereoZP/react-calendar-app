@@ -1,11 +1,11 @@
 import React, {useContext} from 'react';
 import classes from "./Calendar.module.css";
 import {format} from "date-fns";
-import {DateContext} from "../Context/dateContext";
+import {ApplicationContext} from "../../сontext";
 
 const DayAndTime = () => {
 
-    const context = useContext(DateContext)
+    const context = useContext(ApplicationContext)
 
     return (
         <div className={classes.dateContainer}>

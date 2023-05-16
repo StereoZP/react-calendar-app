@@ -8,7 +8,7 @@ const NameDaysOfWeek = (props) => {
     const name = format(nameOfWeek, 'EEEEEE')
 
     return (
-        <div className={classes.namesOfWeek}>
+        <div className={classes.namesOfWeekContainer}>
             {name}
         </div>
 
