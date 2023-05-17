@@ -10,35 +10,19 @@ const CalendarController = (props) => {
         setDay(new Date())
     }, 1000)*/
 
-    const createEvent = (newEvent) => {
-        dispatch({type: 'setEvent', payload: newEvent})
-    }
-
-    const openMembersModal = () => {
-        dispatch({type: 'setMembersModal', payload: true})
-    }
-
-    const closeMembersModal = () => {
-        dispatch({type: 'setMembersModal', payload: false})
-    }
-
-    const [selectedUsers, notSelectedUsers] = useMemo(() => {
-        const selected = state.users?.filter(user => user.selected);
-        const notSelected = state.users?.map(user => {
-            if (user.selected) {
-                return {
-                    ...user,
-                    selected: !user.selected
-                };
-            }
-            return user;
-        });
-        return [selected, notSelected];
-    }, [state.users]);
-
-    const setIsAllDayEvent = () => {
-        dispatch({type: 'setAllDayEvent', payload: !state.isAllDayEvent})
-    }
+    // const [selectedUsers, notSelectedUsers] = useMemo(() => {
+    //     const selected = state.users?.filter(user => user.selected);
+    //     const notSelected = state.users?.map(user => {
+    //         if (user.selected) {
+    //             return {
+    //                 ...user,
+    //                 selected: !user.selected
+    //             };
+    //         }
+    //         return user;
+    //     });
+    //     return [selected, notSelected];
+    // }, [state.users]);
 
     const dateCounts = useMemo(() => {
         return state.events.reduce((acc, obj) => {
@@ -73,12 +57,8 @@ const CalendarController = (props) => {
     return (
         <div>
             <DateContext.Provider value={{
-                createEvent,
-                setIsAllDayEvent,
-                openMembersModal,
-                closeMembersModal,
-                selectedUsers,
-                notSelectedUsers,
+                // selectedUsers,
+                // notSelectedUsers,
                 dateCounts,
             }}>
                 {props.children(state, dispatch)}

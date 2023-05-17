@@ -11,8 +11,7 @@ const MonthSelection = (props) => {
     }
 
     const next = () => {
-        context.dispatch({type: 'NEXT_MONTH',
-        });
+        context.dispatch({type: 'NEXT_MONTH',});
     }
     return (
         <div className={classes.dateAndSelectedMonthContainer}>

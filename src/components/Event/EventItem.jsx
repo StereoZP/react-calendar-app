@@ -5,14 +5,14 @@ import deleteIcon from "../../images/delete.png"
 import updateIcon from "../../images/pencil.png"
 import EventTimeRange from "./EventTimeRange";
 import ConfirmWindow from "./ConfirmWindow";
-import {ApplicationContext, DateContext} from "../../сontext";
+import {ApplicationContext} from "../../сontext";
 import EventUpdateWindow from "./EventUpdateWindow";
 
 
 const EventItem = (props) => {
     const {eventTitle, eventBody, event, removeEvent, updateEvent} = props
     const {state, dispatch} = useContext(ApplicationContext)
-    const dateContext = useContext(DateContext)
+
     const [isOpenRemove, setIsOpenRemove] = useState(false)
     const [isOpenUpdate, setIsOpenUpdate] = useState(false)
     const [isOpenConfirmUpdate, setIsOpenConfirmUpdate] = useState(false)
@@ -22,17 +22,11 @@ const EventItem = (props) => {
         dispatch({type: 'setUpdateTitleAndBody', payload: {eventTitle, eventBody}})
     }
     const openDeleteModal = () => setIsOpenRemove(true);
-    const openConfirmModal = () => {
-        setIsOpenConfirmUpdate(true)
-    }
+    const openConfirmUpdateModal = () => setIsOpenConfirmUpdate(true)
 
     const confirmUpdate = (id) => {
         setIsOpenUpdate(false)
-        updateEvent(id, state.updateTitle, state.updateBody, dateContext.selectedUsers)
-    }
-
-    const closeUpdateModal = () => {
-        setIsOpenUpdate(false)
+        updateEvent(id, state.updateTitle, state.updateBody)
     }
 
     const listOfMembers = event.users.map((item, index) => {
@@ -64,13 +58,13 @@ const EventItem = (props) => {
                     </div>
                 </div>
             </div>
-            <EventUpdateWindow isOpenUpdate={isOpenUpdate} setIsOpenUpdate={setIsOpenUpdate} openConfirmModal={openConfirmModal}/>
+            <EventUpdateWindow isOpenUpdate={isOpenUpdate} setIsOpenUpdate={setIsOpenUpdate} openConfirmModal={openConfirmUpdateModal}/>
             <ConfirmWindow visible={isOpenConfirmUpdate}
                            setVisible={setIsOpenConfirmUpdate}>
                 <p>Are you sure to update event?</p>
                 <div className={classes.doubleContainer}>
                     <button className={classes.buttonStyles} onClick={()=>{confirmUpdate(event.id); setIsOpenConfirmUpdate(false);}}>Ok</button>
-                    <button className={classes.buttonStyles} onClick={()=> {closeUpdateModal(event.id); setIsOpenConfirmUpdate(false)}}>Cancel</button>
+                    <button className={classes.buttonStyles} onClick={()=> setIsOpenConfirmUpdate(false)}>Cancel</button>
                 </div>
             </ConfirmWindow>
             <ConfirmWindow visible={isOpenRemove} setVisible={setIsOpenRemove}>

@@ -14,11 +14,12 @@ export function reducer(state, action) {
         case 'setEndDate':
             return {...state, endDate: action.payload};
         case 'setEvent':
-            return {...state, events: [...state.events, action.payload]};
+            return {...state, events: [...state.events, action.payload], modal: false};
         case SET_EVENTS: {
             return {...state, events: [...state.events, ...action.payload]}
         }
         case 'UPDATE_EVENT':{
+            const selectedUsers = state.users?.filter(user => user.selected);
             const updateEvent = state.events.map((item)=>{
                 if (item.id === action.payload.id && !state.isAllDayEvent) {
                     return {
@@ -27,7 +28,7 @@ export function reducer(state, action) {
                         body: action.payload.updateBody,
                         startTime: format(state.startDate, 'HH:mm'),
                         endTime: format(state.endDate, 'HH:mm'),
-                        users: action.payload.selectedUsers
+                        users: selectedUsers
                     }
                 }
                 if (item.id === action.payload.id && state.isAllDayEvent ) {
@@ -35,7 +36,7 @@ export function reducer(state, action) {
                         ...item,
                         title: action.payload.updateTitle,
                         body: action.payload.updateBody,
-                        users: action.payload.selectedUsers
+                        users: selectedUsers
                     }
                 }
                 return item
@@ -53,12 +54,8 @@ export function reducer(state, action) {
             return {...state, error: action.payload};
         case 'setIsLoaded':
             return {...state, isLoaded: action.payload};
-        case 'setDeleteEvent':
-            return {...state, deleteEvent: action.payload};
         case 'setModal':
             return {...state, modal: action.payload};
-        case 'setConfirmDeleteModal':
-            return {...state, confirmDeleteModal: action.payload};
         case 'setUpdateTitleAndBody':
             return {...state, isAllDayEvent: true,
                 updateBody: action.payload.eventBody, updateTitle: action.payload.eventTitle}
@@ -83,14 +80,24 @@ export function reducer(state, action) {
         case 'NEXT_MONTH':
             return {...state, month: add(state.month, {months: 1})}
         case 'openModal':
+            const notSelected = state.users?.map(user => {
+                if (user.selected) {
+                    return {
+                        ...user,
+                        selected: !user.selected
+                    };
+                }
+                return user;
+            });
             return {
                 ...state,
+                event:{title: '', body: ''},
                 modal: true,
                 formControllerErrors: null,
                 isAllDayEvent: true,
                 startDate: state.selected,
                 endDate: state.selected,
-                users: action.payload
+                users: notSelected
             }
         default:
             return state;

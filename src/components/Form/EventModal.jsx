@@ -5,7 +5,7 @@ import Input from "../UI/CustomInput/Input";
 import SelectedTime from "./SelectedTime";
 import DatePicker from "react-datepicker";
 import {useContext} from "react";
-import {DateContext, ApplicationContext, EventFormContext} from "../../сontext";
+import {ApplicationContext, EventFormContext} from "../../сontext";
 import Modal from "../UI/Modal/Modal";
 import ListOfUsers from "../Users/ListOfUsers";
 import inpCl from "../UI/CustomInput/Input.module.css";
@@ -14,7 +14,6 @@ import classNames from "classnames";
 
 const EventModal = () => {
     const {state, dispatch} = useContext(ApplicationContext)
-    const dateContext = useContext(DateContext)
     const event = useContext(EventFormContext)
 
     const blockStyles = classNames(cl.formBlock, cl.topPadding);
@@ -64,7 +63,7 @@ const EventModal = () => {
                 <div className={cl.formBlock}>
                     <div className={cl.inputCheckbox}>
                         <input type="checkbox" checked={state.isAllDayEvent}
-                               onChange={dateContext.setIsAllDayEvent}/>
+                               onChange={()=>dispatch({type: 'setAllDayEvent', payload: !state.isAllDayEvent})}/>
                     </div>
                     <div className={cl.inputCheckbox}>All day</div>
                 </div>
@@ -84,12 +83,12 @@ const EventModal = () => {
             </div>
             <div className={cl.formBlock}>
                 <button className={classes.buttonStyles} onClick={event.addNewPost}>Add event</button>
-                <button className={classes.buttonStyles} onClick={dateContext.openMembersModal}>Add users</button>
+                <button className={classes.buttonStyles} onClick={()=>dispatch({type: 'setMembersModal', payload: true})}>Add users</button>
             </div>
             <Modal className={classes.modalContainer} visible={state.isUserModalOpen}
                    setVisible={() => dispatch({type: 'setMembersModal'})}>
                 <ListOfUsers/>
-                <button className={classes.buttonStyles} onClick={dateContext.closeMembersModal}>Add</button>
+                <button className={classes.buttonStyles} onClick={()=>dispatch({type: 'setMembersModal', payload: false})}>Add</button>
             </Modal>
         </div>
     );

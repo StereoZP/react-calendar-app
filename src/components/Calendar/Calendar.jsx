@@ -17,10 +17,9 @@ const Calendar = () => {
                     (state, dispatch) => {
                         const removeEvent = (id) => {
                             dispatch({type: 'removeEvent', payload: id})
-                            dispatch({type: 'setConfirmDeleteModal', payload: false})
                         }
-                        const updateEvent = (id, updateTitle, updateBody, selectedUsers) => {
-                            dispatch({type: 'UPDATE_EVENT', payload: {id, updateTitle, updateBody, selectedUsers }})
+                        const updateEvent = (id, updateTitle, updateBody) => {
+                            dispatch({type: 'UPDATE_EVENT', payload: {id, updateTitle, updateBody}})
                         }
 
                         if (state.error) {
