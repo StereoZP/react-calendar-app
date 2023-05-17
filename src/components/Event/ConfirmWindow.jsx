@@ -5,15 +5,13 @@ import Modal from "../UI/Modal/Modal";
 
 const ConfirmWindow = (props) => {
 
-    const {children, visible, setVisible,} = props
+    const {children, visible, setVisible} = props
 
     return (
-        <div>
-            <Modal className={classes.modalContainer} visible={visible}
-                   setVisible={setVisible}>
-                {children}
-            </Modal>
-        </div>
+        <Modal className={classes.modalContainer} visible={visible}
+               setVisible={setVisible}>
+            {children}
+        </Modal>
     );
 };
 

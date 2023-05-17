@@ -1,22 +1,23 @@
 import React from 'react';
 import {useContext} from "react";
-import {EventListContext} from "../Context/eventListContext";
+import {ApplicationContext} from "../../сontext";
 
-const EventTimeRange = () => {
-    const eventList = useContext(EventListContext)
+const EventTimeRange = (props) => {
+    const {event} = props
+    const {state} = useContext(ApplicationContext)
     return (
         <div>
             {
-                eventList.endTime ?
+                event.startTime ?
                     <div>
                         <div>
-                            <div>From:{eventList.startTime}</div>
+                            <div>From:{event.startTime}</div>
                         </div>
                         <div>
-                            <div>To:{eventList.endTime}</div>
+                            <div>To:{event.endTime}</div>
                         </div>
                     </div> :
-                    ""
+                    null
             }
         </div>
     );

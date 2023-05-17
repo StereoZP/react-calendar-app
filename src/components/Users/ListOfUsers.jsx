@@ -1,23 +1,23 @@
 import React, {useContext, useMemo, useState} from 'react';
-import {DateContext} from "../Context/dateContext";
-import Input from "../UI/CustomInput/Input";
 import User from "./User";
+import Input from "../UI/CustomInput/Input";
+import {ApplicationContext} from "../../сontext";
 
 const ListOfUsers = () => {
 
     const [searchText, setSearchText] = useState("");
     const [filteredPerson, setFilteredPerson] = useState([]);
 
-    const dateContext = useContext(DateContext)
+    const {state} = useContext(ApplicationContext)
 
     useMemo(() => {
-        const filtered = dateContext.users.filter(
+        const filtered = state.users.filter(
             (person) =>
                 person.firstName.toLowerCase().startsWith(searchText.toLowerCase()) ||
                 person.lastName.toLowerCase().startsWith(searchText.toLowerCase())
         );
         setFilteredPerson(filtered);
-    }, [searchText, dateContext.users]);
+    }, [searchText, state.users]);
 
     const handleSearch = (event) => {
         setSearchText(event.target.value);

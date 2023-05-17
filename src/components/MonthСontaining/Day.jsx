@@ -1,27 +1,30 @@
 import React, {useContext} from 'react';
 import {format, isToday, isSameMonth, isSameDay, parseISO} from "date-fns";
+import classNames from "classnames";
 import classes from "../Calendar/Calendar.module.css";
-import {DateContext} from "../Context/dateContext";
+import {ApplicationContext, DateContext} from "../../сontext";
 
 const Day = (props) => {
 
     const {renderedDay} = props
     const day = format(renderedDay, 'd')
+    const {state, dispatch} = useContext(ApplicationContext)
     const dateContext = useContext(DateContext)
 
-
-    const today = [(isToday(renderedDay)) ? classes.today : classes.day].join(' ');
-    const dayOfThisMonth = [(!isSameMonth(renderedDay, dateContext.month)) ? classes.dayOfOtherMonth : classes.day].join(' ');
-    const selectedDayStyle = [(isSameDay(dateContext.selected, renderedDay)) ? classes.selected : classes.day]
-    const dayStyles = [today, dayOfThisMonth, selectedDayStyle].join(' ')
+    const dayStyles = classNames(classes.day,
+        {
+            [classes.today]: isToday(renderedDay),
+            [classes.dayOfOtherMonth]: !isSameMonth(renderedDay, state.month),
+            [classes.selected]: isSameDay(state.selected, renderedDay),
+        })
 
     const selectedDay = () => {
-        dateContext.setSelected(renderedDay)
-        dateContext.setStartDate(renderedDay)
+        dispatch({type: 'setSelected', payload: renderedDay})
+        dispatch({type: 'setStartDate', payload: renderedDay})
     }
 
     const eventPoint = []
-    for (const item of dateContext.event) {
+    for (const item of state.events) {
         const targetDate = item.date
         const targetCount = dateContext.dateCounts[targetDate]
         const isSameDate = isSameDay(parseISO(targetDate), renderedDay)
@@ -37,10 +40,10 @@ const Day = (props) => {
     }
 
     return (
-        <span className={dayStyles} onClick={selectedDay}>
-                <div>{day}</div>
-                <div>{eventPoint}</div>
-        </span>
+        <div className={dayStyles} onClick={selectedDay}>
+            <div>{day}</div>
+            <div>{eventPoint}</div>
+        </div>
     );
 };
 

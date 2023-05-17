@@ -10,18 +10,18 @@ const EventForm = () => {
     return (
         <FormController>
             {(props) => {
-                const {openModal, dateContext} = props
+                const {openModal, appContext} = props
                 return <div className={classes.doubleContainer} style={{border: "1px solid rgb(100, 100, 100)"}}>
-                    <div
-                        className={classes.selectedDay}>{format(dateContext.selected, 'EEEE d')}</div>
+                    <div className={classes.selectedDay}>{format(appContext.state.selected, 'EEEE d')}</div>
                     <button className={classes.buttonStyles} onClick={openModal}>
                         +
                     </button>
-                    <Modal className={classes.modalContainer} visible={dateContext.modal} setVisible={dateContext.setModal}>
-                        <EventModal setCheckbox={dateContext.setCheckbox}/>
+                    <Modal className={classes.modalContainer} visible={appContext.state.modal}
+                           setVisible={() => appContext.dispatch({type: 'setModal'})}>
+                        <EventModal setCheckbox={() => appContext.dispatch({type: "setAllDayEvent"})}/>
                     </Modal>
                 </div>
-                }
+            }
             }
         </FormController>
     );

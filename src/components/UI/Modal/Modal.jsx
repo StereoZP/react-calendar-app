@@ -1,28 +1,27 @@
 import React from 'react';
 import cl from './Modal.module.css'
+import Portal from "../Portal/Portal";
+import classNames from "classnames";
 
 const Modal = (props) => {
-
-    const {children, visible, setVisible,} = props
-
-    const modalClasses = [cl.myModalContent, props.className].join(' ')
-    const rootClasses = [cl.myModal]
+    const {children, visible, setVisible} = props
+    const modalClasses = classNames(cl.myModalContent, props.className)
+    const rootClasses = [cl.myModal, cl.active]
+    const hideModal = () => setVisible(false);
 
     if (visible) {
-        rootClasses.push(cl.active);
+        return (
+            <Portal>
+                <div className={rootClasses.join(' ')} onClick={hideModal}>
+                    <div className={modalClasses} onClick={(e) => e.stopPropagation()}>
+                        {children}
+                    </div>
+                </div>
+            </Portal>
+        );
     }
 
-    const showModal = ()=>{
-        setVisible(false)
-    }
-
-    return (
-        <div className={rootClasses.join(' ')} onClick={showModal}>
-            <div className={modalClasses} onClick={(e) => e.stopPropagation()}>
-                {children}
-            </div>
-        </div>
-    );
+    return null;
 };
 
 export default Modal;

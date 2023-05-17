@@ -5,72 +5,90 @@ import Input from "../UI/CustomInput/Input";
 import SelectedTime from "./SelectedTime";
 import DatePicker from "react-datepicker";
 import {useContext} from "react";
-import {DateContext} from "../Context/dateContext";
-import {EventFormContext} from "../Context/eventFormContext";
+import {ApplicationContext, EventFormContext} from "../../сontext";
 import Modal from "../UI/Modal/Modal";
 import ListOfUsers from "../Users/ListOfUsers";
+import inpCl from "../UI/CustomInput/Input.module.css";
+import classNames from "classnames";
 
 
 const EventModal = () => {
-    const dateContext = useContext(DateContext)
+    const {state, dispatch} = useContext(ApplicationContext)
     const event = useContext(EventFormContext)
+
+    const blockStyles = classNames(cl.formBlock, cl.topPadding);
+
+    const inputStylesTitle = classNames(inpCl.myInput,
+        {
+            [inpCl.myInputErr]: state.formControllerErrors?.filter((err) => err.path === 'title')
+        })
+
+    const inputStylesBody = classNames(inpCl.myInput,
+        {
+            [inpCl.myInputErr]: state.formControllerErrors?.filter((err) => err.path === 'body')
+        })
+
+    const renderedTitleErrors = state.formControllerErrors?.filter((err) => err.path === 'title').map((err, index) =>
+        <div key={index} style={{color: "red"}}>{err.message}</div>)
+    const renderedBodyErrors = state.formControllerErrors?.filter((err) => err.path === 'body').map((err, index) =>
+        <div key={index} style={{color: "red"}}>{err.message}</div>)
 
     return (
         <div>
             <div className={cl.inputBlock}>
-                <div>
+                <div style={{width: "100%"}}>
                     <Input
-                        className={event.inputStylesTitle}
+                        className={inputStylesTitle}
                         value={event.post.title}
                         onChange={(e) => event.setPost({...event.post, title: e.target.value})}
                         type="text"
                         placeholder="Title"
+                        name="title"
                     />
-                        {
-                            dateContext.errorTitle ?
-                                <div style={{color: "red"}}>{dateContext.errorTitle.message}</div> :
-                                ""
-                        }
+                    {
+                        renderedTitleErrors
+                    }
                     <Input
-                        className={event.inputStylesBody} style={{marginTop: "10px"}}
+                        className={inputStylesBody} style={{marginTop: "10px"}}
                         value={event.post.body}
                         onChange={(e) => event.setPost({...event.post, body: e.target.value})}
                         type="text"
                         placeholder="Event"
+                        name="body"
                     />
                     {
-                        dateContext.errorBody ?
-                            <div style={{color: "red"}}>{dateContext.errorBody.message}</div> :
-                            ""
+                        renderedBodyErrors
                     }
                 </div>
                 <div className={cl.formBlock}>
                     <div className={cl.inputCheckbox}>
-                        <input type="checkbox" checked={dateContext.checkbox} onChange={dateContext.checkboxController}/>
+                        <input type="checkbox" checked={state.isAllDayEvent}
+                               onChange={()=>dispatch({type: 'setAllDayEvent', payload: !state.isAllDayEvent})}/>
                     </div>
                     <div className={cl.inputCheckbox}>All day</div>
                 </div>
             </div>
             {
-                !dateContext.checkbox ?
+                !state.isAllDayEvent ?
                     <SelectedTime/> :
                     ''
             }
-            <div className={event.blockStyles}>
+            <div className={blockStyles}>
                 <div>Select another date:</div>
                 <div>
-                    <DatePicker selected={dateContext.startDate}
-                                onChange={(date) => dateContext.setStartDate(date)}
+                    <DatePicker selected={state.startDate}
+                                onChange={(date) => dispatch({type: 'setStartDate', payload: date})}
                     />
                 </div>
             </div>
             <div className={cl.formBlock}>
                 <button className={classes.buttonStyles} onClick={event.addNewPost}>Add event</button>
-                <button className={classes.buttonStyles} onClick={dateContext.openMembersModal}>Add members</button>
+                <button className={classes.buttonStyles} onClick={()=>dispatch({type: 'setMembersModal', payload: true})}>Add users</button>
             </div>
-            <Modal className={classes.modalContainer} visible={dateContext.membersModal} setVisible={dateContext.setMembersModal}>
+            <Modal className={classes.modalContainer} visible={state.isUserModalOpen}
+                   setVisible={() => dispatch({type: 'setMembersModal'})}>
                 <ListOfUsers/>
-                    <button className={classes.buttonStyles} onClick={dateContext.closeMembersModal}>Add</button>
+                <button className={classes.buttonStyles} onClick={()=>dispatch({type: 'setMembersModal', payload: false})}>Add</button>
             </Modal>
         </div>
     );
