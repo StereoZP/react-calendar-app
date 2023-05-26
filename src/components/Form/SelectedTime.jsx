@@ -3,11 +3,13 @@ import cl from "./Form.module.css";
 import DatePicker from "react-datepicker";
 import {ApplicationContext} from "../../сontext";
 import {useContext} from "react";
+import classNames from "classnames";
+import {SET_END_DAY, SET_START_DAY} from "../../store/actions";
 
 const SelectedTime = () => {
     const {state, dispatch} = useContext(ApplicationContext)
 
-    const blockStyles = [cl.formBlock, cl.topPadding].join(' ');
+    const blockStyles = classNames(cl.formBlock, cl.topPadding);
 
     const filterPassedTimeStart = (time) => {
         const currentDate = new Date();
@@ -30,7 +32,7 @@ const SelectedTime = () => {
             <div>From:
                 <DatePicker
                     selected={state.startDate}
-                    onChange={(date) => dispatch({type: 'setStartDate', payload: date})}
+                    onChange={(date) => dispatch({type: SET_START_DAY, payload: date})}
                     showTimeSelect
                     showTimeSelectOnly
                     filterTime={filterPassedTimeStart}
@@ -42,7 +44,7 @@ const SelectedTime = () => {
             <div>To:
                 <DatePicker
                     selected={state.endDate}
-                    onChange={(date) => dispatch({type: 'setEndDate', payload: date})}
+                    onChange={(date) => dispatch({type: SET_END_DAY, payload: date})}
                     showTimeSelect
                     showTimeSelectOnly
                     filterTime={filterPassedTimeEnd}

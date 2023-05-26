@@ -3,6 +3,7 @@ import {format, isToday, isSameMonth, isSameDay, parseISO} from "date-fns";
 import classNames from "classnames";
 import classes from "../Calendar/Calendar.module.css";
 import {ApplicationContext, DateContext} from "../../сontext";
+import {SET_SELECTED, SET_START_DAY} from "../../store/actions";
 
 const Day = (props) => {
 
@@ -19,8 +20,8 @@ const Day = (props) => {
         })
 
     const selectedDay = () => {
-        dispatch({type: 'setSelected', payload: renderedDay})
-        dispatch({type: 'setStartDate', payload: renderedDay})
+        dispatch({type: SET_SELECTED, payload: renderedDay})
+        dispatch({type: SET_START_DAY, payload: renderedDay})
     }
 
     const eventPoint = []

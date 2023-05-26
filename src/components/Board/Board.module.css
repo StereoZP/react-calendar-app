@@ -1,0 +1,56 @@
+.board{
+    width: 100%;
+    background-color: #262626;
+}
+.boardGrid{
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+}
+.textLeft{
+    text-align: start;
+    vertical-align: top;
+}
+.dayOfTheMonth{
+    padding: 5% 0 40% 5%;
+    font-size: 24px;
+    color: #cfcfcf;
+    border-top: 1px solid black;
+    background-color: #262626;
+}
+.dayOfTheMonth:hover{
+    border-top: 1px solid dodgerblue;
+}
+.dayOfOtherMonth{
+    background-color: #1a1a1a;
+}
+.selectedDay{
+    background-color: #262626;
+    border-top: 1px solid dodgerblue;
+}
+.today{
+    border-top: 1px solid dodgerblue;
+    color: dodgerblue;
+}
+.namesDaysOfWeek{
+    font-size: 24px;
+    color: #cfcfcf;
+    padding: 3% 0 1% 3%;
+    border-bottom: 1px solid black;
+    background-color: #262626;
+}
+.monthSelection{
+    display: flex;
+    align-items: center;
+    justify-content: left;
+}
+
+.dayOfTheMonthOfWeekBoard{
+    padding: 5%;
+    font-size: 24px;
+    color: #cfcfcf;
+    border-top: 1px solid black;
+    background-color: #262626;
+}
+.dayOfTheMonthOfWeekBoard:hover{
+    border-top: 1px solid dodgerblue;
+}

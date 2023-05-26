@@ -17,6 +17,7 @@ const initialState = {
     formControllerErrors: [],
     errorTitle: null,
     errorBody: null,
+    openBoard:[{day:false}, {week:false}, {month:true}, {year:false}],
     users: [
         {
             id: 1,

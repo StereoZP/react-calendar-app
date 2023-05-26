@@ -1,7 +1,7 @@
 import React, {useContext} from 'react';
 import {useEffect, useMemo} from "react";
 import {ApplicationContext, DateContext} from "../../сontext";
-import {CLEAR_EVENTS, SET_EVENTS} from "../../store/actions";
+import {CLEAR_EVENTS, SET_ERROR, SET_EVENTS, SET_IS_LOADED} from "../../store/actions";
 
 const CalendarController = (props) => {
     const {state, dispatch} = useContext(ApplicationContext)
@@ -40,16 +40,16 @@ const CalendarController = (props) => {
             async function getJson() {
                 const response = await fetch("/data.json")
                 if (response.status === 200) {
-                    dispatch({type: 'setIsLoaded', payload: true})
+                    dispatch({type: SET_IS_LOADED, payload: true})
                     const json = await response.json()
                     return dispatch({type: SET_EVENTS, payload: json});
                 }
             }
             getJson()
         } catch (err) {
-            dispatch({type: 'setError', payload: new Error(err.message)})
+            dispatch({type: SET_ERROR, payload: new Error(err.message)})
         } finally {
-            dispatch({type: 'setIsLoaded', payload: true})
+            dispatch({type: SET_IS_LOADED, payload: true})
         }
         return () => dispatch({type: CLEAR_EVENTS})
     }, [])

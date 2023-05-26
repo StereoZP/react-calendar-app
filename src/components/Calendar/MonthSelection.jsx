@@ -2,16 +2,17 @@ import React, {useContext} from 'react';
 import classes from "./Calendar.module.css";
 import {format} from "date-fns";
 import {ApplicationContext} from "../../сontext";
+import {NEXT_MONTH, PREV_MONTH} from "../../store/actions";
 
 const MonthSelection = (props) => {
     const context = useContext(ApplicationContext)
 
     const prev = () => {
-        context.dispatch({ type: 'PREV_MONTH' })
+        context.dispatch({ type: PREV_MONTH })
     }
 
     const next = () => {
-        context.dispatch({type: 'NEXT_MONTH',});
+        context.dispatch({type: NEXT_MONTH,});
     }
     return (
         <div className={classes.dateAndSelectedMonthContainer}>
