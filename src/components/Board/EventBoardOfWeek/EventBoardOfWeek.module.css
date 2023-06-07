@@ -1,0 +1,45 @@
+.boardGridOfWeek{
+    display: grid;
+    grid-template-columns: 50px repeat(7, 1fr);
+}
+.dayOfTheMonth{
+    padding: 5% 0 40% 5%;
+    font-size: 24px;
+    color: #cfcfcf;
+    border-top: 1px solid black;
+    background-color: #262626;
+}
+.fieldsContainer{
+    display: flex;
+    flex-direction: column;
+}
+.eventButtonTop{
+    background-color: rgb(38, 38, 38);
+    border: 1px solid black;
+    border-bottom: none;
+    border-right: none;
+    padding: 5px;
+    color: transparent;
+}
+.eventButtonBottom{
+    background-color: rgb(38, 38, 38);
+    border-top: 1px dashed black;
+    border-left: 1px solid black;
+    border-bottom: none;
+    border-right: none;
+    padding: 5px;
+    color: transparent;
+}
+.timeContainer{
+    border-top: 1px solid black;
+    padding: 5px;
+    color: #cfcfcf;
+}
+.timeContainerFinish{
+    border-top: 1px solid black;
+    padding: 5px;
+    color: black;
+}
+.lastTime{
+    background-color: #1a1a1a;
+}

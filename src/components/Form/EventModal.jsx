@@ -10,6 +10,7 @@ import Modal from "../UI/Modal/Modal";
 import ListOfUsers from "../Users/ListOfUsers";
 import inpCl from "../UI/CustomInput/Input.module.css";
 import classNames from "classnames";
+import {SET_ALL_DAY_EVENT, SET_MEMBERS_MODAL, SET_START_DAY} from "../../store/actions";
 
 
 const EventModal = () => {
@@ -39,8 +40,8 @@ const EventModal = () => {
                 <div style={{width: "100%"}}>
                     <Input
                         className={inputStylesTitle}
-                        value={event.post.title}
-                        onChange={(e) => event.setPost({...event.post, title: e.target.value})}
+                        value={state.post.title}
+                        onChange={(e) => dispatch({type:"SET_POST", payload:{...state.post, title:e.target.value }})}
                         type="text"
                         placeholder="Title"
                         name="title"
@@ -50,8 +51,8 @@ const EventModal = () => {
                     }
                     <Input
                         className={inputStylesBody} style={{marginTop: "10px"}}
-                        value={event.post.body}
-                        onChange={(e) => event.setPost({...event.post, body: e.target.value})}
+                        value={state.post.body}
+                        onChange={(e) => dispatch({type:"SET_POST", payload:{...state.post, body:e.target.value }})}
                         type="text"
                         placeholder="Event"
                         name="body"
@@ -63,7 +64,7 @@ const EventModal = () => {
                 <div className={cl.formBlock}>
                     <div className={cl.inputCheckbox}>
                         <input type="checkbox" checked={state.isAllDayEvent}
-                               onChange={()=>dispatch({type: 'setAllDayEvent', payload: !state.isAllDayEvent})}/>
+                               onChange={()=>dispatch({type: SET_ALL_DAY_EVENT, payload: !state.isAllDayEvent})}/>
                     </div>
                     <div className={cl.inputCheckbox}>All day</div>
                 </div>
@@ -77,18 +78,18 @@ const EventModal = () => {
                 <div>Select another date:</div>
                 <div>
                     <DatePicker selected={state.startDate}
-                                onChange={(date) => dispatch({type: 'setStartDate', payload: date})}
+                                onChange={(date) => dispatch({type: SET_START_DAY, payload: date})}
                     />
                 </div>
             </div>
             <div className={cl.formBlock}>
                 <button className={classes.buttonStyles} onClick={event.addNewPost}>Add event</button>
-                <button className={classes.buttonStyles} onClick={()=>dispatch({type: 'setMembersModal', payload: true})}>Add users</button>
+                <button className={classes.buttonStyles} onClick={()=>dispatch({type: SET_MEMBERS_MODAL, payload: true})}>Add users</button>
             </div>
             <Modal className={classes.modalContainer} visible={state.isUserModalOpen}
-                   setVisible={() => dispatch({type: 'setMembersModal'})}>
+                   setVisible={() => dispatch({type: SET_MEMBERS_MODAL})}>
                 <ListOfUsers/>
-                <button className={classes.buttonStyles} onClick={()=>dispatch({type: 'setMembersModal', payload: false})}>Add</button>
+                <button className={classes.buttonStyles} onClick={()=>dispatch({type: SET_MEMBERS_MODAL, payload: false})}>Add</button>
             </Modal>
         </div>
     );

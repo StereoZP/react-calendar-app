@@ -1,15 +1,11 @@
 .day {
     flex-grow: 1;
-
-    padding: 4px 8px;
+    padding: 2px 4px;
     vertical-align: middle;
     text-align: center;
     border: 2px solid transparent;
-    font-size: 18px;
-    /*width:80px;*/
-    /*height: 80px;*/
+    font-size: 12px;
     position: relative;
-    /*display: inline-block;*/
     color: rgb(239, 239, 239);
 }
 .dayEvent{
@@ -24,43 +20,32 @@
 }
 .selected {
     border: 2px solid dodgerblue;
-    padding: 4px 8px;
+    padding: 2px 4px;
     vertical-align: middle;
     text-align: center;
-    font-size: 18px;
-    /*width:80px;*/
-    /*height: 80px;*/
-    /*display:inline-block;*/
+    font-size: 12px;
 }
 .today {
-    padding: 4px 8px;
+    padding: 2px 4px;
     vertical-align: middle;
     text-align: center;
     border: 2px solid black;
-    font-size: 18px;
-    /*width:80px;*/
-    /*height: 80px;*/
-    /*display:inline-block;*/
+    font-size: 12px;
     color: white;
     background-color: dodgerblue;
 }
 .dayOfOtherMonth {
-    padding: 4px 8px;
+    padding: 2px 4px;
     vertical-align: middle;
     text-align: center;
-    font-size: 18px;
-    /*width:80px;*/
-    /*height: 80px;*/
-    /*display:inline-block;*/
+    font-size: 12px;
     color: rgb(100, 100, 100);
 }
+
 .calendar{
-    /*display: flex;*/
-    /*justify-content: center;*/
-}
-.calendarWidth {
     background-color: rgb(37, 38, 38);
-    max-width: 300px;
+    max-width: 220px;
+    min-width: 220px;
 }
 .dateContainer {
     padding-top: 15px ;
@@ -94,7 +79,6 @@
     color: rgb(100, 100, 100);
     font-size: 22px;
     align-items: center;
-    padding-top: 10px;
 }
 .buttonStyles:hover {
     color: white;
@@ -104,17 +88,17 @@
     padding: 10px;
 }
 .namesOfWeek {
-    padding: 4px 8px;
+    padding: 2px 4px;
     vertical-align: middle;
     text-align: center;
     border: 2px solid transparent;
-    font-size: 18px;
     display:inline-block;
     color: rgb(239, 239, 239);
     width:80px;
     height: 40px;
 }
 .namesOfWeekContainer{
+    font-size: 12px;
     color: white;
     font-weight: bolder;
 }

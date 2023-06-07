@@ -7,6 +7,7 @@ const initialState = {
     startDate: setHours(setMinutes(new Date(), 0), 9),
     endDate: setHours(setMinutes(new Date(), 0), 9),
     events: [],
+    post:{title: '', body: ''},
     error: null,
     isLoaded: false,
     modal: false,
@@ -17,6 +18,7 @@ const initialState = {
     formControllerErrors: [],
     errorTitle: null,
     errorBody: null,
+    openBoard:[{day:false}, {week:false}, {month:true}, {year:false}],
     users: [
         {
             id: 1,

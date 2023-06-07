@@ -1,10 +1,7 @@
 import React from 'react';
-import {useContext} from "react";
-import {ApplicationContext} from "../../сontext";
 
 const EventTimeRange = (props) => {
     const {event} = props
-    const {state} = useContext(ApplicationContext)
     return (
         <div>
             {

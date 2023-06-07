@@ -5,6 +5,7 @@ import AppMenu from "./components/ApplicationMenu/AppMenu";
 import {ApplicationContext} from "./сontext";
 import {reducer} from "./store/reducer";
 import initialState from "./store/store";
+import Board from "./components/Board/Board";
 
 
 function App() {
@@ -14,7 +15,10 @@ function App() {
         <div>
             <ApplicationContext.Provider value={{state, dispatch}}>
                 <AppMenu/>
-                <Calendar/>
+                <div style={{display:'flex'}}>
+                    <Calendar/>
+                    <Board/>
+                </div>
             </ApplicationContext.Provider>
         </div>
     );

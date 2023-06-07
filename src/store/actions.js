@@ -1,2 +1,33 @@
 export const CLEAR_EVENTS = 'CLEAR_EVENTS';
 export const SET_EVENTS = 'SET_EVENTS';
+export const SET_DAY = 'SET_DAY';
+export const SET_MONTH = 'SET_MONTH';
+export const SET_SELECTED = 'SET_SELECTED';
+export const SET_START_DAY = 'SET_START_DAY';
+export const SET_END_DAY = 'SET_END_DAY';
+export const SET_EVENT = 'SET_EVENT';
+export const UPDATE_EVENT = 'UPDATE_EVENT';
+export const REMOVE_EVENT = 'REMOVE_EVENT';
+export const SET_ERROR = 'SET_ERROR';
+export const SET_IS_LOADED = 'SET_IS_LOADED';
+export const SET_MODAL = 'SET_MODAL';
+export const SET_UPDATE_TITLE_AND_BODY = 'SET_UPDATE_TITLE_AND_BODY';
+export const SET_UPDATE_TITLE = 'SET_UPDATE_TITLE';
+export const SET_UPDATE_BODY = 'SET_UPDATE_BODY';
+export const SET_MEMBERS_MODAL = 'SET_MEMBERS_MODAL';
+export const SET_ALL_DAY_EVENT = 'SET_ALL_DAY_EVENT';
+export const SET_ERROR_TITLE = 'SET_ERROR_TITLE';
+export const SET_ERROR_BODY = 'SET_ERROR_BODY';
+export const SET_FORM_CONTROLLER_ERRORS = 'SET_FORM_CONTROLLER_ERRORS';
+export const SET_MEMBERS = 'SET_MEMBERS';
+export const PREV_MONTH = 'PREV_MONTH';
+export const NEXT_MONTH = 'NEXT_MONTH';
+export const OPEN_MODAL = 'OPEN_MODAL';
+export const SET_OPEN_BOARD_DAY = 'SET_OPEN_BOARD_DAY';
+export const SET_OPEN_BOARD_WEEK = 'SET_OPEN_BOARD_WEEK';
+export const SET_OPEN_BOARD_MONTH = 'SET_OPEN_BOARD_MONTH';
+export const SET_OPEN_BOARD_YEAR = 'SET_OPEN_BOARD_YEAR';
+export const OPEN_MODAL_BOARD_WEEK = 'OPEN_MODAL_BOARD_WEEK';
+export const SET_POST = 'SET_POST';
+
+

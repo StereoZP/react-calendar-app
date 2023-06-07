@@ -7,19 +7,20 @@ import DayAndTime from "./DayAndTime";
 import MonthSelection from "./MonthSelection";
 import {isSameDay, parseISO} from "date-fns";
 import EventItem from "../Event/EventItem";
+import {REMOVE_EVENT, UPDATE_EVENT} from "../../store/actions";
 
 
 const Calendar = () => {
     return (
-        <div className={classes.calendar}>
+        <div style={{backgroundColor:'#262626'}}>
             <CalendarController>
                 {
                     (state, dispatch) => {
                         const removeEvent = (id) => {
-                            dispatch({type: 'removeEvent', payload: id})
+                            dispatch({type: REMOVE_EVENT, payload: id})
                         }
                         const updateEvent = (id, updateTitle, updateBody) => {
-                            dispatch({type: 'UPDATE_EVENT', payload: {id, updateTitle, updateBody}})
+                            dispatch({type: UPDATE_EVENT, payload: {id, updateTitle, updateBody}})
                         }
 
                         if (state.error) {
@@ -36,7 +37,7 @@ const Calendar = () => {
                                                       eventBody={item.body} removeEvent={removeEvent} updateEvent={updateEvent}/>
                             )
 
-                        return <div className={classes.calendarWidth}>
+                        return <div className={classes.calendar}>
                             <DayAndTime/>
                             <MonthSelection>
                                 <Month/>

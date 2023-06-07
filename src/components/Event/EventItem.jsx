@@ -7,6 +7,7 @@ import EventTimeRange from "./EventTimeRange";
 import ConfirmWindow from "./ConfirmWindow";
 import {ApplicationContext} from "../../сontext";
 import EventUpdateWindow from "./EventUpdateWindow";
+import {SET_UPDATE_TITLE_AND_BODY} from "../../store/actions";
 
 
 const EventItem = (props) => {
@@ -19,7 +20,7 @@ const EventItem = (props) => {
 
     const openUpdateModal = () => {
         setIsOpenUpdate(true)
-        dispatch({type: 'setUpdateTitleAndBody', payload: {eventTitle, eventBody}})
+        dispatch({type: SET_UPDATE_TITLE_AND_BODY, payload: {eventTitle, eventBody}})
     }
     const openDeleteModal = () => setIsOpenRemove(true);
     const openConfirmUpdateModal = () => setIsOpenConfirmUpdate(true)

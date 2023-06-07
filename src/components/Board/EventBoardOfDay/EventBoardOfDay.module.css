@@ -1,0 +1,4 @@
+.boardGridOfDay{
+    display: grid;
+    grid-template-columns: 50px repeat(1, 1fr);
+}

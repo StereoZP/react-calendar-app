@@ -2,6 +2,7 @@ import React, {useContext} from 'react';
 import classes from "./User.module.css";
 import cl from "../ApplicationMenu/Menu.module.css"
 import {ApplicationContext} from "../../сontext";
+import {SET_MEMBERS} from "../../store/actions";
 
 const User = ({id, firstName, lastName, email, color, selected}) => {
     const {state, dispatch} = useContext(ApplicationContext)
@@ -18,7 +19,7 @@ const User = ({id, firstName, lastName, email, color, selected}) => {
             }
             return user;
         });
-        dispatch({type: "setMembers", payload: updatedUsers});
+        dispatch({type: SET_MEMBERS, payload: updatedUsers});
     };
 
     return (
