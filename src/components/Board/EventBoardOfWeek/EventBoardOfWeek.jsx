@@ -1,7 +1,7 @@
 import React from 'react';
 import {useContext} from "react";
 import {ApplicationContext} from "../../../сontext";
-import {addDays, addWeeks, format, startOfMonth, startOfWeek} from "date-fns";
+import {addDays, addWeeks, startOfMonth, startOfWeek} from "date-fns";
 import BoardNameDaysOfWeek from "../../BoardContaining/BoardNameDaysOfWeek";
 import classes from "./EventBoardOfWeek.module.css";
 import RowFieldsOfAddEventOfWeek from "./RowFieldsOfAddEventOfWeek";
@@ -22,9 +22,8 @@ const EventBoardOfWeek = () => {
     renderedNameOfWeek.unshift(<div key="empty-div"></div>);
 
     const renderedFieldsOfAddEvent = new Array(24).fill(undefined).map((_, index) => {
-        const startDate = startOfWeek(new Date(), { weekStartsOn: 1 });
-        const timeOfEvent = format(new Date(startDate.getFullYear(), startDate.getMonth(), startDate.getDate(), index), 'HH:mm')
-        return (<RowFieldsOfAddEventOfWeek key={index} timeOfEvent={timeOfEvent} weekOfMonth={week}/>)
+        const time = new Date(startDate.getFullYear(), startDate.getMonth(), startDate.getDate(), index)
+        return (<RowFieldsOfAddEventOfWeek key={index} time={time} weekOfMonth={week}/>)
     })
     const renderedDayOfWeek = new Array(1).fill(undefined).map((_, index) => {
         return (<DayOfWeekOfEventBoardOfWeek weekOfMonth={week} key={index}/>)

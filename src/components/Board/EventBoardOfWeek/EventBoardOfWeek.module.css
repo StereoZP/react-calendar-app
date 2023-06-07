@@ -19,7 +19,7 @@
     border-bottom: none;
     border-right: none;
     padding: 5px;
-    /*color: transparent;*/
+    color: transparent;
 }
 .eventButtonBottom{
     background-color: rgb(38, 38, 38);
@@ -28,10 +28,18 @@
     border-bottom: none;
     border-right: none;
     padding: 5px;
-    /*color: transparent;*/
+    color: transparent;
 }
 .timeContainer{
     border-top: 1px solid black;
     padding: 5px;
     color: #cfcfcf;
+}
+.timeContainerFinish{
+    border-top: 1px solid black;
+    padding: 5px;
+    color: black;
+}
+.lastTime{
+    background-color: #1a1a1a;
 }

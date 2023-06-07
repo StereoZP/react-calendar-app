@@ -1,0 +1,16 @@
+.boardGridOfYear{
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+}
+.boardGridOfParent{
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    grid-template-rows: repeat(2, 1fr);
+    padding: 150px 0 200px 0;
+}
+.month{
+    border: 1px solid transparent;
+}
+.month:hover{
+    border: 1px solid dodgerblue;
+}

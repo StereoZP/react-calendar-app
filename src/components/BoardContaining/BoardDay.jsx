@@ -15,7 +15,7 @@ const BoardDay = (props) => {
 
     const dayStyles = classNames(classes.dayOfTheMonth,
         {
-            [classes.dayOfTheMonthOfWeekBoard]: state.openBoard.find(item=> item.week===true),
+            [classes.dayOfTheMonthOfWeekBoard]: state.openBoard.find(item=> item.week===true || item.day===true),
             [classes.today]: isToday(renderedDay),
             [classes.dayOfOtherMonth]: !isSameMonth(renderedDay, state.month),
             [classes.selectedDay]: isSameDay(state.selected, renderedDay),

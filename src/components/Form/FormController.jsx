@@ -1,5 +1,5 @@
 import React from 'react';
-import {useContext, useState} from "react";
+import {useContext} from "react";
 import {format,} from "date-fns";
 import {EventFormContext, ApplicationContext} from "../../сontext";
 import {validationSchema} from "../../validation/validationSchema";
@@ -7,17 +7,14 @@ import {OPEN_MODAL, SET_EVENT, SET_FORM_CONTROLLER_ERRORS} from "../../store/act
 
 const FormController = (props) => {
     const appContext = useContext(ApplicationContext)
-
-    const [post, setPost] = useState({title: '', body: ''})
-
     const {state, dispatch} = appContext;
 
     const addNewPost = (e) => {
         e.preventDefault()
-        validationSchema.validate(post, {abortEarly: false})
+        validationSchema.validate(state.post, {abortEarly: false})
             .then(() => {
                 const newEvent = {
-                    ...post,
+                    ...state.post,
                     id: Date.now(),
                     date: format(state.startDate, 'y-MM-dd'),
                     isAllDayEvent: state.isAllDayEvent,
@@ -33,15 +30,12 @@ const FormController = (props) => {
     }
 
     const openModal = () => {
-        setPost({title: '', body: ''})
         dispatch({type: OPEN_MODAL})
     }
 
     return (
         <div>
             <EventFormContext.Provider value={{
-                post,
-                setPost,
                 addNewPost,
             }}>
                 {props.children({openModal, appContext})}

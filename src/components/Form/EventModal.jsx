@@ -40,8 +40,8 @@ const EventModal = () => {
                 <div style={{width: "100%"}}>
                     <Input
                         className={inputStylesTitle}
-                        value={event.post.title}
-                        onChange={(e) => event.setPost({...event.post, title: e.target.value})}
+                        value={state.post.title}
+                        onChange={(e) => dispatch({type:"SET_POST", payload:{...state.post, title:e.target.value }})}
                         type="text"
                         placeholder="Title"
                         name="title"
@@ -51,8 +51,8 @@ const EventModal = () => {
                     }
                     <Input
                         className={inputStylesBody} style={{marginTop: "10px"}}
-                        value={event.post.body}
-                        onChange={(e) => event.setPost({...event.post, body: e.target.value})}
+                        value={state.post.body}
+                        onChange={(e) => dispatch({type:"SET_POST", payload:{...state.post, body:e.target.value }})}
                         type="text"
                         placeholder="Event"
                         name="body"

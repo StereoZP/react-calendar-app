@@ -15,6 +15,8 @@ const DayOfWeekOfEventBoardOfWeek = (props) => {
     })
     dayOfWeek.unshift(<div key="empty-div"></div>);
 
+
+
     return (
         <div className={classes.boardGridOfWeek}>
             {dayOfWeek}

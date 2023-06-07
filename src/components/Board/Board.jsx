@@ -31,6 +31,8 @@ const Board = () => {
         return null;
     })
 
+
+
     return (
         <div className={cl.board}>
             <div>

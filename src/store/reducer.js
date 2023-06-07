@@ -5,6 +5,7 @@ import {
     SET_EVENTS, SET_FORM_CONTROLLER_ERRORS, SET_IS_LOADED, SET_MEMBERS, SET_MEMBERS_MODAL, SET_MODAL,
     SET_MONTH, SET_SELECTED, SET_START_DAY, SET_UPDATE_BODY, SET_UPDATE_TITLE, SET_UPDATE_TITLE_AND_BODY,
     UPDATE_EVENT, SET_OPEN_BOARD_DAY, SET_OPEN_BOARD_MONTH, SET_OPEN_BOARD_WEEK, SET_OPEN_BOARD_YEAR,OPEN_MODAL_BOARD_WEEK,
+    SET_POST,
 } from "./actions";
 
 export function reducer(state, action) {
@@ -93,6 +94,8 @@ export function reducer(state, action) {
             return {...state, openBoard: [{day:false}, {week:false}, {month:true}, {year:false}]}
         case SET_OPEN_BOARD_YEAR:
             return {...state, openBoard: [{day:false}, {week:false}, {month:false}, {year:true}]}
+        case SET_POST:
+            return {...state, post: action.payload};
         case OPEN_MODAL:
             const notSelected = state.users?.map(user => {
                 if (user.selected) {
@@ -105,7 +108,7 @@ export function reducer(state, action) {
             });
             return {
                 ...state,
-                event:{title: '', body: ''},
+                post:{title: '', body: ''},
                 modal: true,
                 formControllerErrors: null,
                 isAllDayEvent: true,
@@ -125,12 +128,12 @@ export function reducer(state, action) {
             });
             return {
                 ...state,
-                event:{title: '', body: ''},
+                post:{title: '', body: ''},
                 modal: true,
                 formControllerErrors: null,
                 isAllDayEvent: false,
-                startDate: state.selected,
-                endDate: state.selected,
+                startDate: action.payload,
+                endDate: action.payload,
                 users: notSelectedUsers
             }
         default:
