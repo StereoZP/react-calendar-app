@@ -30,6 +30,9 @@
     font-size: 22px;
     align-items: center;
 }
+.paddingContainer:hover{
+    color: white;
+}
 .inputStyles{
     height: 100%;
     width: 80%;

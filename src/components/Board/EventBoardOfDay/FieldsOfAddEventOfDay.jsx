@@ -10,8 +10,8 @@ const FieldsOfAddEventOfDay = (props) => {
 
     return (
         <div className={classes.fieldsContainer}>
-            <div className={classes.eventButtonTop}>{timeOfEvent}</div>
-            <div className={classes.eventButtonBottom}>{day}</div>
+            <div className={classes.eventButtonTop}></div>
+            <div className={classes.eventButtonBottom}></div>
         </div>
     );
 };

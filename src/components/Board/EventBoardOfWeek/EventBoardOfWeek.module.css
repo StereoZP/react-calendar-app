@@ -18,8 +18,10 @@
     border: 1px solid black;
     border-bottom: none;
     border-right: none;
-    padding: 5px;
-    color: transparent;
+    height: 20px;
+    max-height: 45px;
+    color: white;
+    font-size: 20px;
 }
 .eventButtonBottom{
     background-color: rgb(38, 38, 38);
@@ -27,8 +29,10 @@
     border-left: 1px solid black;
     border-bottom: none;
     border-right: none;
-    padding: 5px;
-    color: transparent;
+    height: 20px;
+    max-height: 45px;
+    color: white;
+    font-size: 20px;
 }
 .timeContainer{
     border-top: 1px solid black;

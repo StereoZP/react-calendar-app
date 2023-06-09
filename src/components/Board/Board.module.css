@@ -12,6 +12,7 @@
 }
 .dayOfTheMonth{
     padding: 5% 0 40% 5%;
+    max-height: 150px;
     font-size: 24px;
     color: #cfcfcf;
     border-top: 1px solid black;
@@ -49,4 +50,8 @@
 }
 .dayOfTheMonthOfWeekBoard:hover{
     border-top: 1px solid dodgerblue;
+}
+.nameOfMonth{
+    color: rgb(105,175,229);
+    font-size: 24px;
 }

@@ -35,22 +35,22 @@ const Board = () => {
 
     return (
         <div className={cl.board}>
-            <div>
+            <div className={classes.doubleContainer}>
                 <div className={cl.monthSelection}>
                     <div>
                         <button className={classes.buttonStyles} onClick={()=>context.dispatch({ type: PREV_MONTH })}>&#5169;</button>
                         <button className={classes.buttonStyles} style={{paddingRight: "10px"}} onClick={()=>context.dispatch({type: NEXT_MONTH})}>&#5167;</button>
                     </div>
-                    <div className={classes.selectedMonth}>{format(context.state.month, 'LLLL y')}</div>
+                    <div className={cl.nameOfMonth}>{format(context.state.month, 'LLLL y')}</div>
                 </div>
                 <div>
-                    <button onClick={()=>context.dispatch({type:SET_OPEN_BOARD_DAY})}>Day</button>
-                    <button onClick={()=>context.dispatch({type:SET_OPEN_BOARD_WEEK})}>Week</button>
-                    <button onClick={()=>context.dispatch({type:SET_OPEN_BOARD_MONTH})}>Month</button>
-                    <button onClick={()=>context.dispatch({type:SET_OPEN_BOARD_YEAR})}>Year</button>
+                    <button className={classes.buttonStyles} style={{paddingLeft:"10px"}} onClick={()=>context.dispatch({type:SET_OPEN_BOARD_DAY})}>Day</button>
+                    <button className={classes.buttonStyles} style={{paddingLeft:"10px"}} onClick={()=>context.dispatch({type:SET_OPEN_BOARD_WEEK})}>Week</button>
+                    <button className={classes.buttonStyles} style={{paddingLeft:"10px"}} onClick={()=>context.dispatch({type:SET_OPEN_BOARD_MONTH})}>Month</button>
+                    <button className={classes.buttonStyles} style={{paddingLeft:"10px"}} onClick={()=>context.dispatch({type:SET_OPEN_BOARD_YEAR})}>Year</button>
                 </div>
-                {selectBoard}
             </div>
+            {selectBoard}
         </div>
     );
 };

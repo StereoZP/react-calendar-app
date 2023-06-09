@@ -72,7 +72,7 @@ const EventModal = () => {
             {
                 !state.isAllDayEvent ?
                     <SelectedTime/> :
-                    ''
+                    null
             }
             <div className={blockStyles}>
                 <div>Select another date:</div>

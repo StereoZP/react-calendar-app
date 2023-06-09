@@ -10,20 +10,6 @@ const CalendarController = (props) => {
         setDay(new Date())
     }, 1000)*/
 
-    // const [selectedUsers, notSelectedUsers] = useMemo(() => {
-    //     const selected = state.users?.filter(user => user.selected);
-    //     const notSelected = state.users?.map(user => {
-    //         if (user.selected) {
-    //             return {
-    //                 ...user,
-    //                 selected: !user.selected
-    //             };
-    //         }
-    //         return user;
-    //     });
-    //     return [selected, notSelected];
-    // }, [state.users]);
-
     const dateCounts = useMemo(() => {
         return state.events.reduce((acc, obj) => {
             const date = obj.date;
@@ -57,8 +43,6 @@ const CalendarController = (props) => {
     return (
         <div>
             <DateContext.Provider value={{
-                // selectedUsers,
-                // notSelectedUsers,
                 dateCounts,
             }}>
                 {props.children(state, dispatch)}
