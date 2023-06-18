@@ -1,4 +1,5 @@
 import {setHours, setMinutes} from "date-fns";
+import {CALENDAR_MODE} from "../constant/constant";
 
 const initialState = {
     day: new Date(),
@@ -18,7 +19,7 @@ const initialState = {
     formControllerErrors: [],
     errorTitle: null,
     errorBody: null,
-    openBoard:[{day:false}, {week:false}, {month:true}, {year:false}],
+    calendarMode: CALENDAR_MODE.MONTH,
     users: [
         {
             id: 1,

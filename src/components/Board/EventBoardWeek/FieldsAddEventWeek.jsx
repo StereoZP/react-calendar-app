@@ -3,11 +3,11 @@ import {useContext, useMemo} from "react";
 import {ApplicationContext} from "../../../сontext";
 import {OPEN_MODAL_BOARD_WEEK, SET_SELECTED, SET_START_DAY} from "../../../store/actions";
 import {format, isSameDay, parseISO} from "date-fns";
-import classes from "./EventBoardOfWeek.module.css";
+import classes from "./EventBoardWeek.module.css";
 
 
 
-const FieldsOfAddEventOfWeek = (props) => {
+const FieldsAddEventWeek = (props) => {
     const {renderedDay, time} = props
 
     const {state, dispatch} = useContext(ApplicationContext)
@@ -39,4 +39,4 @@ const FieldsOfAddEventOfWeek = (props) => {
     );
 };
 
-export default FieldsOfAddEventOfWeek;
+export default FieldsAddEventWeek;

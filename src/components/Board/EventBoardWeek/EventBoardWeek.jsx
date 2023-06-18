@@ -2,13 +2,13 @@ import React from 'react';
 import {useContext} from "react";
 import {ApplicationContext} from "../../../сontext";
 import {addDays, addWeeks, startOfMonth, startOfWeek} from "date-fns";
-import BoardNameDaysOfWeek from "../../BoardContaining/BoardNameDaysOfWeek";
-import classes from "./EventBoardOfWeek.module.css";
-import RowFieldsOfAddEventOfWeek from "./RowFieldsOfAddEventOfWeek";
+import BoardNameDaysOfWeek from "../../BoardContainer/BoardNameDaysOfWeek";
+import classes from "./EventBoardWeek.module.css";
+import RowFieldsAddEventWeek from "./RowFieldsAddEventWeek";
 
-import DayOfWeekOfEventBoardOfWeek from "./DayOfWeekOfEventBoardOfWeek";
+import DayWeekEventBoardWeek from "./DayWeekEventBoardWeek";
 
-const EventBoardOfWeek = () => {
+const EventBoardWeek = () => {
     const {state} = useContext(ApplicationContext)
     const startDay = startOfWeek(startOfMonth(state.month), {weekStartsOn: 1})
 
@@ -23,10 +23,10 @@ const EventBoardOfWeek = () => {
 
     const renderedFieldsOfAddEvent = new Array(24).fill(undefined).map((_, index) => {
         const time = new Date(startDate.getFullYear(), startDate.getMonth(), startDate.getDate(), index)
-        return (<RowFieldsOfAddEventOfWeek key={index} time={time} weekOfMonth={week}/>)
+        return (<RowFieldsAddEventWeek key={index} time={time} weekOfMonth={week}/>)
     })
     const renderedDayOfWeek = new Array(1).fill(undefined).map((_, index) => {
-        return (<DayOfWeekOfEventBoardOfWeek weekOfMonth={week} key={index}/>)
+        return (<DayWeekEventBoardWeek weekOfMonth={week} key={index}/>)
     })
 
 
@@ -39,4 +39,4 @@ const EventBoardOfWeek = () => {
     );
 };
 
-export default EventBoardOfWeek;
+export default EventBoardWeek;

@@ -2,36 +2,30 @@ import React from 'react';
 import {useContext} from "react";
 import {ApplicationContext} from "../../сontext";
 import {format} from "date-fns";
-import EventBoardOfMonth from "./EventBoardOfMonth/EventBoardOfMonth";
-import {NEXT_MONTH, PREV_MONTH , SET_OPEN_BOARD_YEAR, SET_OPEN_BOARD_WEEK, SET_OPEN_BOARD_MONTH, SET_OPEN_BOARD_DAY} from "../../store/actions";
+import EventBoardMonth from "./EventBoardMonth/EventBoardMonth";
+import {NEXT_MONTH, PREV_MONTH, SET_CALENDAR_MODE} from "../../store/actions";
 import cl from "./Board.module.css"
 import classes from "../Calendar/Calendar.module.css"
-import EventBoardOfWeek from "./EventBoardOfWeek/EventBoardOfWeek";
-import EventBoardOfDay from "./EventBoardOfDay/EventBoardOfDay";
-import EventBoardOfYear from "./EventBoardOfYear/EventBoardOfYear";
+import EventBoardWeek from "./EventBoardWeek/EventBoardWeek";
+import EventBoardDay from "./EventBoardDay/EventBoardDay";
+import EventBoardYear from "./EventBoardYear/EventBoardYear";
+import {CALENDAR_MODE} from "../../constant/constant";
 
 
 
 const Board = () => {
     const context = useContext(ApplicationContext)
 
-    const selectBoard = context.state.openBoard.map((item,index)=>{
-        if(item.day){
-            return <EventBoardOfDay key={index}/>
-        }
-        if(item.week){
-            return <EventBoardOfWeek key={index}/>
-        }
-        if(item.month){
-            return <EventBoardOfMonth key={index}/>
-        }
-        if(item.year){
-            return <EventBoardOfYear key={index}/>
-        }
-        return null;
-    })
+    function getCalendarMode(mode) {
+        const modes = {
+            'DAY': <EventBoardDay/>,
+            'WEEK': <EventBoardWeek/>,
+            'MONTH': <EventBoardMonth/>,
+            'YEAR': <EventBoardYear/>,
+        };
 
-
+        return modes[mode] ?? <EventBoardMonth/>;
+    }
 
     return (
         <div className={cl.board}>
@@ -44,13 +38,13 @@ const Board = () => {
                     <div className={cl.nameOfMonth}>{format(context.state.month, 'LLLL y')}</div>
                 </div>
                 <div>
-                    <button className={classes.buttonStyles} style={{paddingLeft:"10px"}} onClick={()=>context.dispatch({type:SET_OPEN_BOARD_DAY})}>Day</button>
-                    <button className={classes.buttonStyles} style={{paddingLeft:"10px"}} onClick={()=>context.dispatch({type:SET_OPEN_BOARD_WEEK})}>Week</button>
-                    <button className={classes.buttonStyles} style={{paddingLeft:"10px"}} onClick={()=>context.dispatch({type:SET_OPEN_BOARD_MONTH})}>Month</button>
-                    <button className={classes.buttonStyles} style={{paddingLeft:"10px"}} onClick={()=>context.dispatch({type:SET_OPEN_BOARD_YEAR})}>Year</button>
+                    <button className={classes.buttonStyles} style={{paddingLeft:"10px"}} onClick={()=>context.dispatch({ type: SET_CALENDAR_MODE, payload:CALENDAR_MODE.DAY})}>Day</button>
+                    <button className={classes.buttonStyles} style={{paddingLeft:"10px"}} onClick={()=>context.dispatch({ type: SET_CALENDAR_MODE, payload:CALENDAR_MODE.WEEK})}>Week</button>
+                    <button className={classes.buttonStyles} style={{paddingLeft:"10px"}} onClick={()=>context.dispatch({ type: SET_CALENDAR_MODE, payload:CALENDAR_MODE.MONTH})}>Month</button>
+                    <button className={classes.buttonStyles} style={{paddingLeft:"10px"}} onClick={()=>context.dispatch({ type: SET_CALENDAR_MODE, payload:CALENDAR_MODE.YEAR})}>Year</button>
                 </div>
             </div>
-            {selectBoard}
+            {getCalendarMode(context.state.calendarMode)}
         </div>
     );
 };

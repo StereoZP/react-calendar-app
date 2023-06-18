@@ -1,10 +1,10 @@
 import React from 'react';
 import {format, isBefore} from "date-fns";
-import FieldsOfAddEventOfDay from "./FieldsOfAddEventOfDay";
-import classes from "./EventBoardOfDay.module.css";
-import cl from  "../EventBoardOfWeek/EventBoardOfWeek.module.css"
+import FieldsAddEventDay from "./FieldsAddEventDay";
+import classes from "./EventBoardDay.module.css";
+import cl from "../EventBoardWeek/EventBoardWeek.module.css"
 
-const RowFieldsOfAddEventOfDay = (props) => {
+const RowFieldsAddEventDay = (props) => {
     const {time} = props
 
     const testOfEvent = format(time,'HH:mm')
@@ -12,7 +12,7 @@ const RowFieldsOfAddEventOfDay = (props) => {
 
     const row = new Array(1).fill(undefined).map((day, index ) => {
         return (
-            <FieldsOfAddEventOfDay key={index} time={time} checkTime={checkTime}/>
+            <FieldsAddEventDay key={index} time={time} checkTime={checkTime}/>
         )
     })
 
@@ -24,4 +24,4 @@ const RowFieldsOfAddEventOfDay = (props) => {
     );
 };
 
-export default RowFieldsOfAddEventOfDay;
+export default RowFieldsAddEventDay;

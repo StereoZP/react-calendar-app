@@ -1,0 +1,1 @@
+export const CALENDAR_MODE = {DAY:'DAY', WEEK:'WEEK', MONTH:'MONTH', YEAR:'YEAR'};

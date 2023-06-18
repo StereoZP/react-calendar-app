@@ -11,9 +11,7 @@ const AppMenu = () => {
 
     const [mode, setMode] = useState(false)
 
-    const switchMode = () => {
-        setMode(!mode);
-    }
+    const switchMode = () => setMode(!mode);
 
     useEffect(() => {
         if (mode) {

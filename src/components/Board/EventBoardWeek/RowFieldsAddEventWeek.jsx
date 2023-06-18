@@ -1,9 +1,9 @@
 import React from 'react';
 import {addDays, format, isBefore, startOfISOWeek} from "date-fns";
-import classes from "./EventBoardOfWeek.module.css";
-import FieldsOfAddEventOfWeek from "./FieldsOfAddEventOfWeek";
+import classes from "./EventBoardWeek.module.css";
+import FieldsAddEventWeek from "./FieldsAddEventWeek";
 
-const RowFieldsOfAddEventOfWeek = (props) => {
+const RowFieldsAddEventWeek = (props) => {
     const {time, weekOfMonth} = props
     const startDayOfWeek = startOfISOWeek(weekOfMonth)
     const timeOfEvent = format(time,'HH:mm')
@@ -12,7 +12,7 @@ const RowFieldsOfAddEventOfWeek = (props) => {
     const row = new Array(7).fill(undefined).map((day, index ) => {
         day = addDays(startDayOfWeek, index)
         return (
-            <FieldsOfAddEventOfWeek renderedDay={day} key={index} time={time} checkTime={checkTime}/>
+            <FieldsAddEventWeek renderedDay={day} key={index} time={time} checkTime={checkTime}/>
         )
     })
 
@@ -24,4 +24,4 @@ const RowFieldsOfAddEventOfWeek = (props) => {
     );
 };
 
-export default RowFieldsOfAddEventOfWeek;
+export default RowFieldsAddEventWeek;

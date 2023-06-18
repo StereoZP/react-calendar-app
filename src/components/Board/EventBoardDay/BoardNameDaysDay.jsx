@@ -3,7 +3,7 @@ import {format} from "date-fns";
 import classes from "../Board.module.css";
 
 
-const BoardNameDaysOfDay = () => {
+const BoardNameDaysDay = () => {
     const name = format(new Date(), 'EEEE')
 
     return (
@@ -13,4 +13,4 @@ const BoardNameDaysOfDay = () => {
     );
 };
 
-export default BoardNameDaysOfDay;
+export default BoardNameDaysDay;
